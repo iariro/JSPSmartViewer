@@ -84,6 +84,6 @@ public class SmartGraphDocument
 		element.setAttribute("stroke", "blue");
 		element.setAttribute("fill", "none");
 		element.setAttribute("stroke-width", "2");
-		top.appendChild(element);		
+		top.appendChild(element);
 	}
 }

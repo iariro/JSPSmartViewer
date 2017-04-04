@@ -13,11 +13,12 @@ public class SmartGraphDocumentPointList
 	int hourRange;
 	int maxY = 255;
 
-	public SmartGraphDocumentPointList(ArrayList<SmartData> smartDataList, Dimension screen)
+	public SmartGraphDocumentPointList
+		(ArrayList<SmartData> smartDataList, Dimension screen)
 		throws ParseException
-	{		
+	{
 		int maxY = 255;
-		
+
 		DateTime maxHour = null;
 		DateTime minHour = null;
 
@@ -26,36 +27,45 @@ public class SmartGraphDocumentPointList
 		{
 			DateTime datetime =
 				DateTime.parseDateString(smartData.getDateTime());
-			
+
 			if (maxHour == null || maxHour.compareTo(datetime) < 0)
 			{
+				// 最大値更新
+
 				maxHour = datetime;
 			}
-			
+
 			if (minHour == null || minHour.compareTo(datetime) > 0)
 			{
+				// 最小値更新
+
 				minHour = datetime;
 			}
 		}
 
-		hourRange = maxHour.diff(minHour).getHour();
-
-		if (hourRange > 0)
+		if (maxHour != null && minHour != null)
 		{
-			// 更新あり
+			// データあり
 
-			scaleX = (float)screen.width / hourRange;
-			scaleY = (float)screen.height / maxY;
-		}
-		else
-		{
-			// 更新なし
+			hourRange = maxHour.diff(minHour).getHour();
 
-			scaleX = (float)screen.width;
-			scaleY = (float)screen.height / maxY;
+			if (hourRange > 0)
+			{
+				// 更新あり
 
-			// １件あることにする
-			hourRange = 1;
+				scaleX = (float)screen.width / hourRange;
+				scaleY = (float)screen.height / maxY;
+			}
+			else
+			{
+				// 更新なし
+
+				scaleX = (float)screen.width;
+				scaleY = (float)screen.height / maxY;
+
+				// １件あることにする
+				hourRange = 1;
+			}
 		}
 	}
 }

@@ -24,12 +24,10 @@ public class SmartDataList
 			stream.read(data);
 			SmartDataList smartDataList = new SmartDataList(data);
 			System.out.printf("%s %d %d\n", filename, size, smartDataList.size());
-			
-			for (SmartData smartData : smartDataList)
+				for (SmartData smartData : smartDataList)
 			{
 				System.out.printf(smartData.getDateTime());
-				
-				for (SmartAttribute attribute : smartData.attributes)
+					for (SmartAttribute attribute : smartData.attributes)
 				{
 					System.out.printf(
 						" %d=%d",
@@ -42,7 +40,7 @@ public class SmartDataList
 	}
 
 	public SmartDataList()
-	{		
+	{
 	}
 
 	public SmartDataList(byte [] data)
@@ -56,8 +54,6 @@ public class SmartDataList
 	public SmartGraphDocumentPointList getSmartGraphDocumentPointList(Dimension screen)
 		throws ParseException
 	{
-		SmartGraphDocumentPointList points = new SmartGraphDocumentPointList(this, screen);
-		
-		return points;
+		return new SmartGraphDocumentPointList(this, screen);
 	}
 }
