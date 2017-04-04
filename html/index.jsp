@@ -1,0 +1,34 @@
+﻿<%@ page contentType="text/html; charset=utf-8" %>
+
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv=Content-Style-Type content=text/css>
+		<link rel="stylesheet" type="text/css" href="hatena.css">
+		<title>SMART Viewer</title>
+	</head>
+
+	<body>
+		<h1>SMART Viewer</h1>
+
+		<div class=hatena-body>
+		<div class=main>
+		<div class=day>
+
+			<s:form action="currentlist" theme="simple">
+				<s:submit value="最新の属性値" />
+			</s:form>
+
+			<s:form action="chronologygraph" theme="simple">
+				<s:select name="id" list="#{ '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6' }" />
+				<s:submit value="属性値の遷移" />
+			</s:form>
+
+		</div>
+		</div>
+		</div>
+
+	</body>
+</html>
