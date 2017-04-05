@@ -29,4 +29,29 @@ public class SmartAttribute
 	{
 		return data[4] & 0xff;
 	}
+
+	public int getRawValue()
+	{
+		return
+			((data[8] & 0xff) << 24) +
+			((data[7] & 0xff) << 16) +
+			((data[6] & 0xff) << 8) +
+			((data[5] & 0xff));
+	}
+
+	public String getRawValueDump()
+	{
+		String string = new String();
+		
+		for (int i=5 ;i<12 ; i++)
+		{
+			if (i > 5)
+			{
+				string += " ";
+			}
+
+			string += String.format("%02X", data[i]);
+		}
+		return string;
+	}
 }
