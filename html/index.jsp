@@ -22,7 +22,7 @@
 			</s:form>
 
 			<s:form action="chronologygraph" theme="simple">
-				<s:select name="id" list="#{ '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6' }" />
+				<s:select name="ids" list="attributes" multiple="true" size="10" />
 				<s:submit value="属性値の遷移" />
 			</s:form>
 
