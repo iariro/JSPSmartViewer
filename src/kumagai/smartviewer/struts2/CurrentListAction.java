@@ -4,7 +4,6 @@ import java.io.*;
 import javax.servlet.*;
 import org.apache.struts2.*;
 import org.apache.struts2.convention.annotation.*;
-
 import kumagai.smartviewer.*;
 
 /**
@@ -45,6 +44,8 @@ public class CurrentListAction
 				int size = (int)file.length();
 				byte [] data = new byte [size];
 				stream.read(data);
+				stream.close();
+
 				SmartDataList smartDataList = new SmartDataList(data);
 
 				if (smartDataList.size() > 0)
