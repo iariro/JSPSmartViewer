@@ -53,10 +53,10 @@ public class SmartDataList
 		}
 	}
 
-	public SmartGraphDocumentPointList getSmartGraphDocumentPointList(Dimension screen)
+	public SmartGraphDocumentPointList getSmartGraphDocumentPointList(Dimension screen, int attributeId)
 		throws ParseException
 	{
-		SmartGraphDocumentPointList points = new SmartGraphDocumentPointList(this, screen);
+		SmartGraphDocumentPointList points = new SmartGraphDocumentPointList(this, screen, attributeId);
 		
 		return points;
 	}

@@ -2,6 +2,7 @@ package kumagai.smartviewer.struts2;
 
 import java.awt.*;
 import java.io.*;
+import java.util.*;
 import javax.servlet.*;
 import javax.xml.transform.*;
 import org.apache.struts2.*;
@@ -9,7 +10,6 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-
 import kumagai.smartviewer.*;
 
 /**
@@ -26,7 +26,7 @@ public class ChronologyGraphAction
 {
 	static private final Dimension screen = new Dimension(1000, 580);
 
-	public int id = 5;
+	public int [] ids;
 	public SmartGraphDocument document;
 
 	/**
@@ -73,11 +73,18 @@ public class ChronologyGraphAction
 				int size = (int)file.length();
 				byte [] data = new byte [size];
 				stream.read(data);
+				stream.close();
+
 				points.addAll(new SmartDataList(data));
 			}
-			document =
-				new SmartGraphDocument(
-					points.getSmartGraphDocumentPointList(screen));
+			
+			ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
+				new ArrayList<SmartGraphDocumentPointList>();
+			for (int id : ids)
+			{
+				smartGraphDocumentPointLists.add(points.getSmartGraphDocumentPointList(screen, id));
+			}
+			document = new SmartGraphDocument(smartGraphDocumentPointLists);
 
 			return "success";
 		}
