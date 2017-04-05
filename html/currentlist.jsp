@@ -24,12 +24,16 @@
 					<th>ID</th>
 					<th>カレント値</th>
 					<th>ワースト値</th>
+					<th>Raw値</th>
+					<th>Raw値</th>
 				</tr>
 				<s:iterator value="attributes">
 					<tr>
 						<td align="right"><s:property value="idInHex" /></td>
 						<td align="right"><s:property value="current" /></td>
 						<td align="right"><s:property value="worst" /></td>
+						<td align="right"><s:property value="rawValue" /></td>
+						<td align="right"><s:property value="rawValueDump" /></td>
 					</tr>
 				</s:iterator>
 			</table>
