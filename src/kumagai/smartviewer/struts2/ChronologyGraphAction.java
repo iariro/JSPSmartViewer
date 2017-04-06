@@ -24,9 +24,14 @@ import kumagai.smartviewer.*;
 })
 public class ChronologyGraphAction
 {
+	static private final ISmartFieldGetter smartAttributeCurrent =
+		new SmartAttributeCurrentGetter();
+	static private final ISmartFieldGetter smartAttributeRawValue =
+		new SmartAttributeRawValueGet();
 	static private final Dimension screen = new Dimension(1000, 580);
 
 	public int [] ids;
+	public String field;
 	public SmartGraphDocument document;
 
 	/**
@@ -50,9 +55,9 @@ public class ChronologyGraphAction
 
 		return writer.toString();
 	}
-	
+
 	/**
-	 * カレント値表示アクション。
+	 * 属性値遷移グラフ表示アクション。
 	 * @return 処理結果
 	 */
 	@Action("chronologygraph")
@@ -64,25 +69,48 @@ public class ChronologyGraphAction
 
 		if (smartFilePath != null)
 		{
+			// 必要なパラメータは指定されている
+
 			SmartDataList points = new SmartDataList();
 			String [] filenames = new File(smartFilePath).list();
-			for (String filename : filenames)
+			if (filenames != null)
 			{
-				File file = new File(smartFilePath, filename);
-				FileInputStream stream = new FileInputStream(file);
-				int size = (int)file.length();
-				byte [] data = new byte [size];
-				stream.read(data);
-				stream.close();
+				// リストを取得できた
 
-				points.addAll(new SmartDataList(data));
+				for (String filename : filenames)
+				{
+					File file = new File(smartFilePath, filename);
+					FileInputStream stream = new FileInputStream(file);
+					int size = (int)file.length();
+					byte [] data = new byte [size];
+					stream.read(data);
+					stream.close();
+
+					points.addAll(new SmartDataList(data));
+				}
 			}
-			
+
+			ISmartFieldGetter smartFieldGetter;
+			if (field == null || field.equals("current"))
+			{
+				// current指定、またはフィールド指定なしの場合
+
+				smartFieldGetter = smartAttributeCurrent;
+			}
+			else
+			{
+				// current以外指定の場合
+
+				smartFieldGetter = smartAttributeRawValue;
+			}
+
 			ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
 				new ArrayList<SmartGraphDocumentPointList>();
 			for (int id : ids)
 			{
-				smartGraphDocumentPointLists.add(points.getSmartGraphDocumentPointList(screen, id));
+				smartGraphDocumentPointLists.add(
+					new SmartGraphDocumentPointList
+						(points, screen, id, smartFieldGetter));
 			}
 			document = new SmartGraphDocument(smartGraphDocumentPointLists);
 

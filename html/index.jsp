@@ -23,6 +23,7 @@
 
 			<s:form action="chronologygraph" theme="simple">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
+				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' }" />
 				<s:submit value="属性値の遷移" />
 			</s:form>
 
