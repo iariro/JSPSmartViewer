@@ -19,8 +19,9 @@ import kumagai.smartviewer.*;
 })
 public class TopPageAction
 {
-	public TreeMap<Integer, String> attributes =
-		new TreeMap<Integer, String>();
+	public String modelName;
+	public String serialNumber;
+	public TreeMap<Integer, String> attributes = new TreeMap<Integer, String>();
 
 	/**
 	 * カレント値表示アクション。
@@ -56,6 +57,9 @@ public class TopPageAction
 				{
 					SmartData smartData =
 						smartDataList.get(smartDataList.size() - 1);
+
+					modelName = smartData.identify.getModelName();
+					serialNumber = smartData.identify.getSerialNumber();
 
 					for (SmartAttribute attribute : smartData.attributes)
 					{

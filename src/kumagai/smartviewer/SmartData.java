@@ -6,6 +6,7 @@ package kumagai.smartviewer;
 public class SmartData
 {
 	byte [] datetime;
+	public IdentifySector identify;
 	public SmartAttributeList attributes;
 
 	/**
@@ -17,6 +18,7 @@ public class SmartData
 	{
 		datetime = new byte [16];
 		System.arraycopy(data, offset, datetime, 0, 16);
+		identify = new IdentifySector(data, offset + 16);
 		attributes = new SmartAttributeList(data, offset + 16 + 512);
 	}
 

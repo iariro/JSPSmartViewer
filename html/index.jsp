@@ -17,6 +17,11 @@
 		<div class=main>
 		<div class=day>
 
+			<table>
+			<tr><td>Model</td><td><s:property value="modelName" /></td>
+			<tr><td>Serial</td><td><s:property value="serialNumber" /></td>
+			</table>
+
 			<s:form action="currentlist" theme="simple">
 				<s:submit value="最新の属性値" />
 			</s:form>
