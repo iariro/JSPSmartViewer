@@ -18,8 +18,9 @@
 		<div class=day>
 
 			<table>
-			<tr><td>Model</td><td><s:property value="modelName" /></td>
-			<tr><td>Serial</td><td><s:property value="serialNumber" /></td>
+			<tr><th>Model</th><td><s:property value="modelName" /></td>
+			<tr><th>Serial</th><td><s:property value="serialNumber" /></td>
+			<tr><th>Firmware</th><td><s:property value="firmwareVersion" /></td>
 			</table>
 
 			<s:form action="currentlist" theme="simple">

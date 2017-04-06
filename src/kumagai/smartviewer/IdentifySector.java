@@ -37,20 +37,29 @@ public class IdentifySector
 	}
 
 	/**
-	 * モデル名を取得
-	 * @return モデル名
-	 */
-	public String getModelName()
-	{
-		return getWordString(data, 54, 40);
-	}
-
-	/**
 	 * シリアル番号を取得
 	 * @return シリアル番号
 	 */
 	public String getSerialNumber()
 	{
 		return getWordString(data, 20, 20);
+	}
+
+	/**
+	 * ファームウェアバージョンを取得
+	 * @return ファームウェアバージョン
+	 */
+	public String getFirmwareVersion()
+	{
+		return getWordString(data, 46, 8);
+	}
+
+	/**
+	 * モデル名を取得
+	 * @return モデル名
+	 */
+	public String getModelName()
+	{
+		return getWordString(data, 54, 40);
 	}
 }

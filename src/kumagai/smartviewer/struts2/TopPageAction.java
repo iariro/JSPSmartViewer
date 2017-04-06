@@ -21,6 +21,7 @@ public class TopPageAction
 {
 	public String modelName;
 	public String serialNumber;
+	public String firmwareVersion;
 	public TreeMap<Integer, String> attributes = new TreeMap<Integer, String>();
 
 	/**
@@ -60,6 +61,7 @@ public class TopPageAction
 
 					modelName = smartData.identify.getModelName();
 					serialNumber = smartData.identify.getSerialNumber();
+					firmwareVersion = smartData.identify.getFirmwareVersion();
 
 					for (SmartAttribute attribute : smartData.attributes)
 					{
