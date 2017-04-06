@@ -1,35 +1,72 @@
 package kumagai.smartviewer;
 
+/**
+ * SMART属性値
+ */
 public class SmartAttribute
 {
 	byte [] data;
 
+	/**
+	 * SMARTバイナリデータから属性値を構築
+	 * @param data バイナリデータ
+	 * @param offset 読み込み開始位置
+	 */
 	public SmartAttribute(byte [] data, int offset)
 	{
 		this.data = new byte [12];
 		System.arraycopy(data, offset, this.data, 0, 12);
 	}
 
+	/**
+	 * 属性IDを取得
+	 * @return 属性ID
+	 */
 	public int getId()
 	{
 		return data[0] & 0xff;
 	}
 
+	/**
+	 * 属性IDを１６進形式で取得
+	 * @return 属性ID１６進形式
+	 */
 	public String getIdInHex()
 	{
 		return String.format("%2X", getId());
 	}
 
+	/**
+	 * 対応する属性名を取得
+	 * @return 属性名
+	 */
+	public String getAttributeName()
+	{
+		return SmartAttributeTable.getName(getId());
+	}
+
+	/**
+	 * 現在値を取得
+	 * @return 現在値
+	 */
 	public int getCurrent()
 	{
 		return data[3] & 0xff;
 	}
 
+	/**
+	 * 最悪値を取得
+	 * @return 最悪値
+	 */
 	public int getWorst()
 	{
 		return data[4] & 0xff;
 	}
 
+	/**
+	 * RAW値を取得
+	 * @return RAW値
+	 */
 	public int getRawValue()
 	{
 		return
@@ -39,6 +76,10 @@ public class SmartAttribute
 			((data[5] & 0xff));
 	}
 
+	/**
+	 * RAW値のダンプを取得
+	 * @return RAW値のダンプ
+	 */
 	public String getRawValueDump()
 	{
 		String string = new String();
@@ -47,6 +88,8 @@ public class SmartAttribute
 		{
 			if (i > 5)
 			{
+				// ２バイト目以降
+
 				string += " ";
 			}
 
