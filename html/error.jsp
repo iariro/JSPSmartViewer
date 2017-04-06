@@ -7,7 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv=Content-Style-Type content=text/css>
 		<link rel="stylesheet" type="text/css" href="hatena.css">
-		<title>ラジオ番組内容記録</title>
+		<title>SMART Watcher</title>
 	</head>
 
 	<body>
