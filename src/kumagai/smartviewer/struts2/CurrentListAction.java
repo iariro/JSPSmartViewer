@@ -33,6 +33,8 @@ public class CurrentListAction
 		String smartFilePath = context.getInitParameter("SmartFilePath");
 		if (smartFilePath != null)
 		{
+			// 必要なパラメータは指定されている
+
 			String [] filenames = new File(smartFilePath).list();
 			if (filenames != null && filenames.length > 0)
 			{
@@ -50,7 +52,10 @@ public class CurrentListAction
 
 				if (smartDataList.size() > 0)
 				{
-					SmartData smartData = smartDataList.get(smartDataList.size() - 1);
+					// データは１件でもある
+
+					SmartData smartData =
+						smartDataList.get(smartDataList.size() - 1);
 					datetime = smartData.getDateTime();
 					attributes = smartData.attributes;
 				}
@@ -60,6 +65,8 @@ public class CurrentListAction
 		}
 		else
 		{
+			// 必要なパラメータは指定されていない
+
 			return "error";
 		}
 	}	

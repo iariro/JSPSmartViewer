@@ -1,15 +1,21 @@
 package kumagai.smartviewer;
 
-import java.awt.*;
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
+/**
+ * SMART情報一式オブジェクトのコレクション
+ */
 public class SmartDataList
 	extends ArrayList<SmartData>
 {
 	private static final int blockSize = 16 + 512 * 4;
 
+	/**
+	 * テストコード
+	 * @param args 未使用
+	 * @throws IOException
+	 */
 	public static void main(String[] args)
 		throws IOException
 	{
@@ -24,11 +30,11 @@ public class SmartDataList
 			stream.read(data);
 			SmartDataList smartDataList = new SmartDataList(data);
 			System.out.printf("%s %d %d\n", filename, size, smartDataList.size());
-			
+
 			for (SmartData smartData : smartDataList)
 			{
 				System.out.printf(smartData.getDateTime());
-				
+
 				for (SmartAttribute attribute : smartData.attributes)
 				{
 					System.out.printf(
@@ -41,23 +47,22 @@ public class SmartDataList
 		}
 	}
 
+	/**
+	 * 既定のコンストラクタ
+	 */
 	public SmartDataList()
-	{		
+	{
 	}
 
+	/**
+	 * ログファイルの内容からSMART情報一式オブジェクトのコレクションを構築
+	 * @param data ログファイル内容バイナリ
+	 */
 	public SmartDataList(byte [] data)
 	{
 		for (int offset=0 ; offset<data.length ; offset+=blockSize)
 		{
 			add(new SmartData(data, offset));
 		}
-	}
-
-	public SmartGraphDocumentPointList getSmartGraphDocumentPointList(Dimension screen, int attributeId)
-		throws ParseException
-	{
-		SmartGraphDocumentPointList points = new SmartGraphDocumentPointList(this, screen, attributeId);
-		
-		return points;
 	}
 }

@@ -19,8 +19,9 @@ import kumagai.smartviewer.*;
 })
 public class TopPageAction
 {
-	public TreeMap<Integer, String> attributes = new TreeMap<Integer, String>();
-	
+	public TreeMap<Integer, String> attributes =
+		new TreeMap<Integer, String>();
+
 	/**
 	 * カレント値表示アクション。
 	 * @return 処理結果
@@ -33,6 +34,8 @@ public class TopPageAction
 		String smartFilePath = context.getInitParameter("SmartFilePath");
 		if (smartFilePath != null)
 		{
+			// 必要なパラメータは指定されている
+
 			String [] filenames = new File(smartFilePath).list();
 			if (filenames != null && filenames.length > 0)
 			{
@@ -51,16 +54,24 @@ public class TopPageAction
 
 				if (smartDataList.size() > 0)
 				{
-					SmartData smartData = smartDataList.get(smartDataList.size() - 1);
-					
+					SmartData smartData =
+						smartDataList.get(smartDataList.size() - 1);
+
 					for (SmartAttribute attribute : smartData.attributes)
 					{
-						attributes.put(attribute.getId(), String.format("%02X", attribute.getId()));
+						attributes.put(
+							attribute.getId(),
+							String.format(
+								"%02X %s",
+								attribute.getId(),
+								SmartAttributeTable.getName(attribute.getId())));
 					}
 				}
 			}
+
+			return "success";
 		}
 
-		return "success";
+		return "error";
 	}
 }
