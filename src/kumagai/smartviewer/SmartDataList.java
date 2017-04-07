@@ -9,7 +9,7 @@ import java.util.*;
 public class SmartDataList
 	extends ArrayList<SmartData>
 {
-	private static final int blockSize = 16 + 512 * 4;
+	private static final int blockSize = 16 + 512 * 3;
 
 	/**
 	 * テストコード

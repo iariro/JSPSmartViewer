@@ -28,6 +28,8 @@ public class ChronologyGraphAction
 		new SmartAttributeCurrentGetter();
 	static private final ISmartFieldGetter smartAttributeRawValue =
 		new SmartAttributeRawValueGet();
+	static private final ISmartFieldGetter smartAttributeRawValue2 =
+		new SmartAttributeRawValue2Getter();
 	static private final Dimension screen = new Dimension(1000, 580);
 
 	public int [] ids;
@@ -97,12 +99,19 @@ public class ChronologyGraphAction
 
 				smartFieldGetter = smartAttributeCurrent;
 			}
-			else
+			else if (field == null || field.equals("raw"))
 			{
-				// current以外指定の場合
+				// raw指定の場合
 
 				smartFieldGetter = smartAttributeRawValue;
 			}
+			else
+			{
+				// current,raw以外指定の場合
+
+				smartFieldGetter = smartAttributeRawValue2;
+			}
+
 
 			ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
 				new ArrayList<SmartGraphDocumentPointList>();

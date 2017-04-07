@@ -77,13 +77,22 @@ public class SmartAttribute
 	}
 
 	/**
+	 * RAW値を取得
+	 * @return RAW値
+	 */
+	public int getRawValue2()
+	{
+		return ((data[6] & 0xff) << 8) + ((data[5] & 0xff));
+	}
+
+	/**
 	 * RAW値のダンプを取得
 	 * @return RAW値のダンプ
 	 */
 	public String getRawValueDump()
 	{
 		String string = new String();
-		
+
 		for (int i=5 ;i<12 ; i++)
 		{
 			if (i > 5)
