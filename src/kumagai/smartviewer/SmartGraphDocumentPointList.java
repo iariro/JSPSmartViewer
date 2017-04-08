@@ -82,7 +82,14 @@ public class SmartGraphDocumentPointList
 
 		hourRange = maxHour.diff(minHour).getHour();
 
-		if (maxY <= 255 && minY <= 255)
+		if (maxY <= 50 && minY <= 50)
+		{
+			// 温度
+
+			minY = 0;
+			maxY = 50;
+		}
+		else if (maxY <= 255 && minY <= 255)
 		{
 			// Current値用
 
