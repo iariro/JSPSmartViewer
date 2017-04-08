@@ -7,11 +7,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv=Content-Style-Type content=text/css>
 		<link rel="stylesheet" type="text/css" href="hatena.css">
-		<title>SMART Watcher</title>
+		<title>SMART Viewer</title>
 	</head>
 
 	<body>
-		<h1>SMART Watcher</h1>
+		<h1>SMART Viewer</h1>
 
 		<div class=hatena-body>
 		<div class=main>
