@@ -9,8 +9,6 @@ import java.util.*;
 public class SmartDataList
 	extends ArrayList<SmartData>
 {
-	private static final int blockSize = 16 + 512 * 3;
-
 	/**
 	 * テストコード
 	 * @param args 未使用
@@ -60,9 +58,11 @@ public class SmartDataList
 	 */
 	public SmartDataList(byte [] data)
 	{
-		for (int offset=0 ; offset<data.length ; offset+=blockSize)
+		for (int offset=0 ; offset<data.length ; )
 		{
-			add(new SmartData(data, offset));
+			SmartData smartData = new SmartData(data, offset);
+			add(smartData);
+			offset += smartData.bufferSize;
 		}
 	}
 }
