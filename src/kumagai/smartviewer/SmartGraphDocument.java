@@ -38,7 +38,8 @@ public class SmartGraphDocument
 	 * @throws TransformerException
 	 */
 	public static void main(String[] args)
-		throws ParserConfigurationException, TransformerFactoryConfigurationError, ParseException, IOException, TransformerException
+		throws ParserConfigurationException, TransformerFactoryConfigurationError,
+		ParseException, IOException, TransformerException
 	{
 		int attributeId;
 		ISmartFieldGetter smartFieldGetter;
@@ -84,8 +85,13 @@ public class SmartGraphDocument
 		}
 
 		SmartGraphDocumentPointList smartGraphDocumentPointList =
-			new SmartGraphDocumentPointList(points, new Dimension(800, 580), attributeId, smartFieldGetter);
-		ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists = new ArrayList<SmartGraphDocumentPointList>();
+			new SmartGraphDocumentPointList(
+				points,
+				new Dimension(800, 580),
+				attributeId,
+				smartFieldGetter);
+		ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
+			new ArrayList<SmartGraphDocumentPointList>();
 		smartGraphDocumentPointLists.add(smartGraphDocumentPointList);
 		SmartGraphDocument document = new SmartGraphDocument(smartGraphDocumentPointLists);
 		FileOutputStream stream = new FileOutputStream("../out.svg");
@@ -318,20 +324,31 @@ public class SmartGraphDocument
 						SmartAttributeTable.getName(documentPointList2.attributeId))));
 			top.appendChild(element);
 
-			String pointsString = new String();
-
-			for (SmartGraphDocumentPoint point : documentPointList2)
+			for (int i=0 ; i<documentPointList2.size() ; i++)
 			{
-				if (pointsString.length() > 0)
+				SmartGraphDocumentPoint point0 = null;
+				if (i > 0)
 				{
-					// ２個目以降
-
-					pointsString += ", ";
+					point0 = documentPointList2.get(i - 1);
 				}
+				SmartGraphDocumentPoint point = documentPointList2.get(i);
 
-				// 折れ線の頂点
-				pointsString +=
-					String.format("%d %d", origin.x + point.x, origin.y + point.y);
+				// 折れ線描画
+				if (i > 0)
+				{
+					element = createElement("line");
+					element.setAttribute("x1", Integer.toString(origin.x + point0.x));
+					element.setAttribute("y1", Integer.toString(origin.y + point0.y));
+					element.setAttribute("x2", Integer.toString(origin.x + point.x));
+					element.setAttribute("y2", Integer.toString(origin.y + point.y));
+					element.setAttribute("stroke", color);
+					element.setAttribute("stroke-width", "2");
+					if ((point.x - point0.x) / documentPointList.scaleX > 8)
+					{
+						element.setAttribute("stroke-dasharray", "8,3");
+					}
+					top.appendChild(element);
+				}
 
 				// 頂点のマーク
 				element = createElement("rect");
@@ -345,14 +362,6 @@ public class SmartGraphDocument
 				element.setAttribute("stroke", color);
 				top.appendChild(element);
 			}
-
-			// 折れ線描画
-			element = createElement("polyline");
-			element.setAttribute("points", pointsString);
-			element.setAttribute("stroke", color);
-			element.setAttribute("fill", "none");
-			element.setAttribute("stroke-width", "2");
-			top.appendChild(element);
 		}
 	}
 }
