@@ -19,7 +19,8 @@ import kumagai.smartviewer.*;
 @Namespace("/smartviewer")
 @Results
 ({
-	@Result(name="success", location="/smartviewer/chronologygraph.jsp"),
+	@Result(name="graph1", location="/smartviewer/chronologygraph.jsp"),
+	@Result(name="graph2", location="/smartviewer/chronologygraph2.jsp"),
 	@Result(name="error", location="/smartviewer/error.jsp")
 })
 public class ChronologyGraphAction
@@ -33,8 +34,10 @@ public class ChronologyGraphAction
 	static private final Dimension screen = new Dimension(1000, 580);
 
 	public int [] ids;
+	public String graphType;
 	public String field;
 	public SmartGraphDocument document;
+	public String chartPointLists;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -112,19 +115,65 @@ public class ChronologyGraphAction
 				smartFieldGetter = smartAttributeRawValue2;
 			}
 
-
-			ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
-				new ArrayList<SmartGraphDocumentPointList>();
-			for (int id : ids)
+			if (graphType.equals("SVG"))
 			{
-				smartGraphDocumentPointLists.add(
-					new SmartGraphDocumentPointList
-						(points, screen, id, smartFieldGetter));
-			}
-			document = new SmartGraphDocument(smartGraphDocumentPointLists);
+				// SVG
 
-			return "success";
+				ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
+					new ArrayList<SmartGraphDocumentPointList>();
+				for (int id : ids)
+				{
+					smartGraphDocumentPointLists.add(
+						new SmartGraphDocumentPointList
+							(points, screen, id, smartFieldGetter));
+				}
+				document = new SmartGraphDocument(smartGraphDocumentPointLists);
+
+				return "graph1";
+			}
+			else if (graphType.equals("HighCharts"))
+			{
+				// HighCharts
+
+				StringBuffer chartPointLists = new StringBuffer();
+
+				for (int id : ids)
+				{
+					if (chartPointLists.length() > 0)
+					{
+						// ２個目以降
+
+						chartPointLists.append(",");
+					}
+
+					ChartPointList chartPointList =
+						new ChartPointList(SmartAttributeTable.getName(id));
+
+					for (SmartData smartData : points)
+					{
+						for (SmartAttribute attribute : smartData.attributes)
+						{
+							if (attribute.getId() == id)
+							{
+								// 対象のIDの属性である
+
+								chartPointList.put(
+									smartData.getDateTime(),
+									smartFieldGetter.get(attribute));
+								break;
+							}
+						}
+					}
+
+					chartPointLists.append(chartPointList.toString());
+				}
+
+				this.chartPointLists = chartPointLists.toString();
+
+				return "graph2";
+			}
 		}
+
 		return "error";
 	}
 }

@@ -29,6 +29,7 @@
 
 			<s:form action="chronologygraph" theme="simple">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
+				<s:select name="graphType" list="#{ 'SVG':'SVG', 'HighCharts':'HighCharts' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" />
 				<s:submit value="属性値の遷移" />
 			</s:form>
