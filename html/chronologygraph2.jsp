@@ -13,13 +13,13 @@
 	</head>
 
 	<body>
-		<div id="chart" style="width:1000px; height:600px"></div>
+		<div id="chart" style="width:1300px; height:700px"></div>
 		<script type="text/javascript">
 		function draw()
 		{
 			options =
 			{
-				chart: {renderTo: 'chart', zoomType:'xy'},
+				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
 				title: {text: 'S.M.A.R.T.'},
 				xAxis: {title: null, type: 'datetime'},
 				series: [ <s:property value="chartPointLists" /> ]
