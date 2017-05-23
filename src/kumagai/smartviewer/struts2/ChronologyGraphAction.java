@@ -38,6 +38,7 @@ public class ChronologyGraphAction
 	public String field;
 	public SmartGraphDocument document;
 	public String chartPointLists;
+	public String message;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -113,6 +114,15 @@ public class ChronologyGraphAction
 				// current,raw以外指定の場合
 
 				smartFieldGetter = smartAttributeRawValue2;
+			}
+
+			if (ids.length <= 0)
+			{
+				// ID未選択
+
+				message = "IDが１個も選択されていません";
+
+				return "error";
 			}
 
 			if (graphType.equals("SVG"))
