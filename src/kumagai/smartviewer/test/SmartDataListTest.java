@@ -1,6 +1,7 @@
 package kumagai.smartviewer.test;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import kumagai.smartviewer.*;
@@ -8,7 +9,7 @@ import kumagai.smartviewer.*;
 public class SmartDataListTest
 {
 	public static void main(String[] args)
-		throws IOException
+		throws IOException, ParseException
 	{
 		String smartFilePath = "C:/Temp/smart_5087/";
 
@@ -30,15 +31,15 @@ public class SmartDataListTest
 
 				points.addAll(new SmartDataList(data));
 			}
-		}
 
-		ValueAndHourCollection valueAndHourCollection =
-			points.getFluctuationPoint(9, 9);
-		ArrayList<Prediction> predictFailure =
-			valueAndHourCollection.predictFailure();
-		for (Prediction prediction : predictFailure)
-		{
-			System.out.println(prediction);
+			ValueAndHourCollection valueAndHourCollection =
+				points.getFluctuationPoint(9, 9);
+			ArrayList<Prediction> predictFailure =
+				valueAndHourCollection.predictFailure();
+			for (Prediction prediction : predictFailure)
+			{
+				System.out.println(prediction);
+			}
 		}
 	}
 }
