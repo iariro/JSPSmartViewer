@@ -28,6 +28,8 @@
 			</s:form>
 
 			<s:form action="predictfailure" theme="simple">
+				powerOnHoursID：<input type="text" name="powerOnHoursId" value="9" size="3">
+				valueID：<input type="text" name="valueId" value="9" size="3">
 				<s:submit value="故障予測" />
 			</s:form>
 

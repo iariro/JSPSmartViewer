@@ -19,6 +19,10 @@ import kumagai.smartviewer.*;
 })
 public class PredictFailureAction
 {
+	public int powerOnHoursId;
+	public int valueId;
+
+	public String attributeName;
 	public ArrayList<Prediction> predictFailure;
 
 	/**
@@ -36,7 +40,7 @@ public class PredictFailureAction
 		{
 			// 必要なパラメータは指定されている
 
-			SmartDataList points = new SmartDataList();
+			SmartDataList smartDataList = new SmartDataList();
 			String [] filenames = new File(smartFilePath).list();
 			if (filenames != null)
 			{
@@ -51,17 +55,20 @@ public class PredictFailureAction
 					stream.read(data);
 					stream.close();
 
-					points.addAll(new SmartDataList(data));
+					smartDataList.addAll(new SmartDataList(data));
 				}
 
 				ValueAndHourCollection valueAndHourCollection =
-					points.getFluctuationPoint(9, 9);
+					smartDataList.getFluctuationPoint(powerOnHoursId, valueId);
 
 				predictFailure = valueAndHourCollection.predictFailure();
+
+				attributeName = SmartAttributeTable.getName(valueId);
 
 				return "success";
 			}
 		}
+
 		return "error";
 	}
 }

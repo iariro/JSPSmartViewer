@@ -106,9 +106,9 @@ public class SmartDataList
 
 			if (powerOnHours2 >= 0 && loadUnloadSycleCount2 >= 0)
 			{
-				//　値は取得できた
+				// 値は取得できた
 
-				if ((powerOnHours < 0 && loadUnloadSycleCount < 0) ||
+				if (/*(powerOnHours < 0 && loadUnloadSycleCount < 0) ||*/
 					(powerOnHours2 != powerOnHours && loadUnloadSycleCount2 != loadUnloadSycleCount))
 				{
 					// 変動している

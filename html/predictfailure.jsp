@@ -18,6 +18,7 @@
 		<div class=day>
 
 			<h2>故障予測結果表示</h2>
+			#<s:property value="valueId" /> = <s:property value="attributeName" /><br>
 			<s:if test="%{predictFailure.size()>0}">
 			<table>
 				<tr>
