@@ -1,7 +1,9 @@
 package kumagai.smartviewer;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
+import ktool.datetime.*;
 
 /**
  * SMART情報一式オブジェクトのコレクション
@@ -50,6 +52,7 @@ public class SmartDataList
 	 */
 	public SmartDataList()
 	{
+		// 何もしない
 	}
 
 	/**
@@ -64,5 +67,64 @@ public class SmartDataList
 			add(smartData);
 			offset += smartData.bufferSize;
 		}
+	}
+
+	/**
+	 * SMART値の変動ポイントを通算稼働時間とともに取得
+	 * @param powerOnHoursId 通算稼働時間属性ID
+	 * @param valueId 対象の値の属性ID
+	 * @return 変動ポイントコレクション
+	 */
+	public ValueAndHourCollection getFluctuationPoint(int powerOnHoursId, int valueId)
+		throws ParseException
+	{
+		ValueAndHourCollection valueAndHourCollection = new ValueAndHourCollection();
+		int powerOnHours = -1;
+		int loadUnloadSycleCount = -1;
+
+		for (SmartData data : this)
+		{
+			int powerOnHours2 = -1;
+			int loadUnloadSycleCount2 = -1;
+
+			for (SmartAttribute attribute : data.attributes)
+			{
+				if (attribute.getId() == powerOnHoursId)
+				{
+					// 通算稼働時間の属性である
+
+					powerOnHours2 = attribute.getRawValue();
+				}
+
+				if (attribute.getId() == valueId)
+				{
+					// 対象の属性である
+
+					loadUnloadSycleCount2 = attribute.getCurrent();
+				}
+			}
+
+			if (powerOnHours2 >= 0 && loadUnloadSycleCount2 >= 0)
+			{
+				//　値は取得できた
+
+				if ((powerOnHours < 0 && loadUnloadSycleCount < 0) ||
+					(powerOnHours2 != powerOnHours && loadUnloadSycleCount2 != loadUnloadSycleCount))
+				{
+					// 変動している
+
+					valueAndHourCollection.add(
+						new ValueAndHour(
+							powerOnHours2,
+							loadUnloadSycleCount2,
+							DateTime.parseDateString(data.getDateTime())));
+				}
+			}
+
+			powerOnHours = powerOnHours2;
+			loadUnloadSycleCount = loadUnloadSycleCount2;
+		}
+
+		return valueAndHourCollection;
 	}
 }
