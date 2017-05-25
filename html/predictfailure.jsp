@@ -17,8 +17,8 @@
 		<div class=main>
 		<div class=day>
 
-
 			<h2>故障予測結果表示</h2>
+			<s:if test="%{predictFailure.size()}>0">
 			<table>
 				<tr>
 					<th>基準時間</th>
@@ -39,6 +39,10 @@
 					</tr>
 				</s:iterator>
 			</table>
+			</s:if>
+			<s:else>
+				<br><blockquote>予測不能</blockquote>
+			</s:else>
 
 		</div>
 		</div>
