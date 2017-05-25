@@ -2,6 +2,8 @@ package kumagai.smartviewer;
 
 import java.util.*;
 
+import ktool.datetime.TimeSpan;
+
 /**
  * 値と時間の対のコレクション
  */
@@ -19,18 +21,22 @@ public class ValueAndHourCollection
 
 		for (int i=1 ; i<size ; i++)
 		{
-			//int useTimeDiff = get(i).hour - get(0).hour;
-			int realTimeDiff = get(i).datetime.getHour() - get(0).datetime.getHour();
+			int useTimeDiff = get(i).hour - get(0).hour;
+			TimeSpan realTimeDiff = get(i).datetime.diff(get(0).datetime);
 			int valueDiff = get(0).value - get(i).value;
-			int remainingHour = realTimeDiff * (get(i).value / valueDiff);
+			int remainingHour1 = useTimeDiff * (get(i).value / valueDiff);
+			int remainingSecond2 = realTimeDiff.getTotalSecond() * (get(i).value / valueDiff);
 
 			predictions.add(
 				new Prediction(
 					get(0).hour,
+					get(0).datetime,
 					get(0).value,
 					get(i).hour,
+					get(i).datetime,
 					get(i).value,
-					remainingHour));
+					remainingHour1,
+					remainingSecond2));
 		}
 
 		return predictions;

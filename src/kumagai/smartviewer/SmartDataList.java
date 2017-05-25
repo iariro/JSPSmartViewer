@@ -117,7 +117,7 @@ public class SmartDataList
 						new ValueAndHour(
 							powerOnHours2,
 							loadUnloadSycleCount2,
-							DateTime.parseDateString(data.getDateTime())));
+							DateTime.parseDateTimeString(data.getDateTime())));
 				}
 			}
 

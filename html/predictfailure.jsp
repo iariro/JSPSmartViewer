@@ -18,11 +18,22 @@
 		<div class=day>
 
 			<h2>故障予測結果表示</h2>
-			<s:if test="%{predictFailure.size()}>0">
+			<s:if test="%{predictFailure.size()>0}">
 			<table>
 				<tr>
 					<th>基準時間</th>
 					<th>基準値</th>
+					<th></th>
+					<th>現在時間</th>
+					<th>現在値</th>
+					<th>残り時間</th>
+					<th>予測故障日</th>
+
+					<th width='50'></th>
+
+					<th>基準時間</th>
+					<th>基準値</th>
+					<th></th>
 					<th>現在時間</th>
 					<th>現在値</th>
 					<th>残り時間</th>
@@ -32,10 +43,19 @@
 					<tr>
 						<td align="right"><s:property value="time1" /></td>
 						<td align="right"><s:property value="value1" /></td>
+						<td>⇒</td>
 						<td align="right"><s:property value="time2" /></td>
 						<td align="right"><s:property value="value2" /></td>
-						<td align="right"><s:property value="remainingHour" /></td>
-						<td align="right"><s:property value="deadDate" /></td>
+						<td align="right"><s:property value="remainingHour1" /></td>
+						<td align="right"><s:property value="deadDate1" /></td>
+						<td></td>
+						<td align="right"><s:property value="datetime1" /></td>
+						<td align="right"><s:property value="value1" /></td>
+						<td>⇒</td>
+						<td align="right"><s:property value="datetime2" /></td>
+						<td align="right"><s:property value="value2" /></td>
+						<td align="right"><s:property value="remainingHour2" /></td>
+						<td align="right"><s:property value="deadDate2" /></td>
 					</tr>
 				</s:iterator>
 			</table>
