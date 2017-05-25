@@ -27,6 +27,10 @@
 				<s:submit value="最新の属性値" />
 			</s:form>
 
+			<s:form action="predictfailure" theme="simple">
+				<s:submit value="故障予測" />
+			</s:form>
+
 			<s:form action="chronologygraph" theme="simple">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
