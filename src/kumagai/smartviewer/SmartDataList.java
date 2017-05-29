@@ -104,7 +104,8 @@ public class SmartDataList
 				}
 			}
 
-			if (powerOnHours2 >= 0 && loadUnloadSycleCount2 >= 0)
+			if ((powerOnHours >= 0 && loadUnloadSycleCount >= 0) &&
+				(powerOnHours2 >= 0 && loadUnloadSycleCount2 >= 0))
 			{
 				// 値は取得できた
 
