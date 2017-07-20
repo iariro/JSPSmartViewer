@@ -9,6 +9,16 @@
 		<param-value>C:\temp\smart\</param-value>
 	</context-param>
 
+	<servlet>
+		<servlet-name>receivesmartctloutput</servlet-name>
+		<servlet-class>kumagai.smartviewer.servlet.ReceiveSmartctlOutputServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>receivesmartctloutput</servlet-name>
+		<url-pattern>/receivesmartctloutput</url-pattern>
+	</servlet-mapping>
+
 	-->
 
 	<property file="../../../../../build.properties" />
@@ -63,6 +73,7 @@
 		<copy todir="${TOMCAT_SITE_HOME}/WEB-INF/classes">
 			<fileset dir="bin">
 				<include name="kumagai/smartviewer/*.class" />
+				<include name="kumagai/smartviewer/servlet/*.class" />
 				<include name="kumagai/smartviewer/struts2/*.class" />
 			</fileset>
 		</copy>
