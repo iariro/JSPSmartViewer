@@ -53,7 +53,7 @@ public class SmartData
 			{
 				// SMART Value
 
-				attributes = new SmartAttributeList(data, offset + 12);
+				attributes = new SmartAttributeListFromBinary(data, offset + 12);
 			}
 
 			offset += 12 + blockSize;
