@@ -11,7 +11,7 @@
 	</head>
 
 	<body>
-		<h1>SMART Viewer</h1>
+		<h1>SMART Viewer - <s:property value='targetName' /></h1>
 
 		<div class=hatena-body>
 		<div class=main>

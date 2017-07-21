@@ -5,8 +5,8 @@
 	<!-- web.xml
 
 	<context-param>
-		<param-name>SmartFilePath</param-name>
-		<param-value>C:\temp\smart\</param-value>
+		<param-name>SmartFilePath1</param-name>
+		<param-value>path=C:\temp\smart\,type=binary,name=TOPS5366</param-value>
 	</context-param>
 
 	<servlet>

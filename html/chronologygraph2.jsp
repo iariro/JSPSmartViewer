@@ -20,7 +20,7 @@
 			options =
 			{
 				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
-				title: {text: 'S.M.A.R.T.'},
+				title: {text: 'S.M.A.R.T. - <s:property value='targetName' />'},
 				xAxis: {title: null, type: 'datetime'},
 				series: [ <s:property value="chartPointLists" /> ]
 			};
