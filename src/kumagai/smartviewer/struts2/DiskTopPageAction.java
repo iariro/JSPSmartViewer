@@ -2,10 +2,8 @@ package kumagai.smartviewer.struts2;
 
 import java.io.*;
 import java.util.*;
-
-import javax.servlet.ServletContext;
-
-import org.apache.struts2.ServletActionContext;
+import javax.servlet.*;
+import org.apache.struts2.*;
 import org.apache.struts2.convention.annotation.*;
 import kumagai.smartviewer.*;
 
@@ -30,7 +28,7 @@ public class DiskTopPageAction
 	public String message;
 
 	/**
-	 * カレント値表示アクション。
+	 * ディスクごとのトップページ表示アクション。
 	 * @return 処理結果
 	 */
 	@Action("disktop")
