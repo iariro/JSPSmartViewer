@@ -33,6 +33,8 @@ public class ChronologyGraphAction
 		new SmartAttributeRawValue2Getter();
 	static private final Dimension screen = new Dimension(1000, 580);
 
+	public String targetName;
+
 	public int [] ids;
 	public String graphType;
 	public String field;
@@ -71,21 +73,37 @@ public class ChronologyGraphAction
 		throws Exception
 	{
 		ServletContext context = ServletActionContext.getServletContext();
-		String smartFilePath = context.getInitParameter("SmartFilePath");
 
-		if (smartFilePath != null)
+		ViewTarget target = null;
+		if (targetName != null)
+		{
+			// 必要なパラメータは指定されている
+
+			ViewTargetList targets = new ViewTargetList(context);
+			for (ViewTarget target2 : targets)
+			{
+				if (target2.name.equals(targetName))
+				{
+					// 対象のエントリである
+
+					target = target2;
+				}
+			}
+		}
+
+		if (target != null)
 		{
 			// 必要なパラメータは指定されている
 
 			SmartDataList points = new SmartDataList();
-			String [] filenames = new File(smartFilePath).list();
+			String [] filenames = new File(target.path).list();
 			if (filenames != null)
 			{
 				// リストを取得できた
 
 				for (String filename : filenames)
 				{
-					File file = new File(smartFilePath, filename);
+					File file = new File(target.path, filename);
 					FileInputStream stream = new FileInputStream(file);
 					int size = (int)file.length();
 					byte [] data = new byte [size];

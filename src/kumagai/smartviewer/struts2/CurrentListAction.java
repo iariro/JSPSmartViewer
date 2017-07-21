@@ -18,6 +18,8 @@ import kumagai.smartviewer.*;
 })
 public class CurrentListAction
 {
+	public String targetName;
+
 	public String datetime;
 	public SmartAttributeList attributes;
 
@@ -30,18 +32,35 @@ public class CurrentListAction
 		throws Exception
 	{
 		ServletContext context = ServletActionContext.getServletContext();
-		String smartFilePath = context.getInitParameter("SmartFilePath");
-		if (smartFilePath != null)
+
+		ViewTarget target = null;
+		if (targetName != null)
 		{
 			// 必要なパラメータは指定されている
 
-			String [] filenames = new File(smartFilePath).list();
+			ViewTargetList targets = new ViewTargetList(context);
+			for (ViewTarget target2 : targets)
+			{
+				if (target2.name.equals(targetName))
+				{
+					// 対象のエントリである
+
+					target = target2;
+				}
+			}
+		}
+
+		if (target != null)
+		{
+			// 対象パス情報は取得できた
+
+			String [] filenames = new File(target.path).list();
 			if (filenames != null && filenames.length > 0)
 			{
 				// ファイルは１個でもある
 
 				String filename = filenames[filenames.length - 1];
-				File file = new File(smartFilePath, filename);
+				File file = new File(target.path, filename);
 				FileInputStream stream = new FileInputStream(file);
 				int size = (int)file.length();
 				byte [] data = new byte [size];
