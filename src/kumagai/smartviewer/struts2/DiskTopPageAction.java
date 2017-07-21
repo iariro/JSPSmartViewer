@@ -63,7 +63,8 @@ public class DiskTopPageAction
 			{
 				// ファイルは１個でもある
 
-				// 最新を見る
+				SmartAttributeList smartAttributeList = null;
+
 				String filename = filenames[filenames.length - 1];
 				File file = new File(target.path, filename);
 				FileInputStream stream = new FileInputStream(file);
@@ -72,26 +73,49 @@ public class DiskTopPageAction
 				stream.read(data);
 				stream.close();
 
-				SmartDataList smartDataList = new SmartDataList(data);
-
-				if (smartDataList.size() > 0)
+				if (target.type.equals("binary"))
 				{
-					SmartData smartData =
-						smartDataList.get(smartDataList.size() - 1);
+					// バイナリ
 
-					modelName = smartData.identify.getModelName();
-					serialNumber = smartData.identify.getSerialNumber();
-					firmwareVersion = smartData.identify.getFirmwareVersion();
+					// 最新を見る
+					SmartDataList smartDataList = new SmartDataList(data);
 
-					for (SmartAttribute attribute : smartData.attributes)
+					if (smartDataList.size() > 0)
 					{
-						attributes.put(
-							attribute.getId(),
-							String.format(
-								"%02X %s",
-								attribute.getId(),
-								SmartAttributeTable.getName(attribute.getId())));
+						SmartData smartData =
+							smartDataList.get(smartDataList.size() - 1);
+
+						modelName = smartData.identify.getModelName();
+						serialNumber = smartData.identify.getSerialNumber();
+						firmwareVersion = smartData.identify.getFirmwareVersion();
+						smartAttributeList = smartData.attributes;
 					}
+				}
+				else
+				{
+					// smartctl出力
+
+					BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+
+					String line;
+					ArrayList<String> lines = new ArrayList<String>();
+					while ((line = reader.readLine()) != null)
+					{
+						lines.add(line);
+					}
+
+					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
+					smartAttributeList = smartctlOutput.getSmartAttributeList();
+				}
+
+				for (SmartAttribute attribute : smartAttributeList)
+				{
+					attributes.put(
+						attribute.getId(),
+						String.format(
+							"%02X %s",
+							attribute.getId(),
+							SmartAttributeTable.getName(attribute.getId())));
 				}
 			}
 

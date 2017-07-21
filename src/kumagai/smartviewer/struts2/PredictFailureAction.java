@@ -72,7 +72,30 @@ public class PredictFailureAction
 					stream.read(data);
 					stream.close();
 
-					smartDataList.addAll(new SmartDataList(data));
+					if (target.type.equals("binary"))
+					{
+						// バイナリ
+
+						smartDataList.addAll(new SmartDataList(data));
+					}
+					else
+					{
+						// smartctl出力
+
+						BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+
+						String line;
+						ArrayList<String> lines = new ArrayList<String>();
+						while ((line = reader.readLine()) != null)
+						{
+							lines.add(line);
+						}
+
+						SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
+						SmartAttributeList attributes = smartctlOutput.getSmartAttributeList();
+
+						smartDataList.add(new SmartData(filename, attributes));
+					}
 				}
 
 				ValueAndHourCollection valueAndHourCollection =

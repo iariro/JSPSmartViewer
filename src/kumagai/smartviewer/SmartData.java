@@ -27,6 +27,18 @@ public class SmartData
 
 	/**
 	 * SMARTデータ一式を構築
+	 * @param datetimeString yyyymmddhhmmss形式の日付
+	 * @param attributes 属性
+	 */
+	public SmartData(String datetimeString, SmartAttributeList attributes)
+	{
+		datetime = new byte [16];
+		System.arraycopy(datetimeString.getBytes(), 0, datetime, 0, 16);
+		this.attributes = attributes;
+	}
+
+	/**
+	 * SMARTデータ一式を構築
 	 * @param data SMARTデータ一式を含むバイナリ
 	 * @param offset 読み込み開始位置
 	 */
