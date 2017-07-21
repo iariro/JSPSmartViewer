@@ -93,7 +93,7 @@ public class SmartDataList
 				{
 					// 通算稼働時間の属性である
 
-					powerOnHours2 = attribute.getRawValue();
+					powerOnHours2 = (int)attribute.getRawValue();
 				}
 
 				if (attribute.getId() == valueId)

@@ -10,7 +10,7 @@ public class SmartAttributeCurrentGetter
 	 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 	 */
 	@Override
-	public int get(SmartAttribute attribute)
+	public long get(SmartAttribute attribute)
 	{
 		return attribute.getCurrent();
 	}

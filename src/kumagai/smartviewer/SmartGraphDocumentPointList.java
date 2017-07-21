@@ -15,9 +15,9 @@ public class SmartGraphDocumentPointList
 	float scaleX;
 	float scaleY;
 	int hourRange;
-	int valueRange;
-	int maxY;
-	int minY;
+	long valueRange;
+	long maxY;
+	long minY;
 	DateTime maxHour;
 	DateTime minHour;
 
@@ -61,7 +61,7 @@ public class SmartGraphDocumentPointList
 				{
 					// 対象のIDの属性である
 
-					int value = fieldGetter.get(attribute);
+					long value = fieldGetter.get(attribute);
 					if ((maxY == 0) || (maxY < value))
 					{
 						// maxを更新すべき時

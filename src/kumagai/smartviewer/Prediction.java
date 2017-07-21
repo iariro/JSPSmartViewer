@@ -9,10 +9,10 @@ public class Prediction
 {
 	public int time1;
 	public DateTime datetime1;
-	public int value1;
+	public long value1;
 	public int time2;
 	public DateTime datetime2;
-	public int value2;
+	public long value2;
 	public int remainingHour1;
 	public int remainingSecond2;
 
@@ -58,7 +58,7 @@ public class Prediction
 	 * @param remainingHour1 残り時間
 	 * @param remainingSecond2 残り時間
 	 */
-	public Prediction(int time1, DateTime datetime1, int value1, int time2, DateTime datetime2, int value2, int remainingHour1, int remainingSecond2)
+	public Prediction(int time1, DateTime datetime1, long value1, int time2, DateTime datetime2, long value2, int remainingHour1, int remainingSecond2)
 	{
 		this.time1 = time1;
 		this.datetime1 = datetime1;

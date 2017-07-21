@@ -169,7 +169,7 @@ public class SmartGraphDocument
 		top.appendChild(element);
 
 		// 縦軸目盛
-		for (int i=documentPointList.minY ; i<=documentPointList.maxY ; i+=10)
+		for (long i=documentPointList.minY ; i<=documentPointList.maxY ; i+=10)
 		{
 			element = createElement("line");
 			element.setAttribute(

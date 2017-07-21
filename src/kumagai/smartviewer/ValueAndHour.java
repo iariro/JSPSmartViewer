@@ -8,7 +8,7 @@ import ktool.datetime.DateTime;
 public class ValueAndHour
 {
 	public int hour;
-	public int value;
+	public long value;
 	public DateTime datetime;
 
 	/**
@@ -16,7 +16,7 @@ public class ValueAndHour
 	 * @param hour 時間
 	 * @param value 値
 	 */
-	public ValueAndHour(int hour, int value, DateTime datetime)
+	public ValueAndHour(int hour, long value, DateTime datetime)
 	{
 		this.hour = hour;
 		this.value = value;

@@ -23,9 +23,9 @@ public class ValueAndHourCollection
 		{
 			int useTimeDiff = get(i).hour - get(0).hour;
 			TimeSpan realTimeDiff = get(i).datetime.diff(get(0).datetime);
-			int valueDiff = get(0).value - get(i).value;
-			int remainingHour1 = useTimeDiff * (get(i).value / valueDiff);
-			int remainingSecond2 = realTimeDiff.getTotalSecond() * (get(i).value / valueDiff);
+			long valueDiff = get(0).value - get(i).value;
+			int remainingHour1 = (int)(useTimeDiff * (get(i).value / valueDiff));
+			int remainingSecond2 = (int)(realTimeDiff.getTotalSecond() * (get(i).value / valueDiff));
 
 			predictions.add(
 				new Prediction(

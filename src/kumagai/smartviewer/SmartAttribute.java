@@ -67,13 +67,15 @@ public class SmartAttribute
 	 * RAW値を取得
 	 * @return RAW値
 	 */
-	public int getRawValue()
+	public long getRawValue()
 	{
 		return
-			((data[8] & 0xff) << 24) +
-			((data[7] & 0xff) << 16) +
-			((data[6] & 0xff) << 8) +
-			((data[5] & 0xff));
+			((data[10] & 0xffL) << 40) +
+			((data[9] & 0xffL) << 32) +
+			((data[8] & 0xffL) << 24) +
+			((data[7] & 0xffL) << 16) +
+			((data[6] & 0xffL) << 8) +
+			((data[5] & 0xffL));
 	}
 
 	/**

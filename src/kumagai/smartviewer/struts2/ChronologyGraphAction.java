@@ -169,7 +169,7 @@ public class ChronologyGraphAction
 
 								chartPointList.put(
 									smartData.getDateTime(),
-									smartFieldGetter.get(attribute));
+									(int)smartFieldGetter.get(attribute));
 								break;
 							}
 						}

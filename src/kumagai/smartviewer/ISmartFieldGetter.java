@@ -5,5 +5,5 @@ package kumagai.smartviewer;
  */
 public interface ISmartFieldGetter
 {
-	int get(SmartAttribute attribute);
+	long get(SmartAttribute attribute);
 }
