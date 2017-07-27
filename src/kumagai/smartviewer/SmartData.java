@@ -33,7 +33,8 @@ public class SmartData
 	public SmartData(String datetimeString, SmartAttributeList attributes)
 	{
 		datetime = new byte [16];
-		System.arraycopy(datetimeString.getBytes(), 0, datetime, 0, 16);
+		byte [] datetime2 = datetimeString.getBytes();
+		System.arraycopy(datetime2, 0, datetime, 0, datetime2.length);
 		this.attributes = attributes;
 	}
 
