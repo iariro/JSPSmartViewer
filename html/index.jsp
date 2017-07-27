@@ -15,15 +15,25 @@
 
 		<div class=hatena-body>
 		<div class=main>
-		<div class=day>
 
-		<s:form action="disktop" theme="simple">
-			対象：
-			<s:select name="targetName" list="targets" listKey="name" listValue="name" />
-			<s:submit value="表示" />
-		</s:form>
+		<s:iterator value="targets">
+			<div class=day>
+				<h2><span class=title><s:property value="name" /></span></h2>
+				<div class=body>
+				<div class=section>
+					<table>
+						<tr><th>type</th><td><s:property value="type" /></td></tr>
+						<tr><th>path</th><td><s:property value="path" /></td></tr>
+					</table>
+					<s:form action="disktop" theme="simple">
+						<input type="hidden" name="targetName" value="<s:property value='name' />">
+						<s:submit value="表示" />
+					</s:form>
+				</div>
+				</div>
+			</div>
+		</s:iterator>
 
-		</div>
 		</div>
 		</div>
 
