@@ -48,6 +48,35 @@ public class SmartDataList
 	}
 
 	/**
+	 * 複数のSMARTログファイルを一括読み込み
+	 * @param filesPath SMARTログファイルパス
+	 * @return SmartDataのリスト
+	 */
+	static public SmartDataList getSmartDataFiles(String filesPath)
+			throws FileNotFoundException, IOException
+	{
+		SmartDataList points = new SmartDataList();
+		String [] filenames = new File(filesPath).list();
+		if (filenames != null)
+		{
+			// リストを取得できた
+	
+			for (String filename : filenames)
+			{
+				File file = new File(filesPath, filename);
+				FileInputStream stream = new FileInputStream(file);
+				int size = (int)file.length();
+				byte [] data = new byte [size];
+				stream.read(data);
+				stream.close();
+	
+				points.addAll(new SmartDataList(data));
+			}
+		}
+		return points;
+	}
+
+	/**
 	 * 既定のコンストラクタ
 	 */
 	public SmartDataList()

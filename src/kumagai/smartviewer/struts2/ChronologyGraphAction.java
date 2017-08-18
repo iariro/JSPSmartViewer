@@ -1,6 +1,5 @@
 package kumagai.smartviewer.struts2;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
@@ -25,14 +24,6 @@ import kumagai.smartviewer.*;
 })
 public class ChronologyGraphAction
 {
-	static private final ISmartFieldGetter smartAttributeCurrent =
-		new SmartAttributeCurrentGetter();
-	static private final ISmartFieldGetter smartAttributeRawValue =
-		new SmartAttributeRawValueGet();
-	static private final ISmartFieldGetter smartAttributeRawValue2 =
-		new SmartAttributeRawValue2Getter();
-	static private final Dimension screen = new Dimension(1000, 580);
-
 	public String targetName;
 
 	public int [] ids;
@@ -95,44 +86,10 @@ public class ChronologyGraphAction
 		{
 			// 必要なパラメータは指定されている
 
-			SmartDataList points = new SmartDataList();
-			String [] filenames = new File(target.path).list();
-			if (filenames != null)
-			{
-				// リストを取得できた
+			SmartDataList points = SmartDataList.getSmartDataFiles(target.path);
 
-				for (String filename : filenames)
-				{
-					File file = new File(target.path, filename);
-					FileInputStream stream = new FileInputStream(file);
-					int size = (int)file.length();
-					byte [] data = new byte [size];
-					stream.read(data);
-					stream.close();
-
-					points.addAll(new SmartDataList(data));
-				}
-			}
-
-			ISmartFieldGetter smartFieldGetter;
-			if (field == null || field.equals("current"))
-			{
-				// current指定、またはフィールド指定なしの場合
-
-				smartFieldGetter = smartAttributeCurrent;
-			}
-			else if (field == null || field.equals("raw"))
-			{
-				// raw指定の場合
-
-				smartFieldGetter = smartAttributeRawValue;
-			}
-			else
-			{
-				// current,raw以外指定の場合
-
-				smartFieldGetter = smartAttributeRawValue2;
-			}
+			ISmartFieldGetter smartFieldGetter =
+				ChronologyGraph.getSmartFieldGetter(field);
 
 			if (ids.length <= 0)
 			{
@@ -153,7 +110,7 @@ public class ChronologyGraphAction
 				{
 					smartGraphDocumentPointLists.add(
 						new SmartGraphDocumentPointList
-							(points, screen, id, smartFieldGetter));
+							(points, ChronologyGraph.screen, id, smartFieldGetter));
 				}
 				document = new SmartGraphDocument(smartGraphDocumentPointLists);
 
@@ -163,38 +120,9 @@ public class ChronologyGraphAction
 			{
 				// HighCharts
 
-				StringBuffer chartPointLists = new StringBuffer();
-
-				for (int id : ids)
-				{
-					if (chartPointLists.length() > 0)
-					{
-						// ２個目以降
-
-						chartPointLists.append(",");
-					}
-
-					ChartPointList chartPointList =
-						new ChartPointList(SmartAttributeTable.getName(id));
-
-					for (SmartData smartData : points)
-					{
-						for (SmartAttribute attribute : smartData.attributes)
-						{
-							if (attribute.getId() == id)
-							{
-								// 対象のIDの属性である
-
-								chartPointList.put(
-									smartData.getDateTime(),
-									(int)smartFieldGetter.get(attribute));
-								break;
-							}
-						}
-					}
-
-					chartPointLists.append(chartPointList.toString());
-				}
+				StringBuffer chartPointLists =
+						ChronologyGraph.createHighChartsPoints
+							(ids, points, smartFieldGetter);
 
 				this.chartPointLists = chartPointLists.toString();
 
