@@ -96,14 +96,14 @@
 	</target>
 
 	<target name="chronologygraph">
-		<!--
 		<input message="filesDirPath" addproperty="FILE_PATH"/>
 		<input message="IDs(csv)" addproperty="IDS"/>
 		<input message="current/raw/raw2" addproperty="FIELD"/>
-		-->
+		<!--
 		<property name="FILE_PATH" value="c:/temp/smart_5366" />
 		<property name="IDS" value="9,12" />
 		<property name="FIELD" value="raw" />
+		-->
 
 		<java classname="kumagai.smartviewer.ChronologyGraph" classpath="bin">
 			<arg value="${FILE_PATH}"/>
