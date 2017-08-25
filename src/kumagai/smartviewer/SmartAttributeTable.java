@@ -28,7 +28,7 @@ public class SmartAttributeTable
 		{
 			// 存在しない
 
-			return null;
+			return "Unknown";
 		}
 	}
 
