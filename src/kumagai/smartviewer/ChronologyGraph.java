@@ -153,7 +153,7 @@ public class ChronologyGraph
 			}
 
 			ChartPointList chartPointList =
-				new ChartPointList(SmartAttributeTable.getName(id));
+				new ChartPointList(String.format("#%d %s", id, SmartAttributeTable.getName(id)));
 
 			for (SmartData smartData : points)
 			{
@@ -176,25 +176,30 @@ public class ChronologyGraph
 		return chartPointLists;
 	}
 
+	/**
+	 * フィールド取得オブジェクト取得
+	 * @param field フィールド名
+	 * @return 取得オブジェクト
+	 */
 	static public ISmartFieldGetter getSmartFieldGetter(String field)
 	{
 		ISmartFieldGetter smartFieldGetter;
 		if (field == null || field.equals("current"))
 		{
 			// current指定、またはフィールド指定なしの場合
-	
+
 			smartFieldGetter = smartAttributeCurrent;
 		}
 		else if (field == null || field.equals("raw"))
 		{
 			// raw指定の場合
-	
+
 			smartFieldGetter = smartAttributeRawValue;
 		}
 		else
 		{
 			// current,raw以外指定の場合
-	
+
 			smartFieldGetter = smartAttributeRawValue2;
 		}
 		return smartFieldGetter;

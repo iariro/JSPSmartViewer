@@ -131,25 +131,7 @@ public class ChronologyGraphAction
 				}
 			}
 
-			ISmartFieldGetter smartFieldGetter;
-			if (field == null || field.equals("current"))
-			{
-				// current指定、またはフィールド指定なしの場合
-
-				smartFieldGetter = ChronologyGraph.smartAttributeCurrent;
-			}
-			else if (field == null || field.equals("raw"))
-			{
-				// raw指定の場合
-
-				smartFieldGetter = ChronologyGraph.smartAttributeRawValue;
-			}
-			else
-			{
-				// current,raw以外指定の場合
-
-				smartFieldGetter = ChronologyGraph.smartAttributeRawValue2;
-			}
+			ISmartFieldGetter smartFieldGetter = ChronologyGraph.getSmartFieldGetter(field);
 
 			if (ids.length <= 0)
 			{
@@ -181,39 +163,8 @@ public class ChronologyGraphAction
 				// HighCharts
 
 				StringBuffer chartPointLists =
-						ChronologyGraph.createHighChartsPoints
-							(ids, points, smartFieldGetter);
-
-				for (int id : ids)
-				{
-					if (chartPointLists.length() > 0)
-					{
-						// ２個目以降
-
-						chartPointLists.append(",");
-					}
-
-					ChartPointList chartPointList =
-						new ChartPointList(String.format("#%d %s", id, SmartAttributeTable.getName(id)));
-
-					for (SmartData smartData : points)
-					{
-						for (SmartAttribute attribute : smartData.attributes)
-						{
-							if (attribute.getId() == id)
-							{
-								// 対象のIDの属性である
-
-								chartPointList.put(
-									smartData.getDateTime(),
-									(int)smartFieldGetter.get(attribute));
-								break;
-							}
-						}
-					}
-
-					chartPointLists.append(chartPointList.toString());
-				}
+					ChronologyGraph.createHighChartsPoints
+						(ids, points, smartFieldGetter);
 
 				this.chartPointLists = chartPointLists.toString();
 
