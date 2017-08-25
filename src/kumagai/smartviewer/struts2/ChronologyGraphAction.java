@@ -25,14 +25,6 @@ import kumagai.smartviewer.*;
 })
 public class ChronologyGraphAction
 {
-	static private final ISmartFieldGetter smartAttributeCurrent =
-		new SmartAttributeCurrentGetter();
-	static private final ISmartFieldGetter smartAttributeRawValue =
-		new SmartAttributeRawValueGet();
-	static private final ISmartFieldGetter smartAttributeRawValue2 =
-		new SmartAttributeRawValue2Getter();
-	static private final Dimension screen = new Dimension(1000, 580);
-
 	public String targetName;
 
 	public int [] ids;
@@ -145,19 +137,19 @@ public class ChronologyGraphAction
 			{
 				// current指定、またはフィールド指定なしの場合
 
-				smartFieldGetter = smartAttributeCurrent;
+				smartFieldGetter = ChronologyGraph.smartAttributeCurrent;
 			}
 			else if (field == null || field.equals("raw"))
 			{
 				// raw指定の場合
 
-				smartFieldGetter = smartAttributeRawValue;
+				smartFieldGetter = ChronologyGraph.smartAttributeRawValue;
 			}
 			else
 			{
 				// current,raw以外指定の場合
 
-				smartFieldGetter = smartAttributeRawValue2;
+				smartFieldGetter = ChronologyGraph.smartAttributeRawValue2;
 			}
 
 			if (ids.length <= 0)
@@ -179,7 +171,7 @@ public class ChronologyGraphAction
 				{
 					smartGraphDocumentPointLists.add(
 						new SmartGraphDocumentPointList
-							(points, screen, id, smartFieldGetter));
+							(points, ChronologyGraph.screen, id, smartFieldGetter));
 				}
 				document = new SmartGraphDocument(smartGraphDocumentPointLists);
 
@@ -189,7 +181,9 @@ public class ChronologyGraphAction
 			{
 				// HighCharts
 
-				StringBuffer chartPointLists = new StringBuffer();
+				StringBuffer chartPointLists =
+						ChronologyGraph.createHighChartsPoints
+							(ids, points, smartFieldGetter);
 
 				for (int id : ids)
 				{

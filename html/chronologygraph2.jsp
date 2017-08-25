@@ -7,8 +7,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv=Content-Style-Type content=text/css>
 		<link rel="stylesheet" type="text/css" href="hatena.css">
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="//code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
 		<title>SMART Viewer</title>
 	</head>
 
@@ -22,7 +22,7 @@
 				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
 				title: {text: 'S.M.A.R.T. - <s:property value='targetName' />'},
 				xAxis: {title: null, type: 'datetime'},
-				series: [ <s:property value="chartPointLists" /> ]
+				series: [ <s:property value='chartPointLists' /> ]
 			};
 			chart = new Highcharts.Chart(options);
 		};
