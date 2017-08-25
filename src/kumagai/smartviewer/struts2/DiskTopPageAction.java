@@ -113,7 +113,7 @@ public class DiskTopPageAction
 					attributes.put(
 						attribute.getId(),
 						String.format(
-							"%02X %s",
+							"%d %s",
 							attribute.getId(),
 							SmartAttributeTable.getName(attribute.getId())));
 				}

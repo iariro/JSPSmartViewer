@@ -201,7 +201,7 @@ public class ChronologyGraphAction
 					}
 
 					ChartPointList chartPointList =
-						new ChartPointList(SmartAttributeTable.getName(id));
+						new ChartPointList(String.format("#%d %s", id, SmartAttributeTable.getName(id)));
 
 					for (SmartData smartData : points)
 					{

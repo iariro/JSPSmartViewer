@@ -99,7 +99,7 @@ public class CurrentListAction
 
 					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
 					attributes = smartctlOutput.getSmartAttributeList();
-					datetime = filename;
+					datetime = StringUtility.convertDateTimeFilename(filename);
 				}
 			}
 
