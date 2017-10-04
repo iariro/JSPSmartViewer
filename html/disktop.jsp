@@ -40,6 +40,7 @@
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<input type="hidden" name="filenumlimit" value="100">
 				<s:submit value="属性値の遷移" />
 			</s:form>
 

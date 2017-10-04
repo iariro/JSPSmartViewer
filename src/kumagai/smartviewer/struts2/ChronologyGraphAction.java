@@ -1,15 +1,35 @@
 package kumagai.smartviewer.struts2;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.xml.transform.*;
-import org.apache.struts2.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.servlet.ServletContext;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import kumagai.smartviewer.*;
+
+import kumagai.smartviewer.ChronologyGraph;
+import kumagai.smartviewer.ISmartFieldGetter;
+import kumagai.smartviewer.SmartAttributeList;
+import kumagai.smartviewer.SmartData;
+import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartGraphDocument;
+import kumagai.smartviewer.SmartGraphDocumentPointList;
+import kumagai.smartviewer.SmartctlOutput;
 
 /**
  * 属性値遷移グラフ表示アクション。
@@ -32,6 +52,7 @@ public class ChronologyGraphAction
 	public SmartGraphDocument document;
 	public String chartPointLists;
 	public String message;
+	public int filenumlimit;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -92,8 +113,11 @@ public class ChronologyGraphAction
 			{
 				// リストを取得できた
 
-				for (String filename : filenames)
+				Arrays.sort(filenames);
+				for (int i=0 ; i<filenames.length && i<filenumlimit ;i++)
 				{
+					String filename = filenames[filenames.length - i - 1];
+
 					File file = new File(target.path, filename);
 					FileInputStream stream = new FileInputStream(file);
 					int size = (int)file.length();
