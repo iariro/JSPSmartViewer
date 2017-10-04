@@ -1,14 +1,27 @@
 package kumagai.smartviewer;
 
-import java.awt.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import org.w3c.dom.*;
-import ktool.datetime.*;
-import ktool.xml.*;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.w3c.dom.Element;
+
+import ktool.datetime.DateTime;
+import ktool.xml.KDocument;
 
 /**
  * SMART値遷移グラフSVGドキュメント
@@ -82,6 +95,7 @@ public class SmartGraphDocument
 			byte [] data = new byte [size];
 			stream.read(data);
 			points.addAll(new SmartDataList(data));
+			stream.close();
 		}
 
 		SmartGraphDocumentPointList smartGraphDocumentPointList =

@@ -1,9 +1,13 @@
 package kumagai.smartviewer;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import ktool.datetime.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import ktool.datetime.DateTime;
 
 /**
  * SMART情報一式オブジェクトのコレクション
@@ -44,6 +48,7 @@ public class SmartDataList
 				}
 				System.out.println();
 			}
+			stream.close();
 		}
 	}
 
