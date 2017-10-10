@@ -98,7 +98,12 @@ public class SmartDataList
 		for (int offset=0 ; offset<data.length ; )
 		{
 			SmartData smartData = new SmartData(data, offset);
-			add(smartData);
+			if (smartData.attributes.size() > 0)
+			{
+				// 取得失敗データ
+
+				add(smartData);
+			}
 			offset += smartData.bufferSize;
 		}
 	}
