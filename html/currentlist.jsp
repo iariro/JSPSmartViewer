@@ -30,7 +30,7 @@
 				</tr>
 				<s:iterator value="attributes">
 					<tr>
-						<td align="right"><s:property value="idInHex" /></td>
+						<td align="right"><s:property value="id" /></td>
 						<td><s:property value="attributeName" /></td>
 						<td align="right"><s:property value="current" /></td>
 						<td align="right"><s:property value="worst" /></td>
