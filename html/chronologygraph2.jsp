@@ -17,6 +17,7 @@
 		<script type="text/javascript">
 		function draw()
 		{
+			Highcharts.setOptions({ global: { useUTC: false } });
 			options =
 			{
 				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
