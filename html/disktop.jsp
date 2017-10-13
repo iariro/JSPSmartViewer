@@ -8,6 +8,12 @@
 		<meta http-equiv=Content-Style-Type content=text/css>
 		<link rel="stylesheet" type="text/css" href="hatena.css">
 		<title>SMART Viewer</title>
+		<script>
+		window.onload = function()
+		{
+			document.graphform.fieldselect.selectedIndex = 1;
+		};
+		</script>
 	</head>
 
 	<body>
@@ -35,10 +41,10 @@
 				<s:submit value="故障予測" />
 			</s:form>
 
-			<s:form action="chronologygraph" theme="simple">
+			<s:form action="chronologygraph" theme="simple" name="graphform">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
-				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" />
+				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" id="fieldselect" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />
 				<s:submit value="属性値の遷移" />
