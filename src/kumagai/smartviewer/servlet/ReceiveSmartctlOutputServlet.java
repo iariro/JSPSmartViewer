@@ -18,17 +18,19 @@ public class ReceiveSmartctlOutputServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException
 	{
+		String outputPath =
+			getServletContext().getInitParameter("SmartctlOutputPath");
 		DateTime now = new DateTime();
 		String filename =
 			String.format(
-				"C:/temp/smart_mac/%04d%02d%02d%02d%02d%02d",
+				"%04d%02d%02d%02d%02d%02d",
 				now.getYear(),
 				now.getMonth(),
 				now.getDay(),
 				now.getHour(),
 				now.getMinute(),
 				now.getSecond());
-		File file = new File(filename);
+		File file = new File(outputPath, filename);
 		FileWriter writer = new FileWriter(file);
 		PrintWriter stream = new PrintWriter(writer);
 
