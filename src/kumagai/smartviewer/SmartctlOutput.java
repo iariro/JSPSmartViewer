@@ -26,4 +26,13 @@ public class SmartctlOutput
 	{
 		return new SmartAttributeListFromSmartctl(lines);
 	}
+
+	/**
+	 * 文字列からしきい値コレクションを生成
+	 * @return しきい値コレクション
+	 */
+	public ArrayList<SmartThreshold> getSmartThresholdList()
+	{
+		return new SmartThresholdListFromSmartctl(lines);
+	}
 }

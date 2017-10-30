@@ -25,6 +25,7 @@
 					<th>名前</th>
 					<th>カレント値</th>
 					<th>ワースト値</th>
+					<th>しきい値</th>
 					<th>Raw値</th>
 					<th>Raw値</th>
 				</tr>
@@ -34,6 +35,7 @@
 						<td><s:property value="attributeName" /></td>
 						<td align="right"><s:property value="current" /></td>
 						<td align="right"><s:property value="worst" /></td>
+						<td align="right"><s:property value="threshold" /></td>
 						<td align="right"><s:property value="rawValue" /></td>
 						<td align="right"><s:property value="rawValueDump" /></td>
 					</tr>

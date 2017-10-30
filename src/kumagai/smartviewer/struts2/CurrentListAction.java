@@ -16,8 +16,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.SmartAttribute;
+import kumagai.smartviewer.SmartAttributeAndThreshold;
+import kumagai.smartviewer.SmartAttributeAndThresholdList;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartThreshold;
 import kumagai.smartviewer.SmartctlOutput;
 import kumagai.smartviewer.StringUtility;
 
@@ -36,7 +39,7 @@ public class CurrentListAction
 	public String targetName;
 
 	public String datetime;
-	public ArrayList<SmartAttribute> attributes;
+	public ArrayList<SmartAttributeAndThreshold> attributes;
 
 	/**
 	 * カレント値表示アクション。
@@ -95,7 +98,7 @@ public class CurrentListAction
 						SmartData smartData =
 							smartDataList.get(smartDataList.size() - 1);
 						datetime = smartData.getDateTime();
-						attributes = smartData.attributes;
+						attributes = smartData.geSmartAttributeAndThresholdList();
 					}
 				}
 				else
@@ -112,7 +115,9 @@ public class CurrentListAction
 					}
 
 					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
-					attributes = smartctlOutput.getSmartAttributeList();
+					ArrayList<SmartAttribute> smartAttributeList = smartctlOutput.getSmartAttributeList();
+					ArrayList<SmartThreshold> smartThresholdList = smartctlOutput.getSmartThresholdList();
+					attributes = new SmartAttributeAndThresholdList(smartAttributeList, smartThresholdList);
 					datetime = StringUtility.convertDateTimeFilename(filename);
 				}
 			}

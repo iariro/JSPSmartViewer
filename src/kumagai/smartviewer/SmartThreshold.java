@@ -31,7 +31,7 @@ public class SmartThreshold
 	 * しきい値を取得
 	 * @return 現在値
 	 */
-	public int getCurrent()
+	public int getValue()
 	{
 		return data[1] & 0xff;
 	}

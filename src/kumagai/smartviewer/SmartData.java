@@ -101,4 +101,13 @@ public class SmartData
 				plane.substring(10, 12),
 				plane.substring(12, 14));
 	}
+
+	/**
+	 * SMART属性値としきい値のコレクションを取得
+	 * @return SMART属性値としきい値のコレクション
+	 */
+	public SmartAttributeAndThresholdList geSmartAttributeAndThresholdList()
+	{
+		return new SmartAttributeAndThresholdList(attributes, thresholds);
+	}
 }
