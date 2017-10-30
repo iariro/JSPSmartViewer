@@ -1,5 +1,7 @@
 package kumagai.smartviewer;
 
+import java.util.ArrayList;
+
 /**
  * SMARTデータ一式
  */
@@ -22,7 +24,8 @@ public class SmartData
 
 	byte [] datetime;
 	public IdentifySector identify;
-	public SmartAttributeList attributes;
+	public ArrayList<SmartAttribute> attributes;
+	public ArrayList<SmartThreshold> thresholds;
 	int bufferSize;
 
 	/**
@@ -30,7 +33,7 @@ public class SmartData
 	 * @param datetimeString yyyymmddhhmmss形式の日付
 	 * @param attributes 属性
 	 */
-	public SmartData(String datetimeString, SmartAttributeList attributes)
+	public SmartData(String datetimeString, ArrayList<SmartAttribute> attributes)
 	{
 		datetime = new byte [16];
 		byte [] datetime2 = datetimeString.getBytes();
@@ -67,6 +70,12 @@ public class SmartData
 				// SMART Value
 
 				attributes = new SmartAttributeListFromBinary(data, offset + 12);
+			}
+			else if ((type1 == 10) && ((type2 & 0xffff00) == 0xd1b000))
+			{
+				// SMART Threshold
+
+				thresholds = new SmartThresholdListFromBinary(data, offset + 12);
 			}
 
 			offset += 12 + blockSize;
