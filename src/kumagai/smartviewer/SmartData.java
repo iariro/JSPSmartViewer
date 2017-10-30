@@ -26,6 +26,7 @@ public class SmartData
 	public IdentifySector identify;
 	public ArrayList<SmartAttribute> attributes;
 	public ArrayList<SmartThreshold> thresholds;
+	public SmartErrorLog errorLog;
 	int bufferSize;
 
 	/**
@@ -76,6 +77,12 @@ public class SmartData
 				// SMART Threshold
 
 				thresholds = new SmartThresholdListFromBinary(data, offset + 12);
+			}
+			else if ((type1 == 10) && ((type2 & 0xffff00) == 0xd5b000))
+			{
+				// SMART error log
+
+				errorLog = new SmartErrorLog(data, offset + 12, blockSize);
 			}
 
 			offset += 12 + blockSize;

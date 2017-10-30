@@ -5,7 +5,7 @@ package kumagai.smartviewer;
  */
 public class SmartAttribute
 {
-	byte [] data;
+	private final byte [] data;
 
 	/**
 	 * SMARTバイナリデータから属性値を構築

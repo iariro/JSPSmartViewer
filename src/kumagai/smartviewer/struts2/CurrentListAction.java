@@ -20,6 +20,7 @@ import kumagai.smartviewer.SmartAttributeAndThreshold;
 import kumagai.smartviewer.SmartAttributeAndThresholdList;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartErrorLog;
 import kumagai.smartviewer.SmartThreshold;
 import kumagai.smartviewer.SmartctlOutput;
 import kumagai.smartviewer.StringUtility;
@@ -40,6 +41,7 @@ public class CurrentListAction
 
 	public String datetime;
 	public ArrayList<SmartAttributeAndThreshold> attributes;
+	public SmartErrorLog errorLog;
 
 	/**
 	 * カレント値表示アクション。
@@ -99,6 +101,7 @@ public class CurrentListAction
 							smartDataList.get(smartDataList.size() - 1);
 						datetime = smartData.getDateTime();
 						attributes = smartData.geSmartAttributeAndThresholdList();
+						errorLog = smartData.errorLog;
 					}
 				}
 				else

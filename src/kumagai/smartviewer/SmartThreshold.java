@@ -5,7 +5,7 @@ package kumagai.smartviewer;
  */
 public class SmartThreshold
 {
-	byte [] data;
+	private final byte [] data;
 
 	/**
 	 * SMARTバイナリデータからしきい値を構築
