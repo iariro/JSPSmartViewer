@@ -24,7 +24,7 @@ import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.ChronologyGraph;
 import kumagai.smartviewer.ISmartFieldGetter;
-import kumagai.smartviewer.SmartAttributeList;
+import kumagai.smartviewer.SmartAttribute;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
 import kumagai.smartviewer.SmartGraphDocument;
@@ -147,7 +147,7 @@ public class ChronologyGraphAction
 
 						SmartctlOutput smartctlOutput =
 							new SmartctlOutput(lines.toArray(new String [0]));
-						SmartAttributeList attributes =
+						ArrayList<SmartAttribute> attributes =
 							smartctlOutput.getSmartAttributeList();
 
 						points.add(new SmartData(filename, attributes));

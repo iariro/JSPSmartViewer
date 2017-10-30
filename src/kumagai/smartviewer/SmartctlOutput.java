@@ -1,5 +1,7 @@
 package kumagai.smartviewer;
 
+import java.util.ArrayList;
+
 /**
  * smartctl -Aの出力
  */
@@ -20,7 +22,7 @@ public class SmartctlOutput
 	 * 文字列から属性コレクションを生成
 	 * @return 属性コレクション
 	 */
-	public SmartAttributeList getSmartAttributeList()
+	public ArrayList<SmartAttribute> getSmartAttributeList()
 	{
 		return new SmartAttributeListFromSmartctl(lines);
 	}

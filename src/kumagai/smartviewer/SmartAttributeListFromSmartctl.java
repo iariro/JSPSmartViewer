@@ -1,12 +1,14 @@
 package kumagai.smartviewer;
 
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * smartctl -Aの出力から構築可能なSMART属性値コレクション
  */
 public class SmartAttributeListFromSmartctl
-	extends SmartAttributeList
+	extends ArrayList<SmartAttribute>
 {
 	static private final Pattern attributeLinePattern =
 		Pattern.compile(" *([0-9]*) ([^ ]*)  *0x([^ ]*)  *([^ ]*)  *([^ ]*)  *([^ ]*)  *([^ ]*)  *([^ ]*)  *([^ ]*)  *(.*)");

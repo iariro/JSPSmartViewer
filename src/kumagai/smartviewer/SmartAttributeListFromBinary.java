@@ -1,10 +1,12 @@
 package kumagai.smartviewer;
 
+import java.util.ArrayList;
+
 /**
  * SMART属性値コレクション
  */
 public class SmartAttributeListFromBinary
-	extends SmartAttributeList
+	extends ArrayList<SmartAttribute>
 {
 	/**
 	 * SMART属性値を含むログファイルバイナリから属性値コレクションを構築

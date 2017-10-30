@@ -1,11 +1,27 @@
 package kumagai.smartviewer.struts2;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import org.apache.struts2.*;
-import org.apache.struts2.convention.annotation.*;
-import kumagai.smartviewer.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import javax.servlet.ServletContext;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+import kumagai.smartviewer.Prediction;
+import kumagai.smartviewer.SmartAttribute;
+import kumagai.smartviewer.SmartAttributeTable;
+import kumagai.smartviewer.SmartData;
+import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartctlOutput;
+import kumagai.smartviewer.ValueAndHourCollection;
 
 /**
  * 故障予測結果表示アクション。
@@ -92,7 +108,7 @@ public class PredictFailureAction
 						}
 
 						SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
-						SmartAttributeList attributes = smartctlOutput.getSmartAttributeList();
+						ArrayList<SmartAttribute> attributes = smartctlOutput.getSmartAttributeList();
 
 						smartDataList.add(new SmartData(filename, attributes));
 					}

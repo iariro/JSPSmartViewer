@@ -1,7 +1,10 @@
 package kumagai.smartviewer.test;
 
-import junit.framework.*;
-import kumagai.smartviewer.*;
+import java.util.ArrayList;
+
+import junit.framework.TestCase;
+import kumagai.smartviewer.SmartAttribute;
+import kumagai.smartviewer.SmartctlOutput;
 
 public class SmartAttributeListTest
 	extends TestCase
@@ -33,7 +36,7 @@ public class SmartAttributeListTest
 				""
 			};
 		SmartctlOutput smartctlOutput = new SmartctlOutput(lines);
-		SmartAttributeList attributeList = smartctlOutput.getSmartAttributeList();
+		ArrayList<SmartAttribute> attributeList = smartctlOutput.getSmartAttributeList();
 		assertEquals(13, attributeList.size());
 
 		assertEquals(9, attributeList.get(2).getId());
