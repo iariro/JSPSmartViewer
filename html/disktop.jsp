@@ -11,7 +11,7 @@
 		<script>
 		window.onload = function()
 		{
-			document.graphform.fieldselect.selectedIndex = 1;
+			document.graphform1.fieldselect.selectedIndex = 1;
 		};
 		</script>
 	</head>
@@ -29,11 +29,13 @@
 			<tr><th>Firmware</th><td><s:property value="firmwareVersion" /></td>
 			</table>
 
+			<h2>最新の属性値</h2>
 			<s:form action="currentlist" theme="simple">
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:submit value="最新の属性値" />
 			</s:form>
 
+			<h2>故障予測</h2>
 			<s:form action="predictfailure" theme="simple">
 				powerOnHoursID：<input type="text" name="powerOnHoursId" value="9" size="3">
 				valueID：<input type="text" name="valueId" value="9" size="3">
@@ -41,12 +43,26 @@
 				<s:submit value="故障予測" />
 			</s:form>
 
-			<s:form action="chronologygraph" theme="simple" name="graphform">
+			<h2>属性選択</h2>
+			<s:form action="chronologygraph" theme="simple" name="graphform1">
+				<input type="hidden" name="mode" value="specifyid">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
+				<br>
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" id="fieldselect" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<input type="checkbox" name="scaling">スケールを合わせる
+				<s:submit value="属性値の遷移" />
+			</s:form>
+
+			<h2>増加する値のみ</h2>
+			<s:form action="chronologygraph" theme="simple" name="graphform2">
+				<input type="hidden" name="mode" value="ascending">
+				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
+				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<input type="checkbox" name="scaling" checked>スケールを合わせる
 				<s:submit value="属性値の遷移" />
 			</s:form>
 

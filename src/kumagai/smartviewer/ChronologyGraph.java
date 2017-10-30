@@ -1,11 +1,22 @@
 package kumagai.smartviewer;
 
-import java.awt.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 /**
  * 時系列グラフ出力
@@ -89,7 +100,7 @@ public class ChronologyGraph
 			// HighCharts
 
 			StringBuffer chartPointLists =
-				createHighChartsPoints(ids, points, smartFieldGetter);
+				createHighChartsPoints(ids, points, smartFieldGetter, false);
 
 			// HTML出力
 			String replaceTargetName = "<s:property value='targetName' />";
@@ -137,14 +148,41 @@ public class ChronologyGraph
 	 * @param ids
 	 * @param points
 	 * @param smartFieldGetter
+	 * @param scaling true=スケーリングする／false=しない
 	 * @return Highcharts用座標データ文字列
 	 */
-	static public StringBuffer createHighChartsPoints(int[] ids, SmartDataList points, ISmartFieldGetter smartFieldGetter)
+	static public StringBuffer createHighChartsPoints(int[] ids, SmartDataList points, ISmartFieldGetter smartFieldGetter, boolean scaling)
 	{
 		StringBuffer chartPointLists = new StringBuffer();
 
 		for (int id : ids)
 		{
+			Integer max = null;
+			if (scaling)
+			{
+				// スケーリングする
+
+				for (SmartData smartData : points)
+				{
+					for (SmartAttribute attribute : smartData.attributes)
+					{
+						if (attribute.getId() == id)
+						{
+							// 対象のIDの属性である
+	
+							int value = (int)smartFieldGetter.get(attribute);
+							if (max == null || max < value)
+							{
+								// 初回または現状の最大を上回る
+	
+								max = value;
+							}
+							break;
+						}
+					}
+				}
+			}
+
 			if (chartPointLists.length() > 0)
 			{
 				// ２個目以降
@@ -163,9 +201,22 @@ public class ChronologyGraph
 					{
 						// 対象のIDの属性である
 
-						chartPointList.put(
-							smartData.getDateTime(),
-							(int)smartFieldGetter.get(attribute));
+						if (scaling)
+						{
+							// スケーリングする
+
+							chartPointList.put(
+								smartData.getDateTime(),
+								(int)smartFieldGetter.get(attribute) * 1000 / max);
+						}
+						else
+						{
+							// スケーリングしない
+
+							chartPointList.put(
+								smartData.getDateTime(),
+								(int)smartFieldGetter.get(attribute));
+						}
 						break;
 					}
 				}

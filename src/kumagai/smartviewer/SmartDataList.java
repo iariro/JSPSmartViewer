@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ktool.datetime.DateTime;
 
@@ -23,15 +24,22 @@ public class SmartDataList
 	public static void main(String[] args)
 		throws IOException
 	{
-		String basePath = "C:\\temp\\smart\\";
+		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_TOPS5366\\";
+		int filenumlimit = 50;
 
-		for (String filename : new File(basePath).list())
+		SmartDataList smartDataListAll = new SmartDataList();
+		String [] filenames = new File(basePath).list();
+		Arrays.sort(filenames);
+		for (int i=0 ; i<filenames.length && i<filenumlimit ;i++)
 		{
+			String filename = filenames[filenames.length > filenumlimit ? filenames.length - filenumlimit + i : i];
 			File file = new File(basePath, filename);
 			FileInputStream stream = new FileInputStream(file);
 			int size = (int)file.length();
 			byte [] data = new byte [size];
 			stream.read(data);
+			stream.close();
+
 			SmartDataList smartDataList = new SmartDataList(data);
 			System.out.printf("%s %d %d\n", filename, size, smartDataList.size());
 
@@ -48,7 +56,13 @@ public class SmartDataList
 				}
 				System.out.println();
 			}
-			stream.close();
+			smartDataListAll.addAll(smartDataList);
+		}
+
+		int [] ids = smartDataListAll.getAscendingAttributeIds();
+		for (int id : ids)
+		{
+			System.out.println(id);
 		}
 	}
 
@@ -166,5 +180,75 @@ public class SmartDataList
 		}
 
 		return valueAndHourCollection;
+	}
+
+	/**
+	 * 上昇値のIDを取得
+	 * @return 上昇値のID
+	 */
+	public int [] getAscendingAttributeIds()
+	{
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ArrayList<Integer> ascIds = new ArrayList<Integer>();
+		if (size() > 0)
+		{
+			SmartData smartData0 = get(0);
+			for (SmartAttribute attribute : smartData0.attributes)
+			{
+				ids.add(attribute.getId());
+			}
+
+			for (int id : ids)
+			{
+				int incCount = 0;
+				int decCount = 0;
+				Long pvalue = null;
+
+				for (SmartData smartData : this)
+				{
+					for (SmartAttribute attribute : smartData.attributes)
+					{
+						if (attribute.getId() == id)
+						{
+							// 対象の属性
+
+							if (pvalue != null)
+							{
+								// 比較対象あり
+
+								if (pvalue < attribute.getRawValue())
+								{
+									// 増加
+
+									incCount++;
+								}
+								else if (pvalue > attribute.getRawValue())
+								{
+									// 減少
+
+									decCount++;
+								}
+							}
+							pvalue = attribute.getRawValue();
+							break;
+						}
+					}
+				}
+
+				if ((incCount > 0) && (decCount <= 0))
+				{
+					// 増加が１件でもあり、減少がない
+
+					ascIds.add(id);
+				}
+			}
+		}
+
+		int [] ascIds2 = new int [ascIds.size()];
+		for(int i=0;i<ascIds.size() ; i++)
+		{
+			ascIds2[i] = ascIds.get(i);
+		}
+		return ascIds2;
 	}
 }

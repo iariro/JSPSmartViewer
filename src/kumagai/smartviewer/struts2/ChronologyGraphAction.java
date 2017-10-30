@@ -46,6 +46,7 @@ public class ChronologyGraphAction
 {
 	public String targetName;
 
+	public String mode;
 	public int [] ids;
 	public String graphType;
 	public String field;
@@ -53,6 +54,7 @@ public class ChronologyGraphAction
 	public String chartPointLists;
 	public String message;
 	public int filenumlimit;
+	public String scaling;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -107,7 +109,7 @@ public class ChronologyGraphAction
 		{
 			// 必要なパラメータは指定されている
 
-			SmartDataList points = new SmartDataList();
+			SmartDataList smartDataList = new SmartDataList();
 			String [] filenames = new File(target.path).list();
 			if (filenames != null)
 			{
@@ -116,7 +118,7 @@ public class ChronologyGraphAction
 				Arrays.sort(filenames);
 				for (int i=0 ; i<filenames.length && i<filenumlimit ;i++)
 				{
-					String filename = filenames[filenames.length - i - 1];
+					String filename = filenames[filenames.length > filenumlimit ? filenames.length - filenumlimit + i : i];
 
 					File file = new File(target.path, filename);
 					FileInputStream stream = new FileInputStream(file);
@@ -129,7 +131,7 @@ public class ChronologyGraphAction
 					{
 						// バイナリ
 
-						points.addAll(new SmartDataList(data));
+						smartDataList.addAll(new SmartDataList(data));
 					}
 					else
 					{
@@ -150,9 +152,26 @@ public class ChronologyGraphAction
 						ArrayList<SmartAttribute> attributes =
 							smartctlOutput.getSmartAttributeList();
 
-						points.add(new SmartData(filename, attributes));
+						smartDataList.add(new SmartData(filename, attributes));
 					}
 				}
+			}
+
+			int [] ids = null;
+			String field = null;
+			if (mode.equals("specifyid"))
+			{
+				// ID指定モード
+
+				ids = this.ids;
+				field = this.field;
+			}
+			else if (mode.equals("ascending"))
+			{
+				// 増加する属性のみ
+
+				ids = smartDataList.getAscendingAttributeIds();
+				field = "raw";
 			}
 
 			ISmartFieldGetter smartFieldGetter = ChronologyGraph.getSmartFieldGetter(field);
@@ -176,7 +195,7 @@ public class ChronologyGraphAction
 				{
 					smartGraphDocumentPointLists.add(
 						new SmartGraphDocumentPointList
-							(points, ChronologyGraph.screen, id, smartFieldGetter));
+							(smartDataList, ChronologyGraph.screen, id, smartFieldGetter));
 				}
 				document = new SmartGraphDocument(smartGraphDocumentPointLists);
 
@@ -188,7 +207,7 @@ public class ChronologyGraphAction
 
 				StringBuffer chartPointLists =
 					ChronologyGraph.createHighChartsPoints
-						(ids, points, smartFieldGetter);
+						(ids, smartDataList, smartFieldGetter, scaling != null);
 
 				this.chartPointLists = chartPointLists.toString();
 
