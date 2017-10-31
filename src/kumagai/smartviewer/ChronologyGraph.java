@@ -157,7 +157,7 @@ public class ChronologyGraph
 
 		for (int id : ids)
 		{
-			Integer max = null;
+			Long max = null;
 			if (scaling)
 			{
 				// スケーリングする
@@ -170,7 +170,7 @@ public class ChronologyGraph
 						{
 							// 対象のIDの属性である
 	
-							int value = (int)smartFieldGetter.get(attribute);
+							long value = smartFieldGetter.get(attribute);
 							if (max == null || max < value)
 							{
 								// 初回または現状の最大を上回る
@@ -207,7 +207,7 @@ public class ChronologyGraph
 
 							chartPointList.put(
 								smartData.getDateTime(),
-								(int)smartFieldGetter.get(attribute) * 1000 / max);
+								(int)(smartFieldGetter.get(attribute) * 1000 / max));
 						}
 						else
 						{
