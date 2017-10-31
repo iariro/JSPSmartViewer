@@ -23,6 +23,8 @@
 		<div class=main>
 		<div class=day>
 
+			<h2>モデル情報</h2>
+			<br>
 			<table>
 			<tr><th>Model</th><td><s:property value="modelName" /></td>
 			<tr><th>Serial</th><td><s:property value="serialNumber" /></td>
@@ -30,12 +32,14 @@
 			</table>
 
 			<h2>最新の属性値</h2>
+			<br>
 			<s:form action="currentlist" theme="simple">
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:submit value="最新の属性値" />
 			</s:form>
 
 			<h2>故障予測</h2>
+			<br>
 			<s:form action="predictfailure" theme="simple">
 				powerOnHoursID：<input type="text" name="powerOnHoursId" value="9" size="3">
 				valueID：<input type="text" name="valueId" value="9" size="3">
@@ -44,6 +48,7 @@
 			</s:form>
 
 			<h2>属性選択</h2>
+			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform1">
 				<input type="hidden" name="mode" value="specifyid">
 				<s:select name="ids" list="attributes" multiple="true" size="10" />
@@ -57,6 +62,7 @@
 			</s:form>
 
 			<h2>増加する値のみ</h2>
+			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform2">
 				<input type="hidden" name="mode" value="ascending">
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
