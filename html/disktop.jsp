@@ -24,7 +24,6 @@
 		<div class=day>
 
 			<h2>モデル情報</h2>
-			<br>
 			<table>
 			<tr><th>Model</th><td><s:property value="modelName" /></td>
 			<tr><th>Serial</th><td><s:property value="serialNumber" /></td>
