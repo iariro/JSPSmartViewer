@@ -2,12 +2,12 @@ package kumagai.smartviewer;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -34,32 +34,46 @@ public class ChronologyGraph
 
 	/**
 	 * エントリポイント
-	 * @param args args[0]=ファイルがあるディレクトリのパス args[1]=IDs(csv) args[2]=current/raw/raw2 args[3]=SVG/HighCharts args[4]=jsp-path args[5]=outfilepath
+	 * @param args args[0]=ファイルがあるディレクトリのパス args[1]=specifyid/ascending args[2]=IDs(csv) args[3]=current/raw/raw2 args[4]=SVG/HighCharts args[5]=jsp-path args[6]=outfilepath
 	 */
 	public static void main(String[] args)
 		throws IOException, ParseException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
-		if (args.length < 6)
+		if (args.length < 7)
 		{
 			// 引数が不足
 
-			System.out.println("Usage: filesDirPath current/raw/raw2 IDs(csv) SVG/HighCharts jsp-path outfilepath");
+			System.out.println("Usage: filesDirPath specifyid/ascending current/raw/raw2 IDs(csv) SVG/HighCharts jsp-path outfilepath");
 		}
 
 		String filepath = args[0];
-		String [] idsString = args[1].split(",");
-		String field = args[2];
-		String graphType = args[3];
-		String jspPath = args[4];
-		String outputPath = args[5];
-
-		int [] ids = new int [idsString.length];
-		for (int i=0;i<idsString.length ; i++)
-		{
-			ids[i] = Integer.valueOf(idsString[i]);
-		}
+		String mode = args[1];
+		String [] idsString = args[2].split(",");
+		String field = args[3];
+		String graphType = args[4];
+		String jspPath = args[5];
+		String outputPath = args[6];
 
 		SmartDataList points = SmartDataList.getSmartDataFiles(filepath);
+
+		int [] ids = null;
+		if (mode.equals("specifyid"))
+		{
+			// ID指定モード
+
+			ids = new int [idsString.length];
+			for (int i=0;i<idsString.length ; i++)
+			{
+				ids[i] = Integer.valueOf(idsString[i]);
+			}
+		}
+		else if (mode.equals("ascending"))
+		{
+			// 増加する属性のみ
+
+			ids = points.getAscendingAttributeIds();
+			field = "raw";
+		}
 
 		if (points.size() <= 0)
 		{
@@ -100,15 +114,16 @@ public class ChronologyGraph
 			// HighCharts
 
 			StringBuffer chartPointLists =
-				createHighChartsPoints(ids, points, smartFieldGetter, false);
+				createHighChartsPoints(ids, points, smartFieldGetter, true);
 
 			// HTML出力
 			String replaceTargetName = "<s:property value='targetName' />";
 			String replaceTargetPoints = "<s:property value='chartPointLists' />";
+			String replaceTargetIf = "<s:if test='%{mode.equals(\"ascending\")}'>yAxis: {max: 1000},</s:if>";
 			int replaceFlag = 0;
 
 			BufferedReader reader = new BufferedReader(new FileReader(jspPath));
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
+			PrintWriter writer = new PrintWriter(new FileWriter(outputPath));
 			String line = reader.readLine();
 			while ((line = reader.readLine()) != null)
 			{
@@ -126,8 +141,12 @@ public class ChronologyGraph
 						line = line.replace(replaceTargetPoints, chartPointLists.toString());
 						replaceFlag |= 2;
 					}
+					else if (line.indexOf(replaceTargetIf) >= 0)
+					{
+						line = new String();
+					}
 
-					writer.write(line);
+					writer.println(line);
 				}
 			}
 			reader.close();
