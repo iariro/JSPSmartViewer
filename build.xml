@@ -112,7 +112,7 @@
 
 		<java classname="kumagai.smartviewer.ChronologyGraph" classpath="bin">
 			<arg value="${FILE_PATH}"/>
-			<arg value="siecifyid"/>
+			<arg value="specifyid"/>
 			<arg value="${IDS}"/>
 			<arg value="${FIELD}"/>
 			<arg value="HighCharts"/>
