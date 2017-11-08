@@ -46,6 +46,16 @@
 				<s:submit value="故障予測" />
 			</s:form>
 
+			<h2>ドライブサイズ</h2>
+			<br>
+			<s:form action="drivesizegraph" theme="simple" name="graphform0">
+				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
+				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<input type="text" name="driveLetter" value="C" size="2">
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<s:submit value="ドライブサイズの遷移" />
+			</s:form>
+
 			<h2>属性選択</h2>
 			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform1">

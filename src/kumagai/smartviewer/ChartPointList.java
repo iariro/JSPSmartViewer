@@ -1,12 +1,13 @@
 package kumagai.smartviewer;
 
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 折れ線グラフの頂点１点
  */
 public class ChartPointList
-	extends TreeMap<String, Integer>
+	extends TreeMap<String, Long>
 {
 	public final String name;
 
@@ -29,7 +30,7 @@ public class ChartPointList
 		buffer.append(String.format("{name: '%s',data: [", name));
 
 		int count = 0;
-		for (Map.Entry<String, Integer> entry : entrySet())
+		for (Map.Entry<String, Long> entry : entrySet())
 		{
 			if (count > 0)
 			{

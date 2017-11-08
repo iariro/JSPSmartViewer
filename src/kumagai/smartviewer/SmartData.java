@@ -22,7 +22,27 @@ public class SmartData
 			((data[offset + 3] & 0xff) << 24);
 	}
 
+	/**
+	 * byte配列からint値の取得
+	 * @param data byte配列
+	 * @param offset 読取開始位置
+	 * @return int値
+	 */
+	static public long getLongFromBytes(byte [] data, int offset)
+	{
+		return
+			(data[offset] & 0xffL) +
+			((data[offset + 1] & 0xffL) << 8) +
+			((data[offset + 2] & 0xffL) << 16) +
+			((data[offset + 3] & 0xffL) << 24) +
+			((data[offset + 4] & 0xffL) << 32) +
+			((data[offset + 5] & 0xffL) << 40) +
+			((data[offset + 6] & 0xffL) << 48) +
+			((data[offset + 7] & 0xffL) << 56);
+	}
+
 	byte [] datetime;
+	public ArrayList<DriveSize> driveSizeArray;
 	public IdentifySector identify;
 	public ArrayList<SmartAttribute> attributes;
 	public ArrayList<SmartThreshold> thresholds;
@@ -54,11 +74,19 @@ public class SmartData
 		int num = getIntFromBytes(data, offset + 64);
 		offset += 68;
 		bufferSize = 68;
+		driveSizeArray = new ArrayList<>();
 		for (int i=0 ; i<num ; i++)
 		{
 			int type1 = getIntFromBytes(data, offset);
 			int type2 = getIntFromBytes(data, offset + 4);
 			int blockSize = getIntFromBytes(data, offset + 8);
+
+			if ((type1 == 1) && (type2 == 1))
+			{
+				// Drive size
+
+				driveSizeArray.add(new DriveSize(data, offset + 12));
+			}
 
 			if ((type1 == 10) && ((type2 & 0xffff00) == 0x00ec00))
 			{
