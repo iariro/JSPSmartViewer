@@ -60,7 +60,7 @@
 			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform1">
 				<input type="hidden" name="mode" value="specifyid">
-				<s:select name="ids" list="attributes" multiple="true" size="10" />
+				<s:select name="ids" list="attributes" multiple="true" size="10" value="9" />
 				<br>
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" id="fieldselect" />
