@@ -166,17 +166,17 @@ public class ChronologyGraphAction
 				ids = this.ids;
 				field = this.field;
 			}
-			else if (mode.equals("ascending"))
+			else if (mode.equals("ascending") || mode.equals("descending"))
 			{
 				// 増加する属性のみ
 
-				ids = smartDataList.getAscendingAttributeIds();
+				ids = smartDataList.getAscOrDescAttributeIds(mode);
 				field = "raw";
 			}
 
 			ISmartFieldGetter smartFieldGetter = ChronologyGraph.getSmartFieldGetter(field);
 
-			if (ids.length <= 0)
+			if (ids == null || ids.length <= 0)
 			{
 				// ID未選択
 

@@ -59,7 +59,7 @@ public class SmartDataList
 			smartDataListAll.addAll(smartDataList);
 		}
 
-		int [] ids = smartDataListAll.getAscendingAttributeIds();
+		int [] ids = smartDataListAll.getAscOrDescAttributeIds("ascending");
 		for (int id : ids)
 		{
 			System.out.println(id);
@@ -183,10 +183,11 @@ public class SmartDataList
 	}
 
 	/**
-	 * 上昇値のIDを取得
+	 * 上昇・下降値のIDを取得
+	 * @param mode ascending / descending
 	 * @return 上昇値のID
 	 */
-	public int [] getAscendingAttributeIds()
+	public int [] getAscOrDescAttributeIds(String mode)
 	{
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		ArrayList<Integer> ascIds = new ArrayList<Integer>();
@@ -235,9 +236,9 @@ public class SmartDataList
 					}
 				}
 
-				if ((incCount > 0) && (decCount <= 0))
+				if (!((mode.equals("ascending") ^ ((incCount > 0) && (decCount <= 0)))))
 				{
-					// 増加が１件でもあり、減少がない
+					// 上昇が１件でもあり、下降がない、またはその逆
 
 					ascIds.add(id);
 				}

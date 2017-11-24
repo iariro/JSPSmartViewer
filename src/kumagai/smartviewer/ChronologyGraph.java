@@ -68,11 +68,11 @@ public class ChronologyGraph
 				ids[i] = Integer.valueOf(idsString[i]);
 			}
 		}
-		else if (mode.equals("ascending"))
+		else if (mode.equals("ascending") || mode.equals("descending"))
 		{
-			// 増加する属性のみ
+			// 上昇・下降する属性絞り込みモード
 
-			ids = points.getAscendingAttributeIds();
+			ids = points.getAscOrDescAttributeIds(mode);
 			field = "raw";
 		}
 
@@ -277,7 +277,7 @@ public class ChronologyGraph
 
 							chartPointList.put(
 								smartData.getDateTime(),
-								smartFieldGetter.get(attribute) * 1000 / max);
+								max > 0 ? smartFieldGetter.get(attribute) * 1000 / max : smartFieldGetter.get(attribute));
 						}
 						else
 						{

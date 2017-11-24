@@ -52,7 +52,7 @@
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<input type="text" name="driveLetter" value="C" size="2">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
 				<s:submit value="ドライブサイズの遷移" />
 			</s:form>
 
@@ -65,18 +65,18 @@
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" id="fieldselect" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
 				<input type="checkbox" name="scaling">スケールを合わせる
 				<s:submit value="属性値の遷移" />
 			</s:form>
 
-			<h2>増加する値のみ</h2>
+			<h2>上昇・下降する値のみ</h2>
 			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform2">
-				<input type="hidden" name="mode" value="ascending">
+				<s:select name="mode" list="#{ 'ascending':'上昇', 'descending':'下降・変化なし' }" />
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
 				<input type="checkbox" name="scaling" checked>スケールを合わせる
 				<s:submit value="属性値の遷移" />
 			</s:form>
