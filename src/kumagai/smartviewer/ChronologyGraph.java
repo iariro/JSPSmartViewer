@@ -34,7 +34,7 @@ public class ChronologyGraph
 
 	/**
 	 * エントリポイント
-	 * @param args args[0]=ファイルがあるディレクトリのパス args[1]=specifyid/ascending args[2]=IDs(csv) args[3]=current/raw/raw2 args[4]=SVG/HighCharts args[5]=jsp-path args[6]=outfilepath
+	 * @param args args[0]=ファイルがあるディレクトリのパス args[1]=specifyid/ascending args[2]=IDs(csv) args[3]=current/raw/raw2 args[4]=SVG/HighCharts/DriveSizeHighCharts args[5]=jsp-path args[6]=outfilepath
 	 */
 	public static void main(String[] args)
 		throws IOException, ParseException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
@@ -43,7 +43,7 @@ public class ChronologyGraph
 		{
 			// 引数が不足
 
-			System.out.println("Usage: filesDirPath specifyid/ascending IDs(csv) current/raw/raw2 SVG/HighCharts jsp-path outfilepath");
+			System.out.println("Usage: filesDirPath specifyid/ascending IDs(csv) current/raw/raw2 SVG/HighCharts/DriveSizeHighCharts jsp-path outfilepath");
 			return;
 		}
 
