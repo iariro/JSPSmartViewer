@@ -43,7 +43,7 @@ public class ChronologyGraph
 		{
 			// 引数が不足
 
-			System.out.println("Usage: filesDirPath specifyid/ascending current/raw/raw2 IDs(csv) SVG/HighCharts jsp-path outfilepath");
+			System.out.println("Usage: filesDirPath specifyid/ascending IDs(csv) current/raw/raw2 SVG/HighCharts jsp-path outfilepath");
 			return;
 		}
 
@@ -115,12 +115,12 @@ public class ChronologyGraph
 			// HighCharts
 
 			StringBuffer chartPointLists =
-				createHighChartsPoints(ids, points, smartFieldGetter, true);
+				createHighChartsPoints(ids, points, smartFieldGetter, (mode.equals("ascending") || mode.equals("descending")));
 
 			// HTML出力
 			String replaceTargetName = "<s:property value='targetName' />";
 			String replaceTargetPoints = "<s:property value='chartPointLists' />";
-			String replaceTargetIf = "<s:if test='%{mode.equals(\"ascending\")}'>yAxis: {max: 1000},</s:if>";
+			String replaceTargetIf = "<s:if test='%{mode.equals(\"ascending\") && scaling != null}'>yAxis: {max: 1000},</s:if>";
 			int replaceFlag = 0;
 
 			BufferedReader reader = new BufferedReader(new FileReader(jspPath));
@@ -170,7 +170,7 @@ public class ChronologyGraph
 			// HTML出力
 			String replaceTargetName = "<s:property value='targetName' />";
 			String replaceTargetPoints = "<s:property value='chartPointLists' />";
-			String replaceTargetIf = "<s:if test='%{mode.equals(\"ascending\")}'>yAxis: {max: 1000},</s:if>";
+			String replaceTargetIf = "<s:if test='%{mode.equals(\"ascending\") && scaling != null}'>yAxis: {max: 1000},</s:if>";
 			int replaceFlag = 0;
 
 			BufferedReader reader = new BufferedReader(new FileReader(jspPath));
@@ -315,7 +315,6 @@ public class ChronologyGraph
 				{
 					// 対象のドライブ
 
-					System.out.printf("%s %s\n", driveSize.totalSize, driveSize.freeSize);
 					long usedSize = driveSize.totalSize - driveSize.freeSize;
 					chartPointList.put(smartData.getDateTime(), usedSize);
 					break;
