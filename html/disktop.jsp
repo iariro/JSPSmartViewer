@@ -45,6 +45,10 @@
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:submit value="故障予測" />
 			</s:form>
+			<s:form action="usagestatistics" theme="simple">
+				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<s:submit value="PC使用状況の統計情報表示" />
+			</s:form>
 
 			<h2>ドライブサイズ</h2>
 			<br>

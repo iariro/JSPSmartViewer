@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import ktool.datetime.DateTime;
 
@@ -20,9 +21,10 @@ public class SmartDataList
 	 * テストコード
 	 * @param args 未使用
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
 	public static void main(String[] args)
-		throws IOException
+		throws IOException, ParseException
 	{
 		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_TOPS5366\\";
 		int filenumlimit = 50;
@@ -63,6 +65,23 @@ public class SmartDataList
 		for (int id : ids)
 		{
 			System.out.println(id);
+		}
+
+		UsageStatistics usageStatistics = smartDataListAll.getUsageStatistics();
+		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByHour.entrySet())
+		{
+			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
+			System.out.println();
+		}
+		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByDayofweek.entrySet())
+		{
+			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
+			System.out.println();
+		}
+		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByContinuousRunning.entrySet())
+		{
+			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
+			System.out.println();
 		}
 	}
 
@@ -251,5 +270,43 @@ public class SmartDataList
 			ascIds2[i] = ascIds.get(i);
 		}
 		return ascIds2;
+	}
+
+	/**
+	 * PC使用状況の統計情報を取得
+	 * @return PC使用状況の統計情報
+	 * @throws ParseException 
+	 */
+	public UsageStatistics getUsageStatistics()
+		throws ParseException
+	{
+		UsageStatistics statistics = new UsageStatistics(); 
+		DateTime pdatetime = null;
+		int continueHour = 0;
+		for (SmartData data : this)
+		{
+			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
+			statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
+			statistics.countByDayofweek.put(datetime.getDayOfWeek(), statistics.countByDayofweek.get(datetime.getDayOfWeek()) + 1);
+			if (pdatetime != null)
+			{
+				int second = datetime.diff(pdatetime).getTotalSecond();
+				if ((second >= 3600) && ((second % 3600) < 10))
+				{
+					// 連続稼働しているとみなす
+
+					continueHour += second / 3600;
+				}
+				else
+				{
+					// 連続稼働しているとみなさない
+
+					statistics.countByContinuousRunning.put(continueHour, statistics.countByContinuousRunning.get(continueHour) + 1);
+					continueHour = 0;
+				}
+			}
+			pdatetime = datetime;
+		}
+		return statistics;
 	}
 }
