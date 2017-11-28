@@ -29,7 +29,7 @@ public class UsageStatistics
 			countByDayofweek.put(i + 1, 0);
 		}
 
-		for (int i=0 ; i<30 ; i++)
+		for (int i=0 ; i<50 ; i++)
 		{
 			countByContinuousRunning.put(i, 0);
 		}

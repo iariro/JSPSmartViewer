@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Map;
 
 import ktool.datetime.DateTime;
@@ -21,7 +22,7 @@ public class SmartDataList
 	 * テストコード
 	 * @param args 未使用
 	 * @throws IOException
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public static void main(String[] args)
 		throws IOException, ParseException
@@ -98,7 +99,7 @@ public class SmartDataList
 		if (filenames != null)
 		{
 			// リストを取得できた
-	
+
 			for (String filename : filenames)
 			{
 				File file = new File(filesPath, filename);
@@ -107,7 +108,7 @@ public class SmartDataList
 				byte [] data = new byte [size];
 				stream.read(data);
 				stream.close();
-	
+
 				points.addAll(new SmartDataList(data));
 			}
 		}
@@ -275,12 +276,12 @@ public class SmartDataList
 	/**
 	 * PC使用状況の統計情報を取得
 	 * @return PC使用状況の統計情報
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public UsageStatistics getUsageStatistics()
 		throws ParseException
 	{
-		UsageStatistics statistics = new UsageStatistics(); 
+		UsageStatistics statistics = new UsageStatistics();
 		DateTime pdatetime = null;
 		int continueHour = 0;
 		for (SmartData data : this)
