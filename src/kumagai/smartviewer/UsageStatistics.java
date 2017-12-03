@@ -15,6 +15,24 @@ public class UsageStatistics
 	public LinkedHashMap<Integer, Integer> countByContinuousRunning = new LinkedHashMap<>();
 
 	/**
+	 * 時間帯グラフデータ生成
+	 * @return 時間帯グラフデータ
+	 */
+	public String getCountByHour()
+	{
+		StringBuffer buffer = new StringBuffer();
+		for (int i=0 ; i<countByHour.size() ; i++)
+		{
+			if (i > 0)
+			{
+				buffer.append(",");
+			}
+			buffer.append(String.format("[%d,%d]", i, countByHour.get(i)));
+		}
+		return buffer.toString();
+	}
+
+	/**
 	 * メンバーの初期化
 	 */
 	public UsageStatistics()
