@@ -20,14 +20,14 @@
 		<div class=day>
 
 			<h2>時間帯</h2>
-			<div id="chart" style="width:800px; height:400px"></div>
+			<div id="chart_hour" style="width:800px; height:400px"></div>
 			<script type="text/javascript">
 			function draw()
 			{
 				Highcharts.setOptions({ global: { useUTC: false } });
 				options =
 				{
-					chart: {renderTo: 'chart', type:'column'},
+					chart: {renderTo: 'chart_hour', type:'column'},
 					title: {text: '時間帯'},
 					xAxis : { tickInterval:1 },
 					series: [ {data:[<s:property value="usageStatistics.countByHour" />]} ]
@@ -38,32 +38,39 @@
 			</script>
 
 			<h2>曜日</h2>
-			<table>
-				<tr>
-					<th>曜日</th>
-					<th>カウント</th>
-				</tr>
-				<s:iterator value="usageStatistics.countByDayofweek">
-					<tr>
-						<td align="right"><s:property value="key" /></td>
-						<td align="right"><s:property value="value" /></td>
-					</tr>
-				</s:iterator>
-			</table>
+			<div id="chart_dayofweek" style="width:800px; height:400px"></div>
+			<script type="text/javascript">
+			function draw()
+			{
+				Highcharts.setOptions({ global: { useUTC: false } });
+				options =
+				{
+					chart: {renderTo: 'chart_dayofweek', type:'column'},
+					title: {text: '曜日'},
+					xAxis : { tickInterval:1, categories:['日','月','火','水','木','金','土'] },
+					series: [ {data:[<s:property value="usageStatistics.countByDayOfWeek" />]} ]
+				};
+				chart = new Highcharts.Chart(options);
+			};
+			document.body.onload = draw();
+			</script>
 
 			<h2>連続稼働時間</h2>
-			<table>
-				<tr>
-					<th>時間</th>
-					<th>カウント</th>
-				</tr>
-				<s:iterator value="usageStatistics.countByContinuousRunning">
-					<tr>
-						<td align="right"><s:property value="key" /></td>
-						<td align="right"><s:property value="value" /></td>
-					</tr>
-				</s:iterator>
-			</table>
+			<div id="chart_continuousrunning" style="width:800px; height:400px"></div>
+			<script type="text/javascript">
+			function draw()
+			{
+				Highcharts.setOptions({ global: { useUTC: false } });
+				options =
+				{
+					chart: {renderTo: 'chart_continuousrunning', type:'column'},
+					title: {text: '連続稼働時間'},
+					series: [ {data:[<s:property value="usageStatistics.countByContinuousRunning" />]} ]
+				};
+				chart = new Highcharts.Chart(options);
+			};
+			document.body.onload = draw();
+			</script>
 
 		</div>
 		</div>

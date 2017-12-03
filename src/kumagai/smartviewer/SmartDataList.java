@@ -27,7 +27,7 @@ public class SmartDataList
 	public static void main(String[] args)
 		throws IOException, ParseException
 	{
-		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_TOPS5366\\";
+		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_ApartMouse\\";
 		int filenumlimit = 50;
 
 		SmartDataList smartDataListAll = new SmartDataList();
@@ -74,7 +74,7 @@ public class SmartDataList
 			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
 			System.out.println();
 		}
-		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByDayofweek.entrySet())
+		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByDayOfWeek.entrySet())
 		{
 			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
 			System.out.println();
