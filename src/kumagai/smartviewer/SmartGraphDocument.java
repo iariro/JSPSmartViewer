@@ -2,8 +2,6 @@ package kumagai.smartviewer;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -85,18 +83,7 @@ public class SmartGraphDocument
 
 		String smartFilePath = "C:\\temp\\smart\\";
 
-		SmartDataList points = new SmartDataList();
-		String [] filenames = new File(smartFilePath).list();
-		for (String filename : filenames)
-		{
-			File file = new File(smartFilePath, filename);
-			FileInputStream stream = new FileInputStream(file);
-			int size = (int)file.length();
-			byte [] data = new byte [size];
-			stream.read(data);
-			points.addAll(new SmartDataList(data));
-			stream.close();
-		}
+		SmartDataList points = SmartDataList.getSmartDataFiles(smartFilePath);
 
 		SmartGraphDocumentPointList smartGraphDocumentPointList =
 			new SmartGraphDocumentPointList(

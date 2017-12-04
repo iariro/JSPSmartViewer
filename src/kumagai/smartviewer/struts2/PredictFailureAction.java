@@ -1,10 +1,5 @@
 package kumagai.smartviewer.struts2;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
@@ -16,11 +11,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.Prediction;
-import kumagai.smartviewer.SmartAttribute;
 import kumagai.smartviewer.SmartAttributeTable;
-import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
-import kumagai.smartviewer.SmartctlOutput;
 import kumagai.smartviewer.ValueAndHourCollection;
 
 /**
@@ -69,60 +61,26 @@ public class PredictFailureAction
 			}
 		}
 
+		SmartDataList smartDataList = null;
 		if (target != null)
 		{
 			// 対象パス情報は取得できた
 
-			SmartDataList smartDataList = new SmartDataList();
-			String [] filenames = new File(target.path).list();
-			if (filenames != null)
-			{
-				// リストを取得できた
+			smartDataList = target.loadSmartDataList(null);
+		}
 
-				for (String filename : filenames)
-				{
-					File file = new File(target.path, filename);
-					FileInputStream stream = new FileInputStream(file);
-					int size = (int)file.length();
-					byte [] data = new byte [size];
-					stream.read(data);
-					stream.close();
+		if (smartDataList != null)
+		{
+			// データ取得できた
 
-					if (target.type.equals("binary"))
-					{
-						// バイナリ
+			ValueAndHourCollection valueAndHourCollection =
+				smartDataList.getFluctuationPoint(powerOnHoursId, valueId);
 
-						smartDataList.addAll(new SmartDataList(data));
-					}
-					else
-					{
-						// smartctl出力
+			predictFailure = valueAndHourCollection.predictFailure();
 
-						BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+			attributeName = SmartAttributeTable.getName(valueId);
 
-						String line;
-						ArrayList<String> lines = new ArrayList<String>();
-						while ((line = reader.readLine()) != null)
-						{
-							lines.add(line);
-						}
-
-						SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
-						ArrayList<SmartAttribute> attributes = smartctlOutput.getSmartAttributeList();
-
-						smartDataList.add(new SmartData(filename, attributes));
-					}
-				}
-
-				ValueAndHourCollection valueAndHourCollection =
-					smartDataList.getFluctuationPoint(powerOnHoursId, valueId);
-
-				predictFailure = valueAndHourCollection.predictFailure();
-
-				attributeName = SmartAttributeTable.getName(valueId);
-
-				return "success";
-			}
+			return "success";
 		}
 
 		return "error";

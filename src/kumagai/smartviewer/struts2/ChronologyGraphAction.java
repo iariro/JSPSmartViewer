@@ -1,13 +1,7 @@
 package kumagai.smartviewer.struts2;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 import javax.xml.transform.OutputKeys;
@@ -24,12 +18,9 @@ import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.ChronologyGraph;
 import kumagai.smartviewer.ISmartFieldGetter;
-import kumagai.smartviewer.SmartAttribute;
-import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
 import kumagai.smartviewer.SmartGraphDocument;
 import kumagai.smartviewer.SmartGraphDocumentPointList;
-import kumagai.smartviewer.SmartctlOutput;
 
 /**
  * 属性値遷移グラフ表示アクション。
@@ -105,57 +96,17 @@ public class ChronologyGraphAction
 			}
 		}
 
+		SmartDataList smartDataList = null;
 		if (target != null)
 		{
 			// 必要なパラメータは指定されている
 
-			SmartDataList smartDataList = new SmartDataList();
-			String [] filenames = new File(target.path).list();
-			if (filenames != null)
-			{
-				// リストを取得できた
+			smartDataList = target.loadSmartDataList(filenumlimit);
+		}
 
-				Arrays.sort(filenames);
-				for (int i=0 ; i<filenames.length && i<filenumlimit ;i++)
-				{
-					String filename = filenames[filenames.length > filenumlimit ? filenames.length - filenumlimit + i : i];
-
-					File file = new File(target.path, filename);
-					FileInputStream stream = new FileInputStream(file);
-					int size = (int)file.length();
-					byte [] data = new byte [size];
-					stream.read(data);
-					stream.close();
-
-					if (target.type.equals("binary"))
-					{
-						// バイナリ
-
-						smartDataList.addAll(new SmartDataList(data));
-					}
-					else
-					{
-						// smartctl出力
-
-						BufferedReader reader =
-							new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
-
-						String line;
-						ArrayList<String> lines = new ArrayList<String>();
-						while ((line = reader.readLine()) != null)
-						{
-							lines.add(line);
-						}
-
-						SmartctlOutput smartctlOutput =
-							new SmartctlOutput(lines.toArray(new String [0]));
-						ArrayList<SmartAttribute> attributes =
-							smartctlOutput.getSmartAttributeList();
-
-						smartDataList.add(new SmartData(filename, attributes));
-					}
-				}
-			}
+		if (smartDataList != null)
+		{
+			// データ取得できた
 
 			int [] ids = null;
 			String field = null;

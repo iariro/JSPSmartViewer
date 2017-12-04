@@ -1,10 +1,7 @@
 package kumagai.smartviewer.struts2;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 import javax.xml.transform.OutputKeys;
@@ -95,36 +92,17 @@ public class DriveSizeGraphAction
 			}
 		}
 
+		SmartDataList smartDataList = null;
 		if (target != null)
 		{
 			// 必要なパラメータは指定されている
 
-			SmartDataList smartDataList = new SmartDataList();
-			String [] filenames = new File(target.path).list();
-			if (filenames != null)
-			{
-				// リストを取得できた
+			smartDataList = target.loadSmartDataList(filenumlimit);
+		}
 
-				Arrays.sort(filenames);
-				for (int i=0 ; i<filenames.length && i<filenumlimit ;i++)
-				{
-					String filename = filenames[filenames.length > filenumlimit ? filenames.length - filenumlimit + i : i];
-
-					File file = new File(target.path, filename);
-					FileInputStream stream = new FileInputStream(file);
-					int size = (int)file.length();
-					byte [] data = new byte [size];
-					stream.read(data);
-					stream.close();
-
-					if (target.type.equals("binary"))
-					{
-						// バイナリ
-
-						smartDataList.addAll(new SmartDataList(data));
-					}
-				}
-			}
+		if (smartDataList != null)
+		{
+			// データ取得できた
 
 			if (graphType.equals("SVG"))
 			{

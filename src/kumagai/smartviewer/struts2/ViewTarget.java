@@ -1,5 +1,20 @@
 package kumagai.smartviewer.struts2;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import kumagai.smartviewer.SmartAttribute;
+import kumagai.smartviewer.SmartData;
+import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartctlOutput;
+
 /**
  * 閲覧対象のパス情報
  */
@@ -20,5 +35,71 @@ public class ViewTarget
 		this.path = path;
 		this.type = type;
 		this.name = name;
+	}
+
+	/**
+	 * ターゲットパスの全ファイルを読み込みSMARTデータリストを返却する
+	 * @param filenumlimit リミット件数
+	 * @return SMARTデータリスト
+	 */
+	public SmartDataList loadSmartDataList(Integer filenumlimit)
+		throws FileNotFoundException, IOException
+	{
+		String [] filenames = new File(path).list();
+		if (filenames != null)
+		{
+			// リストを取得できた
+	
+			SmartDataList smartDataList = new SmartDataList();
+			Arrays.sort(filenames);
+			for (int i=0 ; i<filenames.length && (filenumlimit == null || i<filenumlimit) ;i++)
+			{
+				int index = i;
+				if ((filenumlimit != null) && (filenames.length > filenumlimit))
+				{
+					// リミットの指定あり、リミットを上回る。
+
+					index = filenames.length - filenumlimit + i;
+				}
+				String filename = filenames[index];
+	
+				File file = new File(path, filename);
+				FileInputStream stream = new FileInputStream(file);
+				int size = (int)file.length();
+				byte [] data = new byte [size];
+				stream.read(data);
+				stream.close();
+	
+				if (type.equals("binary"))
+				{
+					// バイナリ
+	
+					smartDataList.addAll(new SmartDataList(data));
+				}
+				else
+				{
+					// smartctl出力
+	
+					BufferedReader reader =
+						new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+	
+					String line;
+					ArrayList<String> lines = new ArrayList<String>();
+					while ((line = reader.readLine()) != null)
+					{
+						lines.add(line);
+					}
+	
+					SmartctlOutput smartctlOutput =
+						new SmartctlOutput(lines.toArray(new String [0]));
+					ArrayList<SmartAttribute> attributes =
+						smartctlOutput.getSmartAttributeList();
+	
+					smartDataList.add(new SmartData(filename, attributes));
+				}
+			}
+			return smartDataList;
+		}
+		return null;
 	}
 }
