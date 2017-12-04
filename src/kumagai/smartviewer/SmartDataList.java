@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Map;
 
 import ktool.datetime.DateTime;
@@ -288,7 +287,7 @@ public class SmartDataList
 		{
 			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
 			statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
-			statistics.countByDayofweek.put(datetime.getDayOfWeek(), statistics.countByDayofweek.get(datetime.getDayOfWeek()) + 1);
+			statistics.countByDayOfWeek.put(datetime.getDayOfWeek(), statistics.countByDayOfWeek.get(datetime.getDayOfWeek()) + 1);
 			if (pdatetime != null)
 			{
 				int second = datetime.diff(pdatetime).getTotalSecond();
