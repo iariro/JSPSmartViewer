@@ -239,12 +239,12 @@ public class ChronologyGraph
 						if (attribute.getId() == id)
 						{
 							// 対象のIDの属性である
-	
+
 							long value = smartFieldGetter.get(attribute);
 							if (max == null || max < value)
 							{
 								// 初回または現状の最大を上回る
-	
+
 								max = value;
 							}
 							break;
@@ -338,14 +338,19 @@ public class ChronologyGraph
 		chartPointList = new ChartPointList("Total size");
 		for (SmartData smartData : smartDataList)
 		{
-			for (DriveSize driveSize : smartData.driveSizeArray)
+			if (smartData.driveSizeArray != null)
 			{
-				if (driveSize.driveLetter.equals(driveLetter))
-				{
-					// 対象のドライブ
+				// ドライブサイズ情報あり
 
-					chartPointList.put(smartData.getDateTime(), driveSize.totalSize);
-					break;
+				for (DriveSize driveSize : smartData.driveSizeArray)
+				{
+					if (driveSize.driveLetter.equals(driveLetter))
+					{
+						// 対象のドライブ
+
+						chartPointList.put(smartData.getDateTime(), driveSize.totalSize);
+						break;
+					}
 				}
 			}
 		}
