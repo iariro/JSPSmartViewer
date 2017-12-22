@@ -309,15 +309,20 @@ public class ChronologyGraph
 		ChartPointList chartPointList = new ChartPointList("Used size");
 		for (SmartData smartData : smartDataList)
 		{
-			for (DriveSize driveSize : smartData.driveSizeArray)
+			if (smartData.driveSizeArray != null)
 			{
-				if (driveSize.driveLetter.equals(driveLetter))
-				{
-					// 対象のドライブ
+				// ドライブサイズ情報あり
 
-					long usedSize = driveSize.totalSize - driveSize.freeSize;
-					chartPointList.put(smartData.getDateTime(), usedSize);
-					break;
+				for (DriveSize driveSize : smartData.driveSizeArray)
+				{
+					if (driveSize.driveLetter.equals(driveLetter))
+					{
+						// 対象のドライブ
+
+						long usedSize = driveSize.totalSize - driveSize.freeSize;
+						chartPointList.put(smartData.getDateTime(), usedSize);
+						break;
+					}
 				}
 			}
 		}
