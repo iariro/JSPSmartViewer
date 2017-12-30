@@ -67,7 +67,7 @@ public class SmartDataList
 			System.out.println(id);
 		}
 
-		UsageStatistics usageStatistics = smartDataListAll.getUsageStatistics();
+		UsageStatistics usageStatistics = smartDataListAll.getUsageStatistics(true);
 		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByHour.entrySet())
 		{
 			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
@@ -277,7 +277,7 @@ public class SmartDataList
 	 * @return PC使用状況の統計情報
 	 * @throws ParseException
 	 */
-	public UsageStatistics getUsageStatistics()
+	public UsageStatistics getUsageStatistics(boolean interpolateHour)
 		throws ParseException
 	{
 		UsageStatistics statistics = new UsageStatistics();
@@ -286,10 +286,17 @@ public class SmartDataList
 		for (SmartData data : this)
 		{
 			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
-			statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
+			if (!interpolateHour)
+			{
+				// 補間しない
+
+				statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
+			}
 			statistics.countByDayOfWeek.put(datetime.getDayOfWeek(), statistics.countByDayOfWeek.get(datetime.getDayOfWeek()) + 1);
 			if (pdatetime != null)
 			{
+				// 前の値あり
+
 				int second = datetime.diff(pdatetime).getTotalSecond();
 				if ((second >= 3600) && ((second % 3600) < 10))
 				{
@@ -301,8 +308,32 @@ public class SmartDataList
 				{
 					// 連続稼働しているとみなさない
 
+					if (interpolateHour)
+					{
+						// 補間する
+
+						DateTime datetime2 = pdatetime;
+						datetime2.add(- continueHour * 3600);
+						for (int i=0 ; i<continueHour ; i++)
+						{
+							datetime2.add(3600);
+							statistics.countByHour.put(datetime2.getHour(), statistics.countByHour.get(datetime2.getHour()) + 1);
+						}
+					}
+
 					statistics.countByContinuousRunning.put(continueHour, statistics.countByContinuousRunning.get(continueHour) + 1);
 					continueHour = 0;
+				}
+			}
+			else
+			{
+				// 前の値なし
+
+				if (interpolateHour)
+				{
+					// 補間する
+
+					statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
 				}
 			}
 			pdatetime = datetime;

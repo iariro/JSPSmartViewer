@@ -47,6 +47,7 @@
 			</s:form>
 			<s:form action="usagestatistics" theme="simple">
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<input type="hidden" name="interpolateHour" value="true">
 				<s:submit value="PC使用状況の統計情報表示" />
 			</s:form>
 
