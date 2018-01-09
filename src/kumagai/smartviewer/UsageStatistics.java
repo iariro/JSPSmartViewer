@@ -96,10 +96,5 @@ public class UsageStatistics
 		{
 			countByDayOfWeek.put(i + 1, 0);
 		}
-
-		for (int i=0 ; i<50 ; i++)
-		{
-			countByContinuousRunning.put(i, 0);
-		}
 	}
 }

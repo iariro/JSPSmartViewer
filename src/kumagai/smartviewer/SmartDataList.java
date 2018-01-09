@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import ktool.datetime.DateTime;
@@ -26,8 +27,8 @@ public class SmartDataList
 	public static void main(String[] args)
 		throws IOException, ParseException
 	{
-		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_ApartMouse\\";
-		int filenumlimit = 50;
+		String basePath = "C:\\ProgramData\\SMARTLogger\\smart_Jikka_Mouse\\";
+		int filenumlimit = 500;
 
 		SmartDataList smartDataListAll = new SmartDataList();
 		String [] filenames = new File(basePath).list();
@@ -67,7 +68,7 @@ public class SmartDataList
 			System.out.println(id);
 		}
 
-		UsageStatistics usageStatistics = smartDataListAll.getUsageStatistics(true);
+		UsageStatistics usageStatistics = smartDataListAll.getUsageStatistics(true, true);
 		for (Map.Entry<Integer, Integer> kv : usageStatistics.countByHour.entrySet())
 		{
 			System.out.printf("%s : %s", kv.getKey(), kv.getValue());
@@ -274,70 +275,125 @@ public class SmartDataList
 
 	/**
 	 * PC使用状況の統計情報を取得
+	 * @param interpolateHour 時間ごとカウントを補完
+	 * @param includeZeroHour 連続稼働０時間をカウントする
 	 * @return PC使用状況の統計情報
-	 * @throws ParseException
 	 */
-	public UsageStatistics getUsageStatistics(boolean interpolateHour)
+	public UsageStatistics getUsageStatistics(boolean interpolateHour, boolean includeZeroHour)
 		throws ParseException
 	{
 		UsageStatistics statistics = new UsageStatistics();
+
+		// 曜日集計
 		DateTime pdatetime = null;
-		int continueHour = 0;
 		for (SmartData data : this)
 		{
 			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
-			if (!interpolateHour)
+			if (pdatetime == null ||
+				!(datetime.getYear() == pdatetime.getYear() &&
+				datetime.getMonth() == pdatetime.getMonth() &&
+				datetime.getDay() == pdatetime.getDay()))
 			{
-				// 補間しない
+				// 初めの日または異なる日
 
-				statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
-			}
-			statistics.countByDayOfWeek.put(datetime.getDayOfWeek(), statistics.countByDayOfWeek.get(datetime.getDayOfWeek()) + 1);
-			if (pdatetime != null)
-			{
-				// 前の値あり
-
-				int second = datetime.diff(pdatetime).getTotalSecond();
-				if ((second >= 3600) && ((second % 3600) < 10))
-				{
-					// 連続稼働しているとみなす
-
-					continueHour += second / 3600;
-				}
-				else
-				{
-					// 連続稼働しているとみなさない
-
-					if (interpolateHour)
-					{
-						// 補間する
-
-						DateTime datetime2 = pdatetime;
-						datetime2.add(- continueHour * 3600);
-						for (int i=0 ; i<continueHour ; i++)
-						{
-							datetime2.add(3600);
-							statistics.countByHour.put(datetime2.getHour(), statistics.countByHour.get(datetime2.getHour()) + 1);
-						}
-					}
-
-					statistics.countByContinuousRunning.put(continueHour, statistics.countByContinuousRunning.get(continueHour) + 1);
-					continueHour = 0;
-				}
-			}
-			else
-			{
-				// 前の値なし
-
-				if (interpolateHour)
-				{
-					// 補間する
-
-					statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
-				}
+				statistics.countByDayOfWeek.put(datetime.getDayOfWeek(), statistics.countByDayOfWeek.get(datetime.getDayOfWeek()) + 1);
 			}
 			pdatetime = datetime;
 		}
+
+		// 時間集計
+		pdatetime = null;
+		for (SmartData data : this)
+		{
+			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
+			if (pdatetime != null)
+			{
+				int diff = datetime.diff(pdatetime).getTotalSecond() + 3;
+				if (interpolateHour && (diff >= 3600 * 2) && (diff % 3600 < 6))
+				{
+					DateTime datetime2 = new DateTime(pdatetime);
+					for (int i=1 ; i<diff / 3600 ; i++)
+					{
+						datetime2.add(3600);
+						statistics.countByHour.put(datetime2.getHour(), statistics.countByHour.get(datetime2.getHour()) + 1);
+					}
+				}
+			}
+
+			if ((pdatetime == null) || (datetime.getHour() != pdatetime.getHour()))
+			{
+				// 初めの日または異なる時間
+
+				statistics.countByHour.put(datetime.getHour(), statistics.countByHour.get(datetime.getHour()) + 1);
+			}
+			pdatetime = datetime;
+		}
+
+		// 連続稼働計算
+		LinkedHashMap<Integer, Integer> countByContinuousRunning = new LinkedHashMap<>();
+		int continueHour = 0;
+		pdatetime = null;
+		int max = 0;
+		for (SmartData data : this)
+		{
+			DateTime datetime = DateTime.parseDateTimeString(data.getDateTime());
+			if (pdatetime == null)
+			{
+				// １個目のデータ
+
+				pdatetime = datetime;
+			}
+			else
+			{
+				// ２個目以降のデータ
+
+				int diff = datetime.diff(pdatetime).getTotalSecond() + 3;
+				if (diff % 3600 < 6)
+				{
+					// 連続とみなす
+
+					continueHour = diff / 3600;
+				}
+				else
+				{
+					// 非連続
+
+					if (!countByContinuousRunning.containsKey(continueHour))
+					{
+						countByContinuousRunning.put(continueHour, 0);
+						if (max < continueHour)
+						{
+							max = continueHour;
+						}
+					}
+					countByContinuousRunning.put(continueHour, countByContinuousRunning.get(continueHour) + 1);
+					continueHour = 0;
+					pdatetime = datetime;
+				}
+			}
+		}
+
+		for (int i=0 ; i<=max ; i++)
+		{
+			if ((i > 0) || includeZeroHour)
+			{
+				// ０時間より多いかカウントするか＝０時間をカウントしない場合ではない
+
+				if (countByContinuousRunning.containsKey(i))
+				{
+					// 値は存在する
+
+					statistics.countByContinuousRunning.put(i, countByContinuousRunning.get(i));
+				}
+				else
+				{
+					// 値は存在しない
+
+					statistics.countByContinuousRunning.put(i, 0);
+				}
+			}
+		}
+
 		return statistics;
 	}
 }

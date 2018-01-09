@@ -47,7 +47,8 @@
 			</s:form>
 			<s:form action="usagestatistics" theme="simple">
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<input type="hidden" name="interpolateHour" value="true">
+				<input type="checkbox" name="interpolateHour" checked>時間補完する
+				<input type="checkbox" name="includeZeroHour" checked>０時間を含める
 				<s:submit value="PC使用状況の統計情報表示" />
 			</s:form>
 

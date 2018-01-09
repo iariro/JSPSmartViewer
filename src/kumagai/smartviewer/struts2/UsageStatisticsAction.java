@@ -24,7 +24,8 @@ import kumagai.smartviewer.UsageStatistics;
 public class UsageStatisticsAction
 {
 	public String targetName;
-	public boolean interpolateHour;
+	public String interpolateHour;
+	public String includeZeroHour;
 	public UsageStatistics usageStatistics;
 
 	/**
@@ -66,7 +67,9 @@ public class UsageStatisticsAction
 		{
 			// データ取得できた
 
-			usageStatistics = smartDataList.getUsageStatistics(interpolateHour);
+			usageStatistics =
+				smartDataList.getUsageStatistics
+					(interpolateHour != null, includeZeroHour != null);
 
 			return "success";
 		}
