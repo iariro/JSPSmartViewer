@@ -20,6 +20,7 @@ import kumagai.smartviewer.SmartAttribute;
 import kumagai.smartviewer.SmartAttributeTable;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.SmartIdentifyFromSmartctl;
 import kumagai.smartviewer.SmartctlOutput;
 
 /**
@@ -121,6 +122,10 @@ public class DiskTopPageAction
 
 					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
 					smartAttributeList = smartctlOutput.getSmartAttributeList();
+					SmartIdentifyFromSmartctl smartIdentify = smartctlOutput.getSmartIdentify();
+					modelName = smartIdentify.modelName;
+					serialNumber = smartIdentify.serialNumber;
+					firmwareVersion = smartIdentify.firmwareVersion;
 				}
 
 				for (SmartAttribute attribute : smartAttributeList)

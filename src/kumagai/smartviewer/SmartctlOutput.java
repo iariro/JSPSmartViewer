@@ -19,6 +19,15 @@ public class SmartctlOutput
 	}
 
 	/**
+	 * SMART IDENTIFY情報を取得
+	 * @return SMART IDENTIFY情報を取得
+	 */
+	public SmartIdentifyFromSmartctl getSmartIdentify()
+	{
+		return new SmartIdentifyFromSmartctl(lines);
+	}
+
+	/**
 	 * 文字列から属性コレクションを生成
 	 * @return 属性コレクション
 	 */
