@@ -25,11 +25,11 @@ extends ArrayList<SmartThreshold>
 			if (!section)
 			{
 				// セクションに入っていない
-	
+
 				if (lines[i].equals("=== START OF READ SMART DATA SECTION ==="))
 				{
 					// セクションに入った
-	
+
 					section = true;
 					i += 3;
 				}
@@ -37,23 +37,23 @@ extends ArrayList<SmartThreshold>
 			else
 			{
 				// セクションに入った
-	
+
 				Matcher matcher = attributeLinePattern.matcher(lines[i]);
-	
+
 				if (matcher.matches())
 				{
 					// 属性値を含む文字列
-	
+
 					int id;
 					int value;
-	
+
 					id = Integer.valueOf(matcher.group(1));
 					value = Integer.valueOf(matcher.group(6));
-	
+
 					byte [] binary = new byte [12];
 					binary[ 0] = (byte)id;
 					binary[ 1] = (byte)value;
-	
+
 					add(new SmartThreshold(binary, 0));
 				}
 			}
