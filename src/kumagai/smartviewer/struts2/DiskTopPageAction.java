@@ -81,51 +81,63 @@ public class DiskTopPageAction
 
 				ArrayList<SmartAttribute> smartAttributeList = null;
 
-				String filename = filenames[filenames.length - 1];
-				File file = new File(target.path, filename);
-				FileInputStream stream = new FileInputStream(file);
-				int size = (int)file.length();
-				byte [] data = new byte [size];
-				stream.read(data);
-				stream.close();
-
-				if (target.type.equals("binary"))
+				for (int i=filenames.length-1 ; i>=0 ; i--)
 				{
-					// バイナリ
+					String filename = filenames[i];
+					File file = new File(target.path, filename);
+					FileInputStream stream = new FileInputStream(file);
+					int size = (int)file.length();
+					byte [] data = new byte [size];
+					stream.read(data);
+					stream.close();
 
-					// 最新を見る
-					SmartDataList smartDataList = new SmartDataList(data);
-
-					if (smartDataList.size() > 0)
+					if (target.type.equals("binary"))
 					{
-						SmartData smartData =
-							smartDataList.get(smartDataList.size() - 1);
+						// バイナリ
 
-						modelName = smartData.identify.getModelName();
-						serialNumber = smartData.identify.getSerialNumber();
-						firmwareVersion = smartData.identify.getFirmwareVersion();
-						smartAttributeList = smartData.attributes;
+						// 最新を見る
+						SmartDataList smartDataList = new SmartDataList(data);
+
+						if (smartDataList.size() > 0)
+						{
+							// SMART情報あり。
+
+							SmartData smartData =
+								smartDataList.get(smartDataList.size() - 1);
+
+							modelName = smartData.identify.getModelName();
+							serialNumber = smartData.identify.getSerialNumber();
+							firmwareVersion = smartData.identify.getFirmwareVersion();
+							smartAttributeList = smartData.attributes;
+						}
 					}
-				}
-				else
-				{
-					// smartctl出力
-
-					BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
-
-					String line;
-					ArrayList<String> lines = new ArrayList<String>();
-					while ((line = reader.readLine()) != null)
+					else
 					{
-						lines.add(line);
+						// smartctl出力
+
+						BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+
+						String line;
+						ArrayList<String> lines = new ArrayList<String>();
+						while ((line = reader.readLine()) != null)
+						{
+							lines.add(line);
+						}
+
+						SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
+						smartAttributeList = smartctlOutput.getSmartAttributeList();
+						SmartIdentifyFromSmartctl smartIdentify = smartctlOutput.getSmartIdentify();
+						modelName = smartIdentify.modelName;
+						serialNumber = smartIdentify.serialNumber;
+						firmwareVersion = smartIdentify.firmwareVersion;
 					}
 
-					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
-					smartAttributeList = smartctlOutput.getSmartAttributeList();
-					SmartIdentifyFromSmartctl smartIdentify = smartctlOutput.getSmartIdentify();
-					modelName = smartIdentify.modelName;
-					serialNumber = smartIdentify.serialNumber;
-					firmwareVersion = smartIdentify.firmwareVersion;
+					if (smartAttributeList.size() > 0)
+					{
+						// 属性情報あり。
+
+						break;
+					}
 				}
 
 				for (SmartAttribute attribute : smartAttributeList)

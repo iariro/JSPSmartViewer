@@ -79,49 +79,58 @@ public class CurrentListAction
 			{
 				// ファイルは１個でもある
 
-				String filename = filenames[filenames.length - 1];
-				File file = new File(target.path, filename);
-				FileInputStream stream = new FileInputStream(file);
-				int size = (int)file.length();
-				byte [] data = new byte [size];
-				stream.read(data);
-				stream.close();
-
-				if (target.type.equals("binary"))
+				for (int i=filenames.length-1 ; i>=0 ; i--)
 				{
-					// バイナリ
+					String filename = filenames[i];
+					File file = new File(target.path, filename);
+					FileInputStream stream = new FileInputStream(file);
+					int size = (int)file.length();
+					byte [] data = new byte [size];
+					stream.read(data);
+					stream.close();
 
-					SmartDataList smartDataList = new SmartDataList(data);
-
-					if (smartDataList.size() > 0)
+					if (target.type.equals("binary"))
 					{
-						// データは１件でもある
+						// バイナリ
 
-						SmartData smartData =
-							smartDataList.get(smartDataList.size() - 1);
-						datetime = smartData.getDateTime();
-						attributes = smartData.geSmartAttributeAndThresholdList();
-						errorLog = smartData.errorLog;
+						SmartDataList smartDataList = new SmartDataList(data);
+
+						if (smartDataList.size() > 0)
+						{
+							// データは１件でもある
+
+							SmartData smartData =
+								smartDataList.get(smartDataList.size() - 1);
+							datetime = smartData.getDateTime();
+							attributes = smartData.geSmartAttributeAndThresholdList();
+							errorLog = smartData.errorLog;
+						}
 					}
-				}
-				else
-				{
-					// smartctl
-
-					BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
-
-					String line;
-					ArrayList<String> lines = new ArrayList<String>();
-					while ((line = reader.readLine()) != null)
+					else
 					{
-						lines.add(line);
+						// smartctl
+
+						BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data)));
+
+						String line;
+						ArrayList<String> lines = new ArrayList<String>();
+						while ((line = reader.readLine()) != null)
+						{
+							lines.add(line);
+						}
+
+						SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
+						ArrayList<SmartAttribute> smartAttributeList = smartctlOutput.getSmartAttributeList();
+						ArrayList<SmartThreshold> smartThresholdList = smartctlOutput.getSmartThresholdList();
+						attributes = new SmartAttributeAndThresholdList(smartAttributeList, smartThresholdList);
+						datetime = StringUtility.convertDateTimeFilename(filename);
 					}
 
-					SmartctlOutput smartctlOutput = new SmartctlOutput(lines.toArray(new String [0]));
-					ArrayList<SmartAttribute> smartAttributeList = smartctlOutput.getSmartAttributeList();
-					ArrayList<SmartThreshold> smartThresholdList = smartctlOutput.getSmartThresholdList();
-					attributes = new SmartAttributeAndThresholdList(smartAttributeList, smartThresholdList);
-					datetime = StringUtility.convertDateTimeFilename(filename);
+					if (attributes.size() > 0)
+					{
+						// 属性あり。
+						break;
+					}
 				}
 			}
 
