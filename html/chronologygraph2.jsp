@@ -23,6 +23,7 @@
 				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
 				title: {text: 'S.M.A.R.T. - <s:property value='targetName' />'},
 				xAxis: {title: null, type: 'datetime'},
+				plotOptions: {series:{marker:{enabled:true}}},
 				<s:if test='%{mode.equals("ascending") && scaling != null}'>yAxis: {max: 1000},</s:if>
 				series: [ <s:property value='chartPointLists' /> ]
 			};
