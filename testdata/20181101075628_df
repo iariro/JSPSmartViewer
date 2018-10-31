@@ -1,0 +1,7 @@
+Filesystem    512-blocks      Used Available Capacity iused               ifree %iused  Mounted on
+/dev/disk1s1   236568496 211846568  12933272    95% 1071588 9223372036853704219    0%   /
+devfs                395       395         0   100%     685                   0  100%   /dev
+/dev/disk1s4   236568496  10486392  12933272    45%       5 9223372036854775802    0%   /private/var/vm
+map -hosts             0         0         0   100%       0                   0  100%   /net
+map auto_home          0         0         0   100%       0                   0  100%   /home
+/dev/disk4s2    14006208  10850272   3155936    78%      12          4294967267    0%   /Volumes/InstallESD
