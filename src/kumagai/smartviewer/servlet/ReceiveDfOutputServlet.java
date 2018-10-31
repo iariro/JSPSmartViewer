@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import ktool.datetime.DateTime;
 
 /**
- * smartctlの出力POSTの受付
+ * dfの出力POSTの受付
  */
-public class ReceiveSmartctlOutputServlet
+public class ReceiveDfOutputServlet
 	extends HttpServlet
 {
 	/**
@@ -30,7 +30,7 @@ public class ReceiveSmartctlOutputServlet
 		DateTime now = new DateTime();
 		String filename =
 			String.format(
-				"%04d%02d%02d%02d%02d%02d_smartctl",
+				"%04d%02d%02d%02d%02d%02d_df",
 				now.getYear(),
 				now.getMonth(),
 				now.getDay(),
