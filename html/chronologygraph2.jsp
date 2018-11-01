@@ -13,23 +13,25 @@
 	</head>
 
 	<body>
-		<div id="chart" style="width:1300px; height:700px"></div>
-		<script type="text/javascript">
-		function draw()
-		{
-			Highcharts.setOptions({ global: { useUTC: false } });
-			options =
+		<s:iterator value="chartPointLists">
+			<div id="chart_<s:property value='key' />" style="width:1300px; height:700px"></div>
+			<script type="text/javascript">
+			function draw()
 			{
-				chart: {renderTo: 'chart', zoomType:'xy', plotBackgroundColor: 'lightgray'},
-				title: {text: 'S.M.A.R.T. - <s:property value='targetName' />'},
-				xAxis: {title: null, type: 'datetime'},
-				plotOptions: {series:{marker:{enabled:true}}},
-				<s:if test='%{mode.equals("ascending") && scaling != null}'>yAxis: {max: 1000},</s:if>
-				series: [ <s:property value='chartPointLists' /> ]
+				Highcharts.setOptions({ global: { useUTC: false } });
+				options =
+				{
+					chart: {renderTo: "chart_<s:property value='key' />", zoomType:'xy', plotBackgroundColor: 'lightgray'},
+					title: {text: 'S.M.A.R.T. - <s:property value='targetName' /> <s:property value='key' />'},
+					xAxis: {title: null, type: 'datetime'},
+					plotOptions: {series:{marker:{enabled:true}}},
+					<s:if test='%{mode.equals("ascending") && scaling != null}'>yAxis: {max: 1000},</s:if>
+					series: [ <s:property value='value' /> ]
+				};
+				chart = new Highcharts.Chart(options);
 			};
-			chart = new Highcharts.Chart(options);
-		};
-		document.body.onload = draw();
-		</script>
+			document.body.onload = draw();
+			</script>
+		</s:iterator>
 	</body>
 </html>

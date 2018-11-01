@@ -88,24 +88,24 @@ public class ViewTarget
 				ArrayList<String> smartctlFiles = new ArrayList<>();
 				for (String filename : filenames)
 				{
-					if (filename.endsWith("_smartctl"))
+					if (filename.length() == 14 ||
+						filename.endsWith("_smartctl"))
 					{
 						smartctlFiles.add(filename);
 					}
 				}
 
 				Collections.sort(smartctlFiles);
-				for (int i=0 ; i<filenames.length && (filenumlimit == null || i<filenumlimit) ;i++)
+				for (int i=0 ; i<smartctlFiles.size() && (filenumlimit == null || i<filenumlimit) ;i++)
 				{
 					int index = i;
-					if ((filenumlimit != null) && (filenames.length > filenumlimit))
+					if ((filenumlimit != null) && (smartctlFiles.size() > filenumlimit))
 					{
 						// リミットの指定あり、リミットを上回る。
 
-						index = filenames.length - filenumlimit + i;
+						index = smartctlFiles.size() - filenumlimit + i;
 					}
-					String smartctlFilename = filenames[index];
-					String dfFilename = smartctlFilename.replace("smartctl", "df");
+					String smartctlFilename = smartctlFiles.get(index);
 
 					File smartctlFile = new File(path, smartctlFilename);
 					String [] lines = FileUtility.readAllLines(smartctlFile);
@@ -113,11 +113,20 @@ public class ViewTarget
 					ArrayList<SmartAttribute> attributes = smartctlOutput.getSmartAttributeList();
 
 					DriveSizeListFromDf driveSizeArray = null;
-					File dfFile = new File(path, dfFilename);
-					if (dfFile.exists())
+					if (smartctlFilename.endsWith("_smartctl"))
 					{
-						lines = FileUtility.readAllLines(dfFile);
-						driveSizeArray = new DriveSizeListFromDf(lines);
+						// dfとペアのファイル名
+
+						String dfFilename = smartctlFilename.replace("smartctl", "df");
+						File dfFile = new File(path, dfFilename);
+
+						if (dfFile.exists())
+						{
+							// dfファイルあり
+
+							lines = FileUtility.readAllLines(dfFile);
+							driveSizeArray = new DriveSizeListFromDf(lines);
+						}
 					}
 
 					smartDataList.add(new SmartData(smartctlFilename, attributes, driveSizeArray));

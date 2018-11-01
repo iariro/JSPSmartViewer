@@ -57,7 +57,6 @@
 			<s:form action="drivesizegraph" theme="simple" name="graphform0">
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<input type="text" name="driveLetter" value="C" size="2">
 				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
 				<s:submit value="ドライブサイズの遷移" />
 			</s:form>

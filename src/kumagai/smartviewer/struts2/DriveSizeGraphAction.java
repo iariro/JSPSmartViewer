@@ -2,6 +2,7 @@ package kumagai.smartviewer.struts2;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.xml.transform.OutputKeys;
@@ -17,9 +18,9 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.ChronologyGraph;
+import kumagai.smartviewer.DriveSize;
 import kumagai.smartviewer.SmartDataList;
 import kumagai.smartviewer.SmartGraphDocument;
-import kumagai.smartviewer.SmartGraphDocumentPointList;
 
 /**
  * ドライブサイズグラフ表示アクション。
@@ -39,8 +40,7 @@ public class DriveSizeGraphAction
 	public String graphType;
 
 	public SmartGraphDocument document;
-	public String chartPointLists;
-	public String driveLetter;
+	public LinkedHashMap<String,String> chartPointLists;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -97,34 +97,28 @@ public class DriveSizeGraphAction
 		{
 			// 必要なパラメータは指定されている
 
-			smartDataList = target.loadSmartDataList(filenumlimit);
+			smartDataList = target.loadSmartDataList2(filenumlimit);
 		}
 
 		if (smartDataList != null)
 		{
 			// データ取得できた
 
-			if (graphType.equals("SVG"))
+			ArrayList<String> paritions = new ArrayList<>();
+			ArrayList<DriveSize> driveSize = smartDataList.get(smartDataList.size() - 1).driveSizeArray;
+			if (driveSize != null)
 			{
-				// SVG
-
-				ArrayList<SmartGraphDocumentPointList> smartGraphDocumentPointLists =
-					new ArrayList<SmartGraphDocumentPointList>();
-				document = new SmartGraphDocument(smartGraphDocumentPointLists);
-
-				return "graph1";
+				for (DriveSize size : driveSize)
+				{
+					paritions.add(size.partition);
+				}
 			}
-			else if (graphType.equals("HighCharts"))
-			{
-				// HighCharts
 
-				StringBuffer chartPointLists =
-					ChronologyGraph.createDriveSizeHighChartsPoints(smartDataList, driveLetter);
+			chartPointLists =
+				ChronologyGraph.createDriveSizeHighChartsPoints
+					(smartDataList, paritions);
 
-				this.chartPointLists = chartPointLists.toString();
-
-				return "graph2";
-			}
+			return "graph2";
 		}
 
 		return "error";

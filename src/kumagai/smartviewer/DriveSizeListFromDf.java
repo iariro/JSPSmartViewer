@@ -20,7 +20,8 @@ public class DriveSizeListFromDf
 	static public void main(String[] args)
 		throws IOException
 	{
-		ArrayList<DriveSize> driveSizes = new DriveSizeListFromDf(FileUtility.readAllLines(new File("testdata/20181101075628_df")));
+		ArrayList<DriveSize> driveSizes =
+			new DriveSizeListFromDf(FileUtility.readAllLines(new File("testdata/20181101075628_df")));
 
 		for (DriveSize driveSize : driveSizes)
 		{
@@ -53,8 +54,8 @@ public class DriveSizeListFromDf
 				// 値の行
 
 				long total = Long.valueOf(matcher.group(2)) * blockSize;
-				long used = Long.valueOf(matcher.group(3)) * blockSize;
-				add(new DriveSize(matcher.group(1), total, used));
+				long free = Long.valueOf(matcher.group(4)) * blockSize;
+				add(new DriveSize(matcher.group(1), total, free));
 			}
 		}
 	}

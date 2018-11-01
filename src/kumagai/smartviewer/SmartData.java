@@ -58,7 +58,7 @@ public class SmartData
 	public SmartData(String datetimeString, ArrayList<SmartAttribute> attributes, DriveSizeListFromDf driveSizeArray)
 	{
 		datetime = new byte [16];
-		byte [] datetime2 = datetimeString.getBytes();
+		byte [] datetime2 = datetimeString.substring(0, 14).getBytes();
 		System.arraycopy(datetime2, 0, datetime, 0, datetime2.length);
 		this.attributes = attributes;
 		this.driveSizeArray = driveSizeArray;

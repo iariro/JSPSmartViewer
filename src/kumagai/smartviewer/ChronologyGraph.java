@@ -10,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
@@ -165,7 +167,15 @@ public class ChronologyGraph
 		{
 			// HighCharts
 
-			StringBuffer chartPointLists = createDriveSizeHighChartsPoints(points, "C");
+			ArrayList<String> partition = new ArrayList<>();
+			partition.add("C");
+			LinkedHashMap<String,String> chartPointLists2 = createDriveSizeHighChartsPoints(points, partition);
+			String chartPointLists = null;
+			for (Entry<String, String> element : chartPointLists2.entrySet())
+			{
+				chartPointLists = element.getValue();
+				break;
+			}
 
 			// HTML出力
 			String replaceTargetName = "<s:property value='targetName' />";
@@ -189,7 +199,7 @@ public class ChronologyGraph
 					}
 					else if (line.indexOf(replaceTargetPoints) >= 0)
 					{
-						line = line.replace(replaceTargetPoints, chartPointLists.toString());
+						line = line.replace(replaceTargetPoints, chartPointLists);
 						replaceFlag |= 2;
 					}
 					else if (line.indexOf(replaceTargetIf) >= 0)
@@ -300,63 +310,67 @@ public class ChronologyGraph
 	/**
 	 * Highcharts用にドライブサイズの座標データ文字列を生成
 	 * @param smartDataList SMARTデータのリスト
+	 * @param partitions パーティション名
 	 * @return Highcharts用座標データ文字列
 	 */
-	static public StringBuffer createDriveSizeHighChartsPoints(SmartDataList smartDataList, String driveLetter)
+	static public LinkedHashMap<String, String> createDriveSizeHighChartsPoints
+		(SmartDataList smartDataList, ArrayList<String> partitions)
 	{
-		StringBuffer chartPointLists = new StringBuffer();
+		LinkedHashMap<String, String> pointsList = new LinkedHashMap<String, String>();
 
-		ChartPointList chartPointList = new ChartPointList("Used size");
-		for (SmartData smartData : smartDataList)
+		for (String partition : partitions)
 		{
-			if (smartData.driveSizeArray != null)
+			StringBuffer chartPointLists = new StringBuffer();
+
+			ChartPointList chartPointList = new ChartPointList("Used size");
+			for (SmartData smartData : smartDataList)
 			{
-				// ドライブサイズ情報あり
-
-				for (DriveSize driveSize : smartData.driveSizeArray)
+				if (smartData.driveSizeArray != null)
 				{
-					if (driveSize.driveLetter.equals(driveLetter))
-					{
-						// 対象のドライブ
+					// ドライブサイズ情報あり
 
-						long usedSize = driveSize.totalSize - driveSize.freeSize;
-						chartPointList.put(smartData.getDateTime(), usedSize);
-						break;
+					for (DriveSize driveSize : smartData.driveSizeArray)
+					{
+						if (driveSize.partition.equals(partition))
+						{
+							// 対象のドライブ
+
+							long usedSize = driveSize.totalSize - driveSize.freeSize;
+							chartPointList.put(smartData.getDateTime(), usedSize);
+							break;
+						}
 					}
 				}
 			}
-		}
-		chartPointLists.append(chartPointList.toString());
-
-		if (chartPointLists.length() > 0)
-		{
-			// ２個目以降
+			chartPointLists.append(chartPointList.toString());
 
 			chartPointLists.append(",");
-		}
 
-		chartPointList = new ChartPointList("Total size");
-		for (SmartData smartData : smartDataList)
-		{
-			if (smartData.driveSizeArray != null)
+			chartPointList = new ChartPointList("Total size");
+			for (SmartData smartData : smartDataList)
 			{
-				// ドライブサイズ情報あり
-
-				for (DriveSize driveSize : smartData.driveSizeArray)
+				if (smartData.driveSizeArray != null)
 				{
-					if (driveSize.driveLetter.equals(driveLetter))
-					{
-						// 対象のドライブ
+					// ドライブサイズ情報あり
 
-						chartPointList.put(smartData.getDateTime(), driveSize.totalSize);
-						break;
+					for (DriveSize driveSize : smartData.driveSizeArray)
+					{
+						if (driveSize.partition.equals(partition))
+						{
+							// 対象のドライブ
+
+							chartPointList.put(smartData.getDateTime(), driveSize.totalSize);
+							break;
+						}
 					}
 				}
 			}
+
+			chartPointLists.append(chartPointList.toString());
+			pointsList.put(partition, chartPointLists.toString());
 		}
 
-		chartPointLists.append(chartPointList.toString());
-		return chartPointLists;
+		return pointsList;
 	}
 
 	/**

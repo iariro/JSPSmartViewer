@@ -2,6 +2,7 @@ package kumagai.smartviewer.struts2;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.xml.transform.OutputKeys;
@@ -42,7 +43,7 @@ public class ChronologyGraphAction
 	public String graphType;
 	public String field;
 	public SmartGraphDocument document;
-	public String chartPointLists;
+	public LinkedHashMap<String, String> chartPointLists = new LinkedHashMap<>();
 	public String message;
 	public int filenumlimit;
 	public String scaling;
@@ -160,7 +161,7 @@ public class ChronologyGraphAction
 					ChronologyGraph.createHighChartsPoints
 						(ids, smartDataList, smartFieldGetter, scaling != null);
 
-				this.chartPointLists = chartPointLists.toString();
+				this.chartPointLists.put(target.name, chartPointLists.toString());
 
 				return "graph2";
 			}
