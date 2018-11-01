@@ -53,13 +53,15 @@ public class SmartData
 	 * SMARTデータ一式を構築
 	 * @param datetimeString yyyymmddhhmmss形式の日付
 	 * @param attributes 属性
+	 * @param driveSizeArray ドライブサイズリスト
 	 */
-	public SmartData(String datetimeString, ArrayList<SmartAttribute> attributes)
+	public SmartData(String datetimeString, ArrayList<SmartAttribute> attributes, DriveSizeListFromDf driveSizeArray)
 	{
 		datetime = new byte [16];
 		byte [] datetime2 = datetimeString.getBytes();
 		System.arraycopy(datetime2, 0, datetime, 0, datetime2.length);
 		this.attributes = attributes;
+		this.driveSizeArray = driveSizeArray;
 	}
 
 	/**
