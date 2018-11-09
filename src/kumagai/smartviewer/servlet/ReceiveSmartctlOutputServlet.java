@@ -28,15 +28,16 @@ public class ReceiveSmartctlOutputServlet
 		String outputPath =
 			getServletContext().getInitParameter("SmartctlOutputPath");
 		DateTime now = new DateTime();
-		String filename =
+		String datetime =
 			String.format(
-				"%04d%02d%02d%02d%02d%02d_smartctl",
+				"%04d%02d%02d%02d%02d%02d",
 				now.getYear(),
 				now.getMonth(),
 				now.getDay(),
 				now.getHour(),
 				now.getMinute(),
 				now.getSecond());
+		String filename = String.format("%s_smartctl", datetime);
 		File file = new File(outputPath, filename);
 		FileWriter writer = new FileWriter(file);
 		PrintWriter stream = new PrintWriter(writer);
@@ -49,6 +50,6 @@ public class ReceiveSmartctlOutputServlet
 
 		stream.close();
 
-		response.getWriter().printf("<html><body>%s OK</body></html>", file.toString());
+		response.getWriter().printf(datetime);
 	}
 }

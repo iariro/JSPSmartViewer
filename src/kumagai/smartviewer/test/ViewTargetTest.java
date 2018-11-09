@@ -2,7 +2,11 @@ package kumagai.smartviewer.test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
+import kumagai.smartviewer.ChronologyGraph;
 import kumagai.smartviewer.DriveSize;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
@@ -13,14 +17,38 @@ public class ViewTargetTest
 	public static void main(String[] args)
 		throws FileNotFoundException, IOException
 	{
-		ViewTarget viewTarget = new ViewTarget("testdata", "smartctl", "test");
+		ViewTarget viewTarget = new ViewTarget("C:/ProgramData/SMARTLogger/smart_ApartMac", "smartctl", "test");
 		SmartDataList smartDataList = viewTarget.loadSmartDataList2(10);
-		for (SmartData smartData : smartDataList)
+		if (smartDataList != null)
 		{
-			System.out.println(smartData.getDateTime());
-			for(DriveSize size : smartData.driveSizeArray)
+			// データ取得できた
+
+			for (SmartData smart : smartDataList)
 			{
-				System.out.printf("\t%s\n", size);
+				System.out.printf("%s %s\n", smart.getDateTime(), smart.driveSizeArray);
+			}
+
+			ArrayList<String> paritions = new ArrayList<>();
+			for (int i=smartDataList.size() - 1 ; i>=0 ; i--)
+			{
+				ArrayList<DriveSize> driveSize = smartDataList.get(i).driveSizeArray;
+				if (driveSize != null)
+				{
+					for (DriveSize size : driveSize)
+					{
+						paritions.add(size.partition);
+					}
+					break;
+				}
+			}
+			System.out.println(paritions);
+
+			LinkedHashMap<String,String> sizes =
+				ChronologyGraph.createDriveSizeHighChartsPoints
+					(smartDataList, paritions);
+			for (Entry<String, String> size : sizes.entrySet())
+			{
+				System.out.println(size.getKey());
 			}
 		}
 	}
