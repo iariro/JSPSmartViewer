@@ -413,10 +413,10 @@ public class SmartDataList
 				{
 					// 初出
 
-					rawBitCountList.put(attribute.getId(), new int [8 * 6]);
+					rawBitCountList.put(attribute.getId(), new int [8 * 7]);
 				}
 
-				for (int i=0 ; i<6 ; i++)
+				for (int i=0 ; i<7 ; i++)
 				{
 					for (int j=0 ; j<8 ; j++)
 					{

@@ -1,5 +1,6 @@
 package kumagai.smartviewer.struts2;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -27,7 +28,7 @@ import kumagai.smartviewer.SmartDataList;
 public class SmartRawBitCountAction
 {
 	public String targetName;
-	public LinkedHashMap<String, String> rawBitCount = new LinkedHashMap<>();
+	public ArrayList<SmartRawBitCount> rawBitCount = new ArrayList<>();
 
 	/**
 	 * SMART RAW値のビット集計アクション。
@@ -64,12 +65,18 @@ public class SmartRawBitCountAction
 			LinkedHashMap<Integer, int[]> rawBitCount = smartDataList.getRawBitCount();
 			for (Entry<Integer, int[]> attribute : rawBitCount.entrySet())
 			{
-				String counts = new String();
-				for (int count : attribute.getValue())
+				StringBuffer json = new StringBuffer();
+				json.append(String.format("{name: '%s', data:[", attribute.getKey()));
+				for (int i=0 ; i<attribute.getValue().length ; i++)
 				{
-					counts += String.format(" %d", count);
+					if (i > 0)
+					{
+						json.append(",");
+					}
+					json.append(String.format("%d", attribute.getValue()[i]));
 				}
-				this.rawBitCount.put(SmartAttributeTable.getName(attribute.getKey()), counts);
+				json.append(String.format("]}"));
+				this.rawBitCount.add(new SmartRawBitCount(attribute.getKey(), SmartAttributeTable.getName(attribute.getKey()), json.toString()));
 			}
 		}
 
