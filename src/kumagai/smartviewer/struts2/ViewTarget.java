@@ -14,6 +14,7 @@ import kumagai.smartviewer.SmartAttribute;
 import kumagai.smartviewer.SmartData;
 import kumagai.smartviewer.SmartDataList;
 import kumagai.smartviewer.SmartIdentifyFromSmartctl;
+import kumagai.smartviewer.SmartThreshold;
 import kumagai.smartviewer.SmartctlOutput;
 
 /**
@@ -113,6 +114,7 @@ public class ViewTarget
 					SmartctlOutput smartctlOutput = new SmartctlOutput(lines);
 					SmartIdentifyFromSmartctl smartIdentify = smartctlOutput.getSmartIdentify();
 					ArrayList<SmartAttribute> attributes = smartctlOutput.getSmartAttributeList();
+					ArrayList<SmartThreshold> thresholds = smartctlOutput.getSmartThresholdList();
 
 					DriveSizeListFromDf driveSizeArray = null;
 					if (smartctlFilename.endsWith("_smartctl"))
@@ -131,7 +133,7 @@ public class ViewTarget
 						}
 					}
 
-					smartDataList.add(new SmartData(smartctlFilename, smartIdentify, attributes, driveSizeArray));
+					smartDataList.add(new SmartData(smartctlFilename, smartIdentify, attributes, thresholds, driveSizeArray));
 				}
 			}
 		}

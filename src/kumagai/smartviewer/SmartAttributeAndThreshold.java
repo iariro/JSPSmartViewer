@@ -61,7 +61,7 @@ public class SmartAttributeAndThreshold
 		return attribute.getRawValueDump();
 	}
 
-	public int threshold;
+	public Integer threshold;
 
 	/**
 	 * 属性値・しきい値の組を構築
@@ -71,6 +71,10 @@ public class SmartAttributeAndThreshold
 	public SmartAttributeAndThreshold(SmartAttribute attribute, SmartThreshold threshold)
 	{
 		this.attribute = attribute;
-		this.threshold = threshold.getValue();
+
+		if (threshold != null)
+		{
+			this.threshold = threshold.getValue();
+		}
 	}
 }

@@ -41,7 +41,7 @@
 					</tr>
 				</s:iterator>
 			</table>
-			エラーログ：<s:property value="errorLog.errorCount" />件<br>
+			エラーログ：<s:if test="%{errorLog != null}"><s:property value="errorLog.errorCount" />件</s:if><s:else>-</s:else><br>
 
 		</div>
 		</div>

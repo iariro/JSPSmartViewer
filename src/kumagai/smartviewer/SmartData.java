@@ -54,10 +54,14 @@ public class SmartData
 	/**
 	 * SMARTデータ一式を構築
 	 * @param datetimeString yyyymmddhhmmss形式の日付
+	 * @param identify IDENTIFY情報
 	 * @param attributes 属性
+	 * @param thresholds しきい値
 	 * @param driveSizeArray ドライブサイズリスト
 	 */
-	public SmartData(String datetimeString, SmartIdentifyFromSmartctl identify, ArrayList<SmartAttribute> attributes, DriveSizeListFromDf driveSizeArray)
+	public SmartData(String datetimeString, SmartIdentifyFromSmartctl identify,
+		ArrayList<SmartAttribute> attributes, ArrayList<SmartThreshold> thresholds,
+		DriveSizeListFromDf driveSizeArray)
 	{
 		datetime = new byte [16];
 		byte [] datetime2 = datetimeString.substring(0, 14).getBytes();
@@ -66,6 +70,7 @@ public class SmartData
 		this.firmwareVersion = identify.firmwareVersion;
 		System.arraycopy(datetime2, 0, datetime, 0, datetime2.length);
 		this.attributes = attributes;
+		this.thresholds = thresholds;
 		this.driveSizeArray = driveSizeArray;
 	}
 

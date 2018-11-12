@@ -15,17 +15,20 @@ public class SmartAttributeAndThresholdList
 	 */
 	public SmartAttributeAndThresholdList(ArrayList<SmartAttribute> attributes, ArrayList<SmartThreshold> thresholds)
 	{
-		if (attributes.size() == thresholds.size())
+		if (attributes != null && thresholds != null)
 		{
-			// 数は同じ
-
-			for (int i=0 ; i<attributes.size() ; i++)
+			if (attributes.size() == thresholds.size())
 			{
-				if (attributes.get(i).getId() == thresholds.get(i).getId())
-				{
-					// 属性は同じ
+				// 数は同じ
 
-					add(new SmartAttributeAndThreshold(attributes.get(i), thresholds.get(i)));
+				for (int i=0 ; i<attributes.size() ; i++)
+				{
+					if (attributes.get(i).getId() == thresholds.get(i).getId())
+					{
+						// 属性は同じ
+
+						add(new SmartAttributeAndThreshold(attributes.get(i), thresholds.get(i)));
+					}
 				}
 			}
 		}
