@@ -396,4 +396,41 @@ public class SmartDataList
 
 		return statistics;
 	}
+
+	/**
+	 * Raw部分のbit=1の数を集計する。
+	 * @return Raw部分のbit=1の数の集計
+	 */
+	public LinkedHashMap<Integer, int []> getRawBitCount()
+	{
+		LinkedHashMap<Integer, int []> rawBitCountList = new LinkedHashMap<>();
+
+		for (SmartData smartData : this)
+		{
+			for (SmartAttribute attribute : smartData.attributes)
+			{
+				if (!rawBitCountList.containsKey(attribute.getId()))
+				{
+					// 初出
+
+					rawBitCountList.put(attribute.getId(), new int [8 * 6]);
+				}
+
+				for (int i=0 ; i<6 ; i++)
+				{
+					for (int j=0 ; j<8 ; j++)
+					{
+						if (attribute.getBit(5 + i, j))
+						{
+							// bit=1
+
+							rawBitCountList.get(attribute.getId())[i * 8 + j]++;
+						}
+					}
+				}
+			}
+		}
+
+		return rawBitCountList;
+	}
 }

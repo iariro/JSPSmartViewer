@@ -108,4 +108,13 @@ public class SmartAttribute
 		}
 		return string;
 	}
+
+	/**
+	 * 指定のbitを取得
+	 * @return bit値
+	 */
+	public boolean getBit(int byteIndex, int bit)
+	{
+		return (data[byteIndex] & (1 << bit)) > 0;
+	}
 }

@@ -97,7 +97,7 @@ public class DriveSizeGraphAction
 		{
 			// 必要なパラメータは指定されている
 
-			smartDataList = target.loadSmartDataList2(filenumlimit);
+			smartDataList = target.loadSmartDataList(filenumlimit);
 		}
 
 		if (smartDataList != null)

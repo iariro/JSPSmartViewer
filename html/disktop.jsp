@@ -86,6 +86,13 @@
 				<s:submit value="属性値の遷移" />
 			</s:form>
 
+			<h2>RAWビットカウント</h2>
+			<br>
+			<s:form action="smartrawbitcount" theme="simple">
+				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
+				<s:submit />
+			</s:form>
+
 		</div>
 		</div>
 		</div>

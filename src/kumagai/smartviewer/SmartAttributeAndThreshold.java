@@ -5,12 +5,62 @@ package kumagai.smartviewer;
  */
 public class SmartAttributeAndThreshold
 {
-	public int id;
-	public String attributeName;
-	public int current;
-	public int worst;
-	public long rawValue;
-	public String rawValueDump;
+	public SmartAttribute attribute;
+
+	/**
+	 * 属性IDを取得
+	 * @return 属性ID
+	 */
+	public int getId()
+	{
+		return attribute.getId();
+	}
+
+	/**
+	 * 属性名を取得
+	 * @return 属性名
+	 */
+	public String getAttributeName()
+	{
+		return attribute.getAttributeName();
+	}
+
+	/**
+	 * カレント値を取得
+	 * @return カレント値
+	 */
+	public int getCurrent()
+	{
+		return attribute.getCurrent();
+	}
+
+	/**
+	 * ワースト値を取得
+	 * @return ワースト値
+	 */
+	public int getWorst()
+	{
+		return attribute.getWorst();
+	}
+
+	/**
+	 * RAW値を取得
+	 * @return RAW値
+	 */
+	public long getRawValue()
+	{
+		return attribute.getRawValue();
+	}
+
+	/**
+	 * RAW値の16進ダンプを取得
+	 * @return RAW値の16進ダンプ
+	 */
+	public String getRawValueDump()
+	{
+		return attribute.getRawValueDump();
+	}
+
 	public int threshold;
 
 	/**
@@ -20,12 +70,7 @@ public class SmartAttributeAndThreshold
 	 */
 	public SmartAttributeAndThreshold(SmartAttribute attribute, SmartThreshold threshold)
 	{
-		this.id = attribute.getId();
-		this.attributeName = attribute.getAttributeName();
-		this.current = attribute.getCurrent();
-		this.worst = attribute.getWorst();
-		this.rawValue = attribute.getRawValue();
-		this.rawValueDump = attribute.getRawValueDump();
+		this.attribute = attribute;
 		this.threshold = threshold.getValue();
 	}
 }

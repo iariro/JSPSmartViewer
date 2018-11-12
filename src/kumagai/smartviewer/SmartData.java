@@ -43,7 +43,9 @@ public class SmartData
 
 	byte [] datetime;
 	public ArrayList<DriveSize> driveSizeArray;
-	public IdentifySector identify;
+	public String modelName;
+	public String serialNumber;
+	public String firmwareVersion;
 	public ArrayList<SmartAttribute> attributes;
 	public ArrayList<SmartThreshold> thresholds;
 	public SmartErrorLog errorLog;
@@ -55,10 +57,13 @@ public class SmartData
 	 * @param attributes 属性
 	 * @param driveSizeArray ドライブサイズリスト
 	 */
-	public SmartData(String datetimeString, ArrayList<SmartAttribute> attributes, DriveSizeListFromDf driveSizeArray)
+	public SmartData(String datetimeString, SmartIdentifyFromSmartctl identify, ArrayList<SmartAttribute> attributes, DriveSizeListFromDf driveSizeArray)
 	{
 		datetime = new byte [16];
 		byte [] datetime2 = datetimeString.substring(0, 14).getBytes();
+		this.modelName = identify.modelName;
+		this.serialNumber = identify.serialNumber;
+		this.firmwareVersion = identify.firmwareVersion;
 		System.arraycopy(datetime2, 0, datetime, 0, datetime2.length);
 		this.attributes = attributes;
 		this.driveSizeArray = driveSizeArray;
@@ -94,7 +99,10 @@ public class SmartData
 			{
 				// IDENTIFY
 
-				identify = new IdentifySector(data, offset + 12);
+				IdentifySector identify = new IdentifySector(data, offset + 12);
+				modelName = identify.getModelName();
+				serialNumber = identify.getSerialNumber();
+				firmwareVersion = identify.getFirmwareVersion();
 			}
 			else if ((type1 == 10) && ((type2 & 0xffff00) == 0xd0b000))
 			{

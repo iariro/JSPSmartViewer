@@ -17,8 +17,8 @@ public class ViewTargetTest
 	public static void main(String[] args)
 		throws FileNotFoundException, IOException
 	{
-		ViewTarget viewTarget = new ViewTarget("C:/ProgramData/SMARTLogger/smart_ApartMac", "smartctl", "test", "note");
-		SmartDataList smartDataList = viewTarget.loadSmartDataList2(10);
+		ViewTarget viewTarget = new ViewTarget("C:/ProgramData/SMARTLogger/smart_Apart_Mac", "smartctl", "test", "note");
+		SmartDataList smartDataList = viewTarget.loadSmartDataList(10);
 		if (smartDataList != null)
 		{
 			// データ取得できた
@@ -49,6 +49,17 @@ public class ViewTargetTest
 			for (Entry<String, String> size : sizes.entrySet())
 			{
 				System.out.println(size.getKey());
+			}
+
+			LinkedHashMap<Integer,int[]> rawBitCount = smartDataList.getRawBitCount();
+			for(Entry<Integer, int[]> attribute : rawBitCount.entrySet())
+			{
+				System.out.printf("#%d :", attribute.getKey());
+				for (int count : attribute.getValue())
+				{
+					System.out.printf(" %d", count);
+				}
+				System.out.println();
 			}
 		}
 	}
