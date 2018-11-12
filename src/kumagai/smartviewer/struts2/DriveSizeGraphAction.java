@@ -105,12 +105,16 @@ public class DriveSizeGraphAction
 			// データ取得できた
 
 			ArrayList<String> paritions = new ArrayList<>();
-			ArrayList<DriveSize> driveSize = smartDataList.get(smartDataList.size() - 1).driveSizeArray;
-			if (driveSize != null)
+			for (int i=smartDataList.size() - 1 ; i>=0 ; i--)
 			{
-				for (DriveSize size : driveSize)
+				ArrayList<DriveSize> driveSize = smartDataList.get(i).driveSizeArray;
+				if (driveSize != null)
 				{
-					paritions.add(size.partition);
+					for (DriveSize size : driveSize)
+					{
+						paritions.add(size.partition);
+					}
+					break;
 				}
 			}
 

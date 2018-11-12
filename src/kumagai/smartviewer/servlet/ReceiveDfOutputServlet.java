@@ -1,5 +1,6 @@
 package kumagai.smartviewer.servlet;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import ktool.datetime.DateTime;
 
 /**
  * dfの出力POSTの受付
@@ -27,22 +26,14 @@ public class ReceiveDfOutputServlet
 	{
 		String outputPath =
 			getServletContext().getInitParameter("SmartctlOutputPath");
-		DateTime now = new DateTime();
-		String filename =
-			String.format(
-				"%04d%02d%02d%02d%02d%02d_df",
-				now.getYear(),
-				now.getMonth(),
-				now.getDay(),
-				now.getHour(),
-				now.getMinute(),
-				now.getSecond());
+
+		BufferedReader reader = request.getReader();
+		String line = reader.readLine();
+		String filename = String.format("%s_df", line);
 		File file = new File(outputPath, filename);
 		FileWriter writer = new FileWriter(file);
 		PrintWriter stream = new PrintWriter(writer);
-
-		String line;
-		while ((line = request.getReader().readLine()) != null)
+		while ((line = reader.readLine()) != null)
 		{
 			stream.println(line);
 		}
