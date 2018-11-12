@@ -27,11 +27,29 @@ public interface ISmartFieldGetter
 
 			smartFieldGetter = smartAttributeRawValue12;
 		}
+		else if (field == null || field.equals("raw34"))
+		{
+			// raw34指定の場合
+
+			smartFieldGetter = smartAttributeRawValue34;
+		}
 		else if (field == null || field.equals("raw5"))
 		{
 			// raw5指定の場合
 
 			smartFieldGetter = smartAttributeRawValue5;
+		}
+		else if (field == null || field.equals("raw6"))
+		{
+			// raw6指定の場合
+
+			smartFieldGetter = smartAttributeRawValue6;
+		}
+		else if (field == null || field.equals("raw7"))
+		{
+			// raw7指定の場合
+
+			smartFieldGetter = smartAttributeRawValue7;
 		}
 		else if (field == null || field.equals("raw56"))
 		{
@@ -60,13 +78,19 @@ public interface ISmartFieldGetter
 		new ISmartFieldGetter.SmartAttributeRawValueGet();
 	static public final ISmartFieldGetter smartAttributeRawValue12 =
 		new ISmartFieldGetter.SmartAttributeRawValue12Getter();
+	static public final ISmartFieldGetter smartAttributeRawValue34 =
+		new ISmartFieldGetter.SmartAttributeRawValue34Getter();
 	static public final ISmartFieldGetter smartAttributeRawValue5 =
 		new ISmartFieldGetter.SmartAttributeRawValue5Getter();
+	static public final ISmartFieldGetter smartAttributeRawValue6 =
+		new ISmartFieldGetter.SmartAttributeRawValue6Getter();
+	static public final ISmartFieldGetter smartAttributeRawValue7 =
+		new ISmartFieldGetter.SmartAttributeRawValue7Getter();
 	static public final ISmartFieldGetter smartAttributeRawValue56 =
 		new ISmartFieldGetter.SmartAttributeRawValue56Getter();
 	static public final ISmartFieldGetter smartAttributeRawValue567 =
 		new ISmartFieldGetter.SmartAttributeRawValue567Getter();
-	
+
 	/**
 	 * 属性値の現在値取得オブジェクト
 	 */
@@ -100,7 +124,7 @@ public interface ISmartFieldGetter
 	}
 
 	/**
-	 * RAW値２バイト分を取得
+	 * RAW値1-2バイト分を取得
 	 */
 	public class SmartAttributeRawValue12Getter
 		implements ISmartFieldGetter
@@ -112,6 +136,22 @@ public interface ISmartFieldGetter
 		public long get(SmartAttribute attribute)
 		{
 			return attribute.getRawValue12();
+		}
+	}
+
+	/**
+	 * RAW値3-4バイト分を取得
+	 */
+	public class SmartAttributeRawValue34Getter
+		implements ISmartFieldGetter
+	{
+		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
+		 */
+		@Override
+		public long get(SmartAttribute attribute)
+		{
+			return attribute.getRawValue34();
 		}
 	}
 
