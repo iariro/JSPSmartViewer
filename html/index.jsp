@@ -22,7 +22,14 @@
 				<div class=body>
 				<div class=section>
 					<table>
-						<tr><th>type</th><td><s:property value="type" /></td></tr>
+						<tr>
+							<td rowspan='2' style='padding-right:20px; border-bottom-style:none;'>
+								<s:if test='%{pc.equals("note")}'><img src='pc_note.png'></s:if>
+								<s:else><img src='pc_desktop.png'></s:else>
+							</td>
+							<th>type</th>
+							<td><s:property value="type" /></td>
+						</tr>
 						<tr><th>path</th><td><s:property value="path" /></td></tr>
 					</table>
 					<s:form action="disktop" theme="simple">

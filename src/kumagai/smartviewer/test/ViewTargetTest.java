@@ -17,7 +17,7 @@ public class ViewTargetTest
 	public static void main(String[] args)
 		throws FileNotFoundException, IOException
 	{
-		ViewTarget viewTarget = new ViewTarget("C:/ProgramData/SMARTLogger/smart_ApartMac", "smartctl", "test");
+		ViewTarget viewTarget = new ViewTarget("C:/ProgramData/SMARTLogger/smart_ApartMac", "smartctl", "test", "note");
 		SmartDataList smartDataList = viewTarget.loadSmartDataList2(10);
 		if (smartDataList != null)
 		{

@@ -1,7 +1,8 @@
 package kumagai.smartviewer.struts2;
 
-import java.util.*;
-import javax.servlet.*;
+import java.util.ArrayList;
+
+import javax.servlet.ServletContext;
 
 /**
  * SmartFilePathXの設定内容から構築可能なViewTargetのコレクション
@@ -25,6 +26,7 @@ public class ViewTargetList
 				String path = null;
 				String type = null;
 				String name = null;
+				String pc = null;
 				for (int j=0 ; j<fields.length ; j++)
 				{
 					if (fields[j].indexOf("path=") == 0)
@@ -39,13 +41,17 @@ public class ViewTargetList
 					{
 						name = fields[j].substring(5);
 					}
+					else if (fields[j].indexOf("pc=") == 0)
+					{
+						pc = fields[j].substring(3);
+					}
 				}
 
 				if (path != null && type != null && name != null)
 				{
 					// 項目は足りている
 
-					add(new ViewTarget(path, type, name));
+					add(new ViewTarget(path, type, name, pc));
 				}
 			}
 			else

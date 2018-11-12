@@ -26,18 +26,21 @@ public class ViewTarget
 	public final String path;
 	public final String type;
 	public final String name;
+	public final String pc;
 
 	/**
 	 * 指定の値をフィールドに割り当てる
 	 * @param path パス文字列
 	 * @param type binary/smartctl
 	 * @param name 名前
+	 * @param pc desktop/note
 	 */
-	public ViewTarget(String path, String type, String name)
+	public ViewTarget(String path, String type, String name, String pc)
 	{
 		this.path = path;
 		this.type = type;
 		this.name = name;
+		this.pc = pc;
 	}
 
 	/**
