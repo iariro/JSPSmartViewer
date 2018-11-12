@@ -98,16 +98,10 @@ public class ViewTarget
 				}
 
 				Collections.sort(smartctlFiles);
-				for (int i=0 ; i<smartctlFiles.size() && (filenumlimit == null || i<filenumlimit) ;i++)
+				int count = 0;
+				for (int i=0 ; i<smartctlFiles.size() ;i++)
 				{
-					int index = i;
-					if ((filenumlimit != null) && (smartctlFiles.size() > filenumlimit))
-					{
-						// リミットの指定あり、リミットを上回る。
-
-						index = smartctlFiles.size() - filenumlimit + i;
-					}
-					String smartctlFilename = smartctlFiles.get(index);
+					String smartctlFilename = smartctlFiles.get(smartctlFiles.size() - i - 1);
 
 					File smartctlFile = new File(path, smartctlFilename);
 					String [] lines = FileUtility.readAllLines(smartctlFile);
@@ -133,7 +127,24 @@ public class ViewTarget
 						}
 					}
 
-					smartDataList.add(new SmartData(smartctlFilename, smartIdentify, attributes, thresholds, driveSizeArray));
+					if (attributes.size() > 0 && thresholds.size() > 0)
+					{
+						smartDataList.add(
+							0,
+							new SmartData(
+								smartctlFilename,
+								smartIdentify,
+								attributes,
+								thresholds,
+								driveSizeArray));
+
+						count++;
+
+						if (count >= filenumlimit)
+						{
+							break;
+						}
+					}
 				}
 			}
 		}
