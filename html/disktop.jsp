@@ -57,7 +57,7 @@
 			<s:form action="drivesizegraph" theme="simple" name="graphform0">
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300', '400':'400', '500':'500' }" />日分
 				<s:submit value="ドライブサイズの遷移" />
 			</s:form>
 
@@ -68,9 +68,9 @@
 				<s:select name="ids" list="attributes" multiple="true" size="10" value="9" />
 				<br>
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
-				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値' , 'raw2':'RAW値2バイト' }" id="fieldselect" />
+				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値', 'raw12':'RAW値1-2バイト', 'raw5':'RAW値5バイト', 'raw6':'RAW値6バイト', 'raw7':'RAW値7バイト', 'raw56':'RAW値5-6バイト', 'raw567':'RAW値5-7バイト' }" id="fieldselect" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300', '400':'400', '500':'500' }" />日分
 				<input type="checkbox" name="scaling">スケールを合わせる
 				<s:submit value="属性値の遷移" />
 			</s:form>
@@ -81,7 +81,7 @@
 				<s:select name="mode" list="#{ 'ascending':'上昇', 'descending':'下降・変化なし' }" />
 				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
-				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300' }" />日分
+				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300', '400':'400', '500':'500' }" />日分
 				<input type="checkbox" name="scaling" checked>スケールを合わせる
 				<s:submit value="属性値の遷移" />
 			</s:form>

@@ -79,12 +79,66 @@ public class SmartAttribute
 	}
 
 	/**
-	 * RAW値を取得
+	 * RAW値1-2バイトを取得
 	 * @return RAW値
 	 */
-	public int getRawValue2()
+	public int getRawValue12()
 	{
 		return ((data[6] & 0xff) << 8) + ((data[5] & 0xff));
+	}
+
+	/**
+	 * RAW値3-4バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue34()
+	{
+		return ((data[8] & 0xff) << 8) + ((data[7] & 0xff));
+	}
+
+	/**
+	 * RAW値5バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue5()
+	{
+		return ((data[9] & 0xff));
+	}
+
+	/**
+	 * RAW値6バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue6()
+	{
+		return ((data[10] & 0xff));
+	}
+
+	/**
+	 * RAW値7バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue7()
+	{
+		return ((data[11] & 0xff));
+	}
+
+	/**
+	 * RAW値5-6バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue56()
+	{
+		return ((data[10] & 0xff) << 8) + ((data[9] & 0xff));
+	}
+
+	/**
+	 * RAW値5-7バイトを取得
+	 * @return RAW値
+	 */
+	public int getRawValue567()
+	{
+		return ((data[11] & 0xff) << 16) + ((data[10] & 0xff) << 8) + ((data[9] & 0xff));
 	}
 
 	/**

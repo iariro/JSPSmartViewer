@@ -26,12 +26,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
  */
 public class ChronologyGraph
 {
-	static public final ISmartFieldGetter smartAttributeCurrent =
-		new SmartAttributeCurrentGetter();
-	static public final ISmartFieldGetter smartAttributeRawValue =
-		new SmartAttributeRawValueGet();
-	static public final ISmartFieldGetter smartAttributeRawValue2 =
-		new SmartAttributeRawValue2Getter();
 	static public final Dimension screen = new Dimension(1000, 580);
 
 	/**
@@ -85,7 +79,7 @@ public class ChronologyGraph
 		}
 
 		ISmartFieldGetter smartFieldGetter =
-			ChronologyGraph.getSmartFieldGetter(field);
+				ISmartFieldGetter.getSmartFieldGetter(field);
 
 		if (graphType.equals("SVG"))
 		{
@@ -371,34 +365,5 @@ public class ChronologyGraph
 		}
 
 		return pointsList;
-	}
-
-	/**
-	 * フィールド取得オブジェクト取得
-	 * @param field フィールド名
-	 * @return 取得オブジェクト
-	 */
-	static public ISmartFieldGetter getSmartFieldGetter(String field)
-	{
-		ISmartFieldGetter smartFieldGetter;
-		if (field == null || field.equals("current"))
-		{
-			// current指定、またはフィールド指定なしの場合
-
-			smartFieldGetter = smartAttributeCurrent;
-		}
-		else if (field == null || field.equals("raw"))
-		{
-			// raw指定の場合
-
-			smartFieldGetter = smartAttributeRawValue;
-		}
-		else
-		{
-			// current,raw以外指定の場合
-
-			smartFieldGetter = smartAttributeRawValue2;
-		}
-		return smartFieldGetter;
 	}
 }

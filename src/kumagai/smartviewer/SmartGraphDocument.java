@@ -30,11 +30,6 @@ public class SmartGraphDocument
 	static private final String [] lineColors =
 		new String [] { "blue", "red", "green", "purple" };
 
-	static private final ISmartFieldGetter smartAttributeCurrent =
-		new SmartAttributeCurrentGetter();
-	static private final ISmartFieldGetter smartAttributeRawValue =
-		new SmartAttributeRawValueGet();
-
 	static private final String fontFamily = "MS-Mincho";
 	static private final Point origin = new Point(70, 30);
 	static private final int xmargin = 10;
@@ -53,33 +48,23 @@ public class SmartGraphDocument
 		ParseException, IOException, TransformerException
 	{
 		int attributeId;
-		ISmartFieldGetter smartFieldGetter;
+		String field;
 
 		if (args.length >= 2)
 		{
 			// 引数指定あり
 
 			attributeId = Integer.valueOf(args[1]);
-			if (args[2].equals("current"))
-			{
-				// currentが指定された
-
-				smartFieldGetter = smartAttributeCurrent;
-			}
-			else
-			{
-				// current以外が指定された
-
-				smartFieldGetter = smartAttributeRawValue;
-			}
+			field = args[2];
 		}
 		else
 		{
 			// 引数指定なし
 
 			attributeId = 4;
-			smartFieldGetter = smartAttributeRawValue;
+			field = "raw";
 		}
+		ISmartFieldGetter smartFieldGetter = ISmartFieldGetter.getSmartFieldGetter(field);
 
 		String smartFilePath = "C:\\temp\\smart\\";
 

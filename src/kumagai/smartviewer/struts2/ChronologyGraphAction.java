@@ -126,7 +126,7 @@ public class ChronologyGraphAction
 				field = "raw";
 			}
 
-			ISmartFieldGetter smartFieldGetter = ChronologyGraph.getSmartFieldGetter(field);
+			ISmartFieldGetter smartFieldGetter = ISmartFieldGetter.getSmartFieldGetter(field);
 
 			if (ids == null || ids.length <= 0)
 			{
