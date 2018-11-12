@@ -61,7 +61,7 @@ public class SmartRawBitCountAction
 		{
 			// 対象パス情報は取得できた
 
-			SmartDataList smartDataList = target.loadSmartDataList(100);
+			SmartDataList smartDataList = target.loadSmartDataList(null);
 			LinkedHashMap<Integer, int[]> rawBitCount = smartDataList.getRawBitCount();
 			for (Entry<Integer, int[]> attribute : rawBitCount.entrySet())
 			{
