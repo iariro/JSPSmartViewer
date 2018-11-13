@@ -44,10 +44,10 @@ public class ViewTarget
 
 	/**
 	 * ターゲットパスの全ファイルを読み込みSMARTデータリストを返却する
-	 * @param filenumlimit リミット件数
+	 * @param fileNumLimit リミット件数
 	 * @return SMARTデータリスト
 	 */
-	public SmartDataList loadSmartDataList(Integer filenumlimit)
+	public SmartDataList loadSmartDataList(Integer fileNumLimit)
 		throws FileNotFoundException, IOException
 	{
 		SmartDataList smartDataList = new SmartDataList();
@@ -62,14 +62,14 @@ public class ViewTarget
 				// バイナリ
 
 				Arrays.sort(filenames);
-				for (int i=0 ; i<filenames.length && (filenumlimit == null || i<filenumlimit) ;i++)
+				for (int i=0 ; i<filenames.length && (fileNumLimit == null || i<fileNumLimit) ;i++)
 				{
 					int index = i;
-					if ((filenumlimit != null) && (filenames.length > filenumlimit))
+					if ((fileNumLimit != null) && (filenames.length > fileNumLimit))
 					{
 						// リミットの指定あり、リミットを上回る。
 
-						index = filenames.length - filenumlimit + i;
+						index = filenames.length - fileNumLimit + i;
 					}
 					String filename = filenames[index];
 
@@ -140,8 +140,10 @@ public class ViewTarget
 
 						count++;
 
-						if (count >= filenumlimit)
+						if (fileNumLimit != null && count >= fileNumLimit)
 						{
+							// 制限指定あり・制限を超えた
+
 							break;
 						}
 					}
