@@ -32,6 +32,7 @@
 						title: {text: <s:property value='idAndName' />},
 						legend: {enabled:false},
 						xAxis: {tickInterval:8},
+						yAxis: {title:null},
 						series: [ <s:property value='pointList' /> ]
 					};
 					chart = new Highcharts.Chart(options);
