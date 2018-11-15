@@ -1,20 +1,22 @@
 package kumagai.smartviewer;
 
-import ktool.datetime.*;
+import ktool.datetime.DateTime;
 
 /**
  * 故障予測情報
  */
 public class Prediction
 {
+	static private final long maxSecond = 1000000000;
+
 	public int time1;
 	public DateTime datetime1;
 	public long value1;
 	public int time2;
 	public DateTime datetime2;
 	public long value2;
-	public int remainingHour1;
-	public int remainingSecond2;
+	public long remainingHour1;
+	public long remainingSecond2;
 
 	/**
 	 * 予測故障日を算出
@@ -22,8 +24,18 @@ public class Prediction
 	 */
 	public DateTime getDeadDate1()
 	{
-		DateTime now = new DateTime();
-		now.add(3600 * remainingHour1);
+		DateTime now = new DateTime(datetime2);		
+		for (long second = 3600 * remainingHour1;second>0;second-=maxSecond)
+		{
+			if (second > maxSecond)
+			{
+				now.add((int)maxSecond);
+			}
+			else
+			{
+				now.add((int)second);
+			}
+		}
 		return now;
 	}
 
@@ -33,8 +45,18 @@ public class Prediction
 	 */
 	public DateTime getDeadDate2()
 	{
-		DateTime now = new DateTime();
-		now.add(remainingSecond2);
+		DateTime now = new DateTime(datetime2);		
+		for (long second = remainingSecond2;second>0;second-=maxSecond)
+		{
+			if (second > maxSecond)
+			{
+				now.add((int)maxSecond);
+			}
+			else
+			{
+				now.add((int)second);
+			}
+		}
 		return now;
 	}
 
@@ -44,7 +66,7 @@ public class Prediction
 	 */
 	public int getRemainingHour2()
 	{
-		return remainingSecond2 / 3600;
+		return (int)(remainingSecond2 / 3600);
 	}
 
 	/**
@@ -58,7 +80,7 @@ public class Prediction
 	 * @param remainingHour1 残り時間
 	 * @param remainingSecond2 残り時間
 	 */
-	public Prediction(int time1, DateTime datetime1, long value1, int time2, DateTime datetime2, long value2, int remainingHour1, int remainingSecond2)
+	public Prediction(int time1, DateTime datetime1, long value1, int time2, DateTime datetime2, long value2, long remainingHour1, long remainingSecond2)
 	{
 		this.time1 = time1;
 		this.datetime1 = datetime1;
@@ -78,11 +100,12 @@ public class Prediction
 	{
 		return
 			String.format(
-				"%d:%d -> %d:%d = %d:0",
+				"%d:%d -> %d:%d = %d:0 %s",
 				time1,
 				value1,
 				time2,
 				value2,
-				remainingHour1);
+				remainingHour1,
+				getDeadDate1());
 	}
 }

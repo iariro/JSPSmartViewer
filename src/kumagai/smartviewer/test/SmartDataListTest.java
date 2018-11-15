@@ -1,17 +1,21 @@
 package kumagai.smartviewer.test;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import kumagai.smartviewer.*;
+import kumagai.smartviewer.Prediction;
+import kumagai.smartviewer.SmartDataList;
+import kumagai.smartviewer.ValueAndHourCollection;
 
 public class SmartDataListTest
 {
 	public static void main(String[] args)
 		throws IOException, ParseException
 	{
-		String smartFilePath = "C:/Temp/smart_5087/";
+		String smartFilePath = "C:/ProgramData/SMARTLogger/smart_TOPS4746";
 
 		SmartDataList points = new SmartDataList();
 		String [] filenames = new File(smartFilePath).list();
