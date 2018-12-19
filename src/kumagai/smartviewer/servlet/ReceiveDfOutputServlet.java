@@ -28,9 +28,15 @@ public class ReceiveDfOutputServlet
 			getServletContext().getInitParameter("SmartctlOutputPath");
 
 		BufferedReader reader = request.getReader();
+
 		String line = reader.readLine();
-		String filename = String.format("%s_df", line);
-		File file = new File(outputPath, filename);
+		String hostname = line;
+
+		line = reader.readLine();
+		String datetime = line;
+
+		String filename = String.format("%s_df", datetime);
+		File file = new File(new File(outputPath, hostname), filename);
 		FileWriter writer = new FileWriter(file);
 		PrintWriter stream = new PrintWriter(writer);
 		while ((line = reader.readLine()) != null)

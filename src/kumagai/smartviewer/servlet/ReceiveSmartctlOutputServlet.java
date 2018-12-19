@@ -27,6 +27,8 @@ public class ReceiveSmartctlOutputServlet
 	{
 		String outputPath =
 			getServletContext().getInitParameter("SmartctlOutputPath");
+		String line = request.getReader().readLine();
+		String hostname = line;
 		DateTime now = new DateTime();
 		String datetime =
 			String.format(
@@ -38,11 +40,10 @@ public class ReceiveSmartctlOutputServlet
 				now.getMinute(),
 				now.getSecond());
 		String filename = String.format("%s_smartctl", datetime);
-		File file = new File(outputPath, filename);
+		File file = new File(new File(outputPath, hostname), filename);
 		FileWriter writer = new FileWriter(file);
 		PrintWriter stream = new PrintWriter(writer);
 
-		String line;
 		while ((line = request.getReader().readLine()) != null)
 		{
 			stream.println(line);
