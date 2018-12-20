@@ -1,0 +1,13 @@
+Filesystem           1K-blocks      Used Available Use% Mounted on
+udev                   1888100         0   1888100   0% /dev
+tmpfs                   383676      4732    378944   2% /run
+/dev/sda1            236308216  43433396 180847992  20% /
+tmpfs                  1918368         0   1918368   0% /dev/shm
+tmpfs                     5120         4      5116   1% /run/lock
+tmpfs                  1918368         0   1918368   0% /sys/fs/cgroup
+/dev/sdc             961303584 512699088 399749984  57% /disk2
+/dev/sdb1            240231584  24857756 203147644  11% /disk1
+tmpfs                   383672        16    383656   1% /run/user/106
+172.17.28.22:/public 959890368 526629952 432736128  55% /NASQNAP
+tmpfs                   383672        44    383628   1% /run/user/10816
+tmpfs                   383672         0    383672   0% /run/user/11515

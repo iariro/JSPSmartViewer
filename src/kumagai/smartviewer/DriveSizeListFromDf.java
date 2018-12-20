@@ -12,10 +12,12 @@ import java.util.regex.Pattern;
 public class DriveSizeListFromDf
 	extends ArrayList<DriveSize>
 {
-	static private final Pattern patternHeader =
+	static private final Pattern patternHeaderDigit =
 		Pattern.compile("Filesystem  *([0-9]*)-blocks.*");
+	static private final Pattern patternHeaderK =
+		Pattern.compile("Filesystem  *([0-9K]*)-blocks.*");
 	static private final Pattern patternValue =
-			Pattern.compile("(.{4}[^ ]*) *([0-9]*) *([0-9]*) *([0-9]*) *([0-9]*)% *([0-9]*) *([0-9]*) *([0-9]*)% *(.*)");
+		Pattern.compile("(.{4}[^ ]*) *([0-9]*) *([0-9]*) *([0-9]*) *([0-9]*)% *([0-9]*) *.*");
 
 	static public void main(String[] args)
 		throws IOException
@@ -40,12 +42,23 @@ public class DriveSizeListFromDf
 
 		for (String  line : lines)
 		{
-			Matcher matcher = patternHeader.matcher(line);
+			Matcher matcher = patternHeaderDigit.matcher(line);
 			if (matcher.matches())
 			{
 				// ヘッダ行
 
 				blockSize = Integer.valueOf(matcher.group(1));
+			}
+			else
+			{
+				matcher = patternHeaderK.matcher(line);
+				if (matcher.matches())
+				{
+					// ヘッダ行
+
+					String blockSizeString = matcher.group(1);
+					blockSize = Integer.valueOf(blockSizeString.replace("K", "")) * 1024;
+				}
 			}
 
 			matcher = patternValue.matcher(line);
