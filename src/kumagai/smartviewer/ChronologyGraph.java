@@ -163,7 +163,7 @@ public class ChronologyGraph
 
 			ArrayList<String> partition = new ArrayList<>();
 			partition.add("C");
-			LinkedHashMap<String,String> chartPointLists2 = createDriveSizeHighChartsPoints(points, partition);
+			LinkedHashMap<String,String> chartPointLists2 = createDriveSizeHighChartsPoints(points, partition, false);
 			String chartPointLists = null;
 			for (Entry<String, String> element : chartPointLists2.entrySet())
 			{
@@ -305,15 +305,23 @@ public class ChronologyGraph
 	 * Highcharts用にドライブサイズの座標データ文字列を生成
 	 * @param smartDataList SMARTデータのリスト
 	 * @param partitions パーティション名
+	 * @param unix true=Unixであり/devのみの絞り込みを行う／false=行わない
 	 * @return Highcharts用座標データ文字列
 	 */
 	static public LinkedHashMap<String, String> createDriveSizeHighChartsPoints
-		(SmartDataList smartDataList, ArrayList<String> partitions)
+		(SmartDataList smartDataList, ArrayList<String> partitions, boolean unix)
 	{
 		LinkedHashMap<String, String> pointsList = new LinkedHashMap<String, String>();
 
 		for (String partition : partitions)
 		{
+			if (unix && (partition.indexOf("/dev") < 0))
+			{
+				// Unixであるが/devを含まない
+
+				continue;
+			}
+
 			StringBuffer chartPointLists = new StringBuffer();
 
 			ChartPointList chartPointList = new ChartPointList("Used size");

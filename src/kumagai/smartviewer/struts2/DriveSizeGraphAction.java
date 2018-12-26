@@ -2,6 +2,7 @@ package kumagai.smartviewer.struts2;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
@@ -118,9 +119,10 @@ public class DriveSizeGraphAction
 				}
 			}
 
+			Collections.sort(paritions);
 			chartPointLists =
 				ChronologyGraph.createDriveSizeHighChartsPoints
-					(smartDataList, paritions);
+					(smartDataList, paritions, target.type.equals("smartctl"));
 
 			return "graph2";
 		}

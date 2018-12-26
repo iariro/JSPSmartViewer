@@ -45,7 +45,7 @@ public class ViewTargetTest
 
 			LinkedHashMap<String,String> sizes =
 				ChronologyGraph.createDriveSizeHighChartsPoints
-					(smartDataList, paritions);
+					(smartDataList, paritions, true);
 			for (Entry<String, String> size : sizes.entrySet())
 			{
 				System.out.println(size.getKey());
