@@ -19,6 +19,7 @@ import org.apache.struts2.convention.annotation.Results;
 
 import kumagai.smartviewer.ChronologyGraph;
 import kumagai.smartviewer.ISmartFieldGetter;
+import kumagai.smartviewer.MonthlyAscendList;
 import kumagai.smartviewer.SmartDataList;
 import kumagai.smartviewer.SmartGraphDocument;
 import kumagai.smartviewer.SmartGraphDocumentPointList;
@@ -32,6 +33,7 @@ import kumagai.smartviewer.SmartGraphDocumentPointList;
 ({
 	@Result(name="graph1", location="/smartviewer/chronologygraph.jsp"),
 	@Result(name="graph2", location="/smartviewer/chronologygraph2.jsp"),
+	@Result(name="monthlygraph", location="/smartviewer/monthlygraph.jsp"),
 	@Result(name="error", location="/smartviewer/error.jsp")
 })
 public class ChronologyGraphAction
@@ -47,6 +49,9 @@ public class ChronologyGraphAction
 	public String message;
 	public int filenumlimit;
 	public String scaling;
+
+	public String categories;
+	public String series;
 
 	/**
 	 * グラフSVGドキュメントを文字列として取得。
@@ -164,6 +169,15 @@ public class ChronologyGraphAction
 				this.chartPointLists.put(target.name, chartPointLists.toString());
 
 				return "graph2";
+			}
+			else if (graphType.equals("MonthlyGraph"))
+			{
+				// MonthlyGraph
+
+				MonthlyAscendList monthlyAscendList = new MonthlyAscendList(ids[0], smartDataList, smartFieldGetter);
+				categories = monthlyAscendList.createCategoriesString();
+				series = monthlyAscendList.createSeriesString();
+				return "monthlygraph";
 			}
 		}
 
