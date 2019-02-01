@@ -43,7 +43,7 @@ public class ChronologyGraphAction
 	public String mode;
 	public int [] ids;
 	public String graphType;
-	public String field;
+	public String [] fields;
 	public SmartGraphDocument document;
 	public LinkedHashMap<String, String> chartPointLists = new LinkedHashMap<>();
 	public String message;
@@ -115,23 +115,28 @@ public class ChronologyGraphAction
 			// データ取得できた
 
 			int [] ids = null;
-			String field = null;
+			String [] fields = null;
 			if (mode.equals("specifyid"))
 			{
 				// ID指定モード
 
 				ids = this.ids;
-				field = this.field;
+				fields = this.fields;
 			}
 			else if (mode.equals("ascending") || mode.equals("descending"))
 			{
 				// 増加する属性のみ
 
 				ids = smartDataList.getAscOrDescAttributeIds(mode);
-				field = "raw";
+				fields = new String []{"raw"};
 			}
 
-			ISmartFieldGetter smartFieldGetter = ISmartFieldGetter.getSmartFieldGetter(field);
+			
+			ArrayList<ISmartFieldGetter> smartFieldGetters = new ArrayList<>();
+			for (String field : fields)
+			{
+				smartFieldGetters.add(ISmartFieldGetter.getSmartFieldGetter(field));
+			}
 
 			if (ids == null || ids.length <= 0)
 			{
@@ -152,7 +157,7 @@ public class ChronologyGraphAction
 				{
 					smartGraphDocumentPointLists.add(
 						new SmartGraphDocumentPointList
-							(smartDataList, ChronologyGraph.screen, id, smartFieldGetter));
+							(smartDataList, ChronologyGraph.screen, id, smartFieldGetters.get(0)));
 				}
 				document = new SmartGraphDocument(smartGraphDocumentPointLists);
 
@@ -164,7 +169,7 @@ public class ChronologyGraphAction
 
 				StringBuffer chartPointLists =
 					ChronologyGraph.createHighChartsPoints
-						(ids, smartDataList, smartFieldGetter, scaling != null);
+						(ids, smartDataList, smartFieldGetters.toArray(new ISmartFieldGetter[]{}), scaling != null);
 
 				this.chartPointLists.put(target.name, chartPointLists.toString());
 
@@ -174,7 +179,7 @@ public class ChronologyGraphAction
 			{
 				// MonthlyAscend
 
-				MonthlyAscendList monthlyAscendList = new MonthlyAscendList(ids[0], smartDataList, smartFieldGetter);
+				MonthlyAscendList monthlyAscendList = new MonthlyAscendList(ids[0], smartDataList, smartFieldGetters.get(0));
 				categories = monthlyAscendList.createCategoriesString();
 				series = monthlyAscendList.createSeriesString();
 				return "monthlygraph";

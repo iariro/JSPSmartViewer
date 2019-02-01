@@ -5,6 +5,7 @@ package kumagai.smartviewer;
  */
 public interface ISmartFieldGetter
 {
+	String getFieldName();
 	long get(SmartAttribute attribute);
 
 	/**
@@ -98,6 +99,15 @@ public interface ISmartFieldGetter
 		implements ISmartFieldGetter
 	{
 		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "current";
+		}
+
+		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
 		@Override
@@ -113,6 +123,15 @@ public interface ISmartFieldGetter
 	public class SmartAttributeRawValueGet
 		implements ISmartFieldGetter
 	{
+		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw";
+		}
+
 		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
@@ -130,6 +149,15 @@ public interface ISmartFieldGetter
 		implements ISmartFieldGetter
 	{
 		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw1-2";
+		}
+
+		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
 		@Override
@@ -145,6 +173,15 @@ public interface ISmartFieldGetter
 	public class SmartAttributeRawValue34Getter
 		implements ISmartFieldGetter
 	{
+		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw3-4";
+		}
+
 		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
@@ -162,6 +199,15 @@ public interface ISmartFieldGetter
 		implements ISmartFieldGetter
 	{
 		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw5";
+		}
+
+		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
 		@Override
@@ -177,6 +223,15 @@ public interface ISmartFieldGetter
 	public class SmartAttributeRawValue6Getter
 		implements ISmartFieldGetter
 	{
+		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw6";
+		}
+
 		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
@@ -194,6 +249,15 @@ public interface ISmartFieldGetter
 		implements ISmartFieldGetter
 	{
 		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw7";
+		}
+
+		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
 		@Override
@@ -210,6 +274,15 @@ public interface ISmartFieldGetter
 		implements ISmartFieldGetter
 	{
 		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw5-6";
+		}
+
+		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
 		@Override
@@ -225,6 +298,15 @@ public interface ISmartFieldGetter
 	public class SmartAttributeRawValue567Getter
 		implements ISmartFieldGetter
 	{
+		/**
+		 * @see kumagai.smartviewer.ISmartFieldGetter#getFieldName()
+		 */
+		@Override
+		public String getFieldName()
+		{
+			return "raw5-7";
+		}
+
 		/**
 		 * @see kumagai.smartviewer.ISmartFieldGetter#get(kumagai.smartviewer.SmartAttribute)
 		 */
