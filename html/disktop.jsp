@@ -67,7 +67,7 @@
 				<input type="hidden" name="mode" value="specifyid">
 				<s:select name="ids" list="attributes" multiple="true" size="10" value="9" />
 				<br>
-				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'MonthlyGraph':'MonthlyGraph' }" />
+				<s:select name="graphType" list="#{ 'Line':'Line', 'MonthlyAscend':'MonthlyAscend' }" />
 				<s:select name="field" list="#{ 'current':'カレント値', 'raw':'RAW値', 'raw12':'RAW値1-2バイト', 'raw34':'RAW値3-4バイト', 'raw5':'RAW値5バイト', 'raw6':'RAW値6バイト', 'raw7':'RAW値7バイト', 'raw56':'RAW値5-6バイト', 'raw567':'RAW値5-7バイト' }" id="fieldselect" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300', '400':'400', '500':'500' }" />日分

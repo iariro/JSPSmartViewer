@@ -12,6 +12,8 @@ import ktool.datetime.DateTime;
 public class MonthlyAscendList
 	extends LinkedHashMap<String, Long>
 {
+	private final int id;
+
 	/**
 	 * 月ごとの増分グラフ用データを構築
 	 * @param id 対象の属性ID
@@ -21,6 +23,8 @@ public class MonthlyAscendList
 	public MonthlyAscendList(int id, SmartDataList smartDataList, ISmartFieldGetter smartFieldGetter)
 		throws ParseException
 	{
+		this.id = id;
+
 		DateTime firstTime = DateTime.parseDateTimeString(smartDataList.get(0).getDateTime());
 		DateTime firstMonth = new DateTime(firstTime.getYear(), firstTime.getMonth(), 1, 0, 0, 0);
 		DateTime now = new DateTime();
@@ -102,7 +106,7 @@ public class MonthlyAscendList
 	public String createSeriesString()
 	{
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("[{name: 'xxx', data: [");
+		buffer.append(String.format("[{name: 'SMART#%d - %s', data: [", id, SmartAttributeTable.getName(id)));
 		int count = 0;
 		for (Map.Entry<String, Long> entry : entrySet())
 		{

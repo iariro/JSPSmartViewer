@@ -158,9 +158,9 @@ public class ChronologyGraphAction
 
 				return "graph1";
 			}
-			else if (graphType.equals("HighCharts"))
+			else if (graphType.equals("Line"))
 			{
-				// HighCharts
+				// Line
 
 				StringBuffer chartPointLists =
 					ChronologyGraph.createHighChartsPoints
@@ -170,9 +170,9 @@ public class ChronologyGraphAction
 
 				return "graph2";
 			}
-			else if (graphType.equals("MonthlyGraph"))
+			else if (graphType.equals("MonthlyAscend"))
 			{
-				// MonthlyGraph
+				// MonthlyAscend
 
 				MonthlyAscendList monthlyAscendList = new MonthlyAscendList(ids[0], smartDataList, smartFieldGetter);
 				categories = monthlyAscendList.createCategoriesString();
