@@ -24,6 +24,7 @@
 					chart: {renderTo: "chart_<s:property value='key' />", zoomType:'xy', plotBackgroundColor: 'lightgray'},
 					title: {text: 'S.M.A.R.T. - <s:property value='targetName' /> <s:property value='key' />'},
 					xAxis: {title: null, type: 'datetime'},
+					yAxis: {allowDecimals: false },
 					plotOptions: {series:{marker:{enabled:true}}},
 					<s:if test='%{mode.equals("ascending") && scaling != null}'>yAxis: {max: 1000},</s:if>
 					series: [ <s:property value='value' /> ]

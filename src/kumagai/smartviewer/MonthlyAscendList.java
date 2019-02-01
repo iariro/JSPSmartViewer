@@ -106,7 +106,7 @@ public class MonthlyAscendList
 	public String createSeriesString()
 	{
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(String.format("[{name: 'SMART#%d - %s', data: [", id, SmartAttributeTable.getName(id)));
+		buffer.append(String.format("[{name: '#%d - %s', data: [", id, SmartAttributeTable.getName(id)));
 		int count = 0;
 		for (Map.Entry<String, Long> entry : entrySet())
 		{
