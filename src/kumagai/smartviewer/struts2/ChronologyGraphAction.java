@@ -131,7 +131,6 @@ public class ChronologyGraphAction
 				fields = new String []{"raw"};
 			}
 
-			
 			ArrayList<ISmartFieldGetter> smartFieldGetters = new ArrayList<>();
 			for (String field : fields)
 			{
@@ -184,6 +183,18 @@ public class ChronologyGraphAction
 				series = monthlyAscendList.createSeriesString();
 				return "monthlygraph";
 			}
+			else
+			{
+				// 不正なグラフタイプ
+
+				message = String.format("不正なグラフタイプ %s", graphType);
+			}
+		}
+		else
+		{
+			// データ取得できなかった
+
+			message = String.format("データ取得できなかった target=%s", target);
 		}
 
 		return "error";

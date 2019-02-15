@@ -79,7 +79,7 @@
 			<br>
 			<s:form action="chronologygraph" theme="simple" name="graphform2">
 				<s:select name="mode" list="#{ 'ascending':'上昇', 'descending':'下降・変化なし' }" />
-				<s:select name="graphType" list="#{ 'HighCharts':'HighCharts', 'SVG':'SVG' }" />
+				<s:select name="graphType" list="#{ 'Line':'Line' }" />
 				<input type="hidden" name="targetName" value="<s:property value='targetName' />">
 				<s:select name="filenumlimit" list="#{ '50':'50', '100':'100', '200':'200', '300':'300', '400':'400', '500':'500' }" />日分
 				<input type="checkbox" name="scaling" checked>スケールを合わせる

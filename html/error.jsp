@@ -17,7 +17,7 @@
 		<div class=main>
 		<div class=day>
 
-		<td><s:property value="message" /></td>
+		メッセージ：<s:property value="message" />
 
 		</div>
 		</div>
