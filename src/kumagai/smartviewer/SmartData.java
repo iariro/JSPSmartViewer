@@ -41,6 +41,7 @@ public class SmartData
 			((data[offset + 7] & 0xffL) << 56);
 	}
 
+	boolean valid;
 	byte [] datetime;
 	public ArrayList<DriveSize> driveSizeArray;
 	public String modelName;
@@ -81,6 +82,15 @@ public class SmartData
 	 */
 	public SmartData(byte [] data, int offset)
 	{
+		if (new String(data).startsWith("SMARTCrawlResul"))
+		{
+			valid = true;
+		}
+		else
+		{
+			return;
+		}
+
 		datetime = new byte [16];
 		System.arraycopy(data, offset + 48, datetime, 0, 16);
 		int num = getIntFromBytes(data, offset + 64);
@@ -89,6 +99,16 @@ public class SmartData
 		driveSizeArray = new ArrayList<>();
 		for (int i=0 ; i<num ; i++)
 		{
+			if (offset < 0)
+			{
+				break;
+			}
+
+			if (data.length < offset + 12)
+			{
+				break;
+			}
+
 			int type1 = getIntFromBytes(data, offset);
 			int type2 = getIntFromBytes(data, offset + 4);
 			int blockSize = getIntFromBytes(data, offset + 8);

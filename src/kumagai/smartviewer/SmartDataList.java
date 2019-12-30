@@ -132,6 +132,10 @@ public class SmartDataList
 		for (int offset=0 ; offset<data.length ; )
 		{
 			SmartData smartData = new SmartData(data, offset);
+			if (!smartData.valid)
+			{
+				break;
+			}
 			if (smartData.attributes != null && smartData.attributes.size() > 0)
 			{
 				// 取得データあり
